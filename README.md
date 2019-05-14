@@ -1,32 +1,35 @@
-# What is PyTOUGH?
+# What is TOUGHREACT Pre and Post Processing?
 
-PyTOUGH (Python TOUGH) is a Python library for simplifying, extending and automating the use of the [TOUGH2](http://esd.lbl.gov/research/projects/tough/) subsurface fluid and heat flow simulator. Using PyTOUGH, it is possible to automate the creation and editing of TOUGH2 model grids and data files, and the analysis and display of model simulation results, using Python scripts.
 
-# Installing PyTOUGH:
+TOUGHREACT Pre and Post Processing is an attempt to simplify the pre and post processing process involved with the use of TOUGHREACT for users
+conversant with PYTHON.
+It removes the bottlenecks involved with the use of TECPLOT for the generation of specific plots
 
-First, make sure you have [Python](http://www.python.org) and the [Numerical Python](http://numpy.scipy.org/) library installed on your machine.  (For some features you will need other libraries such as [Scientific Python](http://www.scipy.org/) or [Matplotlib](http://matplotlib.sourceforge.net/)- consult the user guide for details.)
 
-Click the _Clone or download_ button at the right of the PyTOUGH web page and then click [Download ZIP](https://github.com/acroucher/PyTOUGH/archive/master.zip) , and save the .zip file to your computer.  Unzip this to any directory on your computer.  This will create a directory containing a file called `setup.py`.  At the command line type `python setup.py install`.
 
-(Alternatively, if you are confident using the Git version control system, you can clone the PyTOUGH repository instead of downloading a .zip file.)
+
+# Installing TOUGHREACT Pre and Post Processing?:
+
+
+
+
+TOUGHREACT Pre and Post Processing is available for use and modification by interested users. 
+It uses all PYTOUGH classes and only aims to simplify
+the pre and post processing process involved with the use of TECPLOT
 
 # More information:
 
-For more detailed information on PyTOUGH, consult the user guide (PDF format, in the 'doc' directory of your PyTOUGH install) and the PyTOUGH [wiki](https://github.com/acroucher/PyTOUGH/wiki/), which has links to published articles on PyTOUGH.
 
-# What's new in PyTOUGH?
+For more detailed information on 
 
-The latest stable version is 1.5.1, which has:
+TOUGHREACT Pre and Post Processing, i can be contacted on tajayi3@lsu.edu
 
-* ability to import mulgrid from AMESH Voronoi grids
-* new t2grid / t2data rename_blocks() methods
-* support for MOMOP section in TOUGH2 data files
-* ability to disallow spaces in block names when generating grids
-* fixes to enable running PyTOUGH with later versions of Numpy and VTK
 
-as well as various bug fixes and other minor enhancements.
+
 
 # Where's the user guide?
 
-Since PyTOUGH version 1.3.6, the PyTOUGH user guide (PyTOUGH-guide.pdf) is now included in the 'doc' directory of your PyTOUGH install.  Previously this was available separately from the 'Downloads' section on the website, but GitHub decided to phase out this 'Downloads' section.
+
+
+This code is aimed at users with some expertise in Python and PYTOUGH and therefore requires no user guides. Collaborations are highly welcome.
 
