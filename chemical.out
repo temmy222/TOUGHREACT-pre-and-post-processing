@@ -1,0 +1,199 @@
+  TOUGHREACT V3.60demo: chemical.out
+
+ --> start reading chemical input data from chemical.inp
+
+Transport of NaCl solution - Problem 1                                                              
+--------------------------------------------------------------------------------
+DEFINITION OF THE GEOCHEMICAL SYSTEM
+PRIMARY AQUEOUS SPECIES
+
+   finished reading all primary species
+   total primary species     npri =   4
+     aqueous primary species npaq =   4
+     surface primary species npads=   0
+
+AQUEOUS KINETICS
+   finished reading aqueous kinetics
+   ntrx =   0
+
+AQUEOUS COMPLEXES
+   finished reading secondary species
+   naqx =   0
+
+ AQUEOUS COMPLEXES will be automatically selected from the thermodynamic database
+
+MINERALS
+calcite               1  3  0  0
+  1.5488E-06   2    1.000    1.000   23.500    0.000    0.000    0.000
+         1
+             5.0119E-01   14.4000    1      h+                 1.0000
+  1.5488E-06   0    1.000    1.000   23.500    0.000    0.000    0.000   1.0000E-05  0
+     0.000     0.000     0.000
+portlandite           1  3  0  0
+  2.1800E-08   0    1.000    1.000   74.900    0.000    0.000    0.000
+  2.1800E-08   0    1.000    1.000    0.000    0.000    0.000    0.000   1.0000E-06  0
+     0.000     0.000     0.000
+   finished reading minerals
+    nmin  =   2
+    nmequ =   0
+    nmkin =   2
+    nsalt =   0
+
+    Salt Minerals
+
+  The following minerals form ideal solid solutions:
+   None
+ 
+GASES
+ co2(g)                                   0
+   finished reading gases
+    ngas  =   1
+
+SURFACE COMPLEXES
+   finished reading surface complexes
+    nads  =   0
+
+SPECIES WITH KD AND DECAY
+Species          Decay const.(1/s)    Th. decay a      Th. decay b
+   finished reading kd/decay species
+    nkdd  =   0
+
+
+     Temporarily stop reading chemical.inp to read thermodynamic database....
+    --> Start reading thermodynamic database: thddem1214r3_hs.dat 
+    --> Finished reading thermodynamic database
+     ....back to reading chemical.inp
+ 
+EXCHANGEABLE CATIONS
+   finished reading exchanged species
+    nexc  =   0
+
+
+ Finished reading upper part of chemical.inp
+ SUMMARY OF THERMODYNAMIC DATA FOR THE CHEMICAL SYSTEM
+
+   Components     a0    charge
+  h2o            0.000    0.0
+  h+             3.080    1.0
+  hco3-          2.100   -1.0
+  ca+2           2.870    2.0
+
+
+ Log K interpolation coefficients as a function of temperature (K) (a,b,c,d,e)
+ valid temperature range (deg.C.):   0.0 to 300.0
+                        a*ln(TK)       b          c*TK     d*(TK)**-1  e*(TK)**-2
+ ca(hco3)+             1.4826E+02 -9.3818E+02 -1.5460E-01  5.2557E+04 -3.3627E+06
+ caco3                 1.4728E+02 -9.2715E+02 -1.4590E-01  5.0165E+04 -2.6331E+06
+ caoh+                 2.5284E+01 -1.5945E+02 -2.5004E-02  1.1895E+04 -3.7918E+05
+ co2(aq)               1.1805E+02 -7.5336E+02 -1.2331E-01  4.2533E+04 -2.7983E+06
+ co3-2                -1.3005E+02  8.3279E+02  1.3220E-01 -4.5851E+04  2.9210E+06
+ oh-                  -1.1922E+02  7.6099E+02  1.2018E-01 -3.9792E+04  2.6597E+06
+ calcite               1.4538E+02 -9.2107E+02 -1.4832E-01  5.1281E+04 -2.9497E+06
+ portlandite           4.7320E+01 -2.9839E+02 -4.6366E-02  2.2225E+04 -8.1085E+05
+ co2(g)                9.8336E+00 -5.9023E+01 -2.6998E-02  9.5032E+02  0.0000E+00
+
+ dV interpolation coefficients as a function of temperature (K) (a,b,c,d,e) for log(K) pressure dependency 
+ valid temperature range (deg.C.):   0.0 to 300.0
+                        a              b*TK       c*TK**2     d*(TK)**-1  e*(TK)**-2
+ co2(g)                9.8336E+00 -5.9023E+01 -2.6998E-02  9.5032E+02  0.0000E+00
+
+ Derived Species Reactions
+  species        a0   charge  logK(25. C)  h2o    h+     hco3-  ca+2   
+ ca(hco3)+      2.300   1.0       -1.098   0.00   0.00   1.00   1.00
+ caco3          0.000   0.0        7.115   0.00  -1.00   1.00   1.00
+ caoh+          2.300   1.0       12.782   1.00  -1.00   0.00   1.00
+ co2(aq)        0.000   0.0       -6.349  -1.00   1.00   1.00   0.00
+ co3-2          2.800  -2.0       10.322   0.00  -1.00   1.00   0.00
+ oh-            1.400  -1.0       13.998   1.00  -1.00   0.00   0.00
+
+ Mineral Reactions
+  minerals    m.vol(L/mol)  logK(25. C)  h2o    h+     hco3-  ca+2   
+ calcite           0.0369       1.853    0.00  -1.00   1.00   1.00
+ portlandite       0.0331      22.814    2.00  -2.00   0.00   1.00
+
+ Gas Reactions
+  gases                     logK( 25.C)  h2o    h+     hco3-  ca+2   
+ co2(g)                        -7.857   -1.00   1.00   1.00   0.00
+
+--------------------------------------------------------------------------------
+INITIAL AND INJECTION WATER TYPES
+ Initial Water Type =   1
+ water temperature (C)=   25.000
+ water pressure (bar) =    1.000
+          icon        guess            ctot         fix   log(Q/K)
+h2o             1     1.0000E+00     1.0000E+00  *                     0.000E+00
+h+              1     3.0265E-13    -5.1346E-02  *                     0.000E+00
+hco3-           1     1.6239E-11     2.2247E-08  *                     0.000E+00
+ca+2            1     8.6256E-03     1.1891E-02  *                     0.000E+00
+ Injection Water Type =   1
+ water temperature (C)=   25.000
+ water pressure (bar) =    1.000
+          icon        guess            ctot         fix   log(Q/K)
+h2o             1     1.0000E+00     1.0000E+00  *                     0.000E+00
+h+              1     1.2770E-06     1.2790E-03  *                     0.000E+00
+hco3-           1     2.1140E-03     7.2540E-03  *                     0.000E+00
+ca+2            1     1.3340E-01     1.7530E-01  *                     0.000E+00
+
+      Number of initial waters:      1
+      Number of injection waters:   1
+
+
+--------------------------------------------------------------------------------
+INITIAL MINERAL ZONES
+
+MINERAL ZONE=   1
+# mineral         vol.frac.    equil/kinetic
+calcite              0.00000E+00    1
+ 0.0000E+00 2.60000E+02    0
+portlandite          1.00000E+00    1
+ 0.0000E+00 1.54000E+03    0
+*
+# Sum of mineral volume fractions in zone:  1.00000E+00
+
+     Total number of mineral zones:   1
+
+
+--------------------------------------------------------------------------------
+INITIAL AND INJECTION GAS ZONES
+
+ GAS ZONE=   1
+gas      partial pressure
+     co2(g)               0.00000E+00
+
+     Number of initial gas zones:   1
+
+
+     Number of injection gas zones:   0
+
+
+--------------------------------------------------------------------------------
+INITIAL PERMEABILITY-POROSITY ZONES
+
+ PERMEABILITY ZONE=   1
+perm law        a-par                 b-par
+  1           0.0000E+00      0.0000E+00
+
+     Total number of permeability zones=   1
+
+
+--------------------------------------------------------------------------------
+INITIAL SURFACE ADSORPTION ZONES
+
+     Total number of adsorption zones=   0
+
+
+--------------------------------------------------------------------------------
+INITIAL LINEAR EQUILIBRIUM Kd ZONES
+
+     Total number of Kd zones=   0
+
+
+--------------------------------------------------------------------------------
+INITIAL ZONES OF CATION EXCHANGE
+
+     Total number of exchange zones=   0
+
+
+
+  --> Finished reading chemical.inp file
+

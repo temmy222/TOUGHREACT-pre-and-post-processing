@@ -1,0 +1,756 @@
+
+       @@@@@   @@   @  @   @@@  @  @   @@       @@@  @  @   @  @  @  @      @@   @@@@@  @   @@   @   @     @@@   @  @  @   @
+         @    @  @  @  @  @     @  @  @  @     @     @  @@ @@  @  @  @     @  @    @    @  @  @  @@  @     @  @  @  @  @@  @
+         @    @  @  @  @  @ @@  @@@@    @       @@   @  @ @ @  @  @  @     @@@@    @    @  @  @  @ @ @     @@@   @  @  @ @ @
+         @    @  @  @  @  @  @  @  @   @          @  @  @   @  @  @  @     @  @    @    @  @  @  @  @@     @ @   @  @  @  @@
+         @     @@    @@    @@@  @  @  @@@@     @@@   @  @   @   @@   @@@@  @  @    @    @   @@   @   @     @  @   @@   @   @
+
+
+                    TOUGH2 IS A PROGRAM FOR MULTIPHASE MULTICOMPONENT FLOW IN PERMEABLE MEDIA, INCLUDING HEAT FLOW.
+                   IT IS A MEMBER OF THE MULKOM FAMILY OF CODES, DEVELOPED AT LAWRENCE BERKELEY NATIONAL LABORATORY.
+
+                          ********************************************************************************
+                          *******************                                         ********************
+                          *******************     TOUGH2 - VERSION 2.1 (JULY 2011)    ********************
+                          *******************          T2CG2 SOLVER PACKAGE           ********************
+                          *******************                                         ********************
+                          ********************************************************************************
+
+        COPYRIGHT 2011 BY THE REGENTS OF THE UNIVERSITY OF CALIFORNIA (SUBJECT TO APPROVAL BY THE U.S. DEPARTMENT OF ENERGY).
+
+ NOTICE: THIS SOFTWARE WAS DEVELOPED UNDER FUNDING FROM THE U.S. DEPARTMENT OF ENERGY AND THE U.S. GOVERNMENT CONSEQUENTLY RETAINS
+ CERTAIN RIGHTS AS FOLLOWS: THE U.S. GOVERNMENT HAS BEEN GRANTED FOR ITSELF AND OTHERS ACTING ON ITS BEHALF A PAID-UP, NONEXCLUSIVE,
+ IRREVOCABLE, WORLDWIDE LICENSE IN THE SOFTWARE TO REPRODUCE, PREPARE DERIVATIVE WORKS, AND PERFORM PUBLICLY AND DISPLAY PUBLICLY.
+ BEGINNING FIVE (5) YEARS AFTER THE DATE PERMISSION TO ASSERT COPYRIGHT IS OBTAINED FROM THE U.S. DEPARTMENT OF ENERGY, AND SUBJECT
+ TO ANY SUBSEQUENT FIVE (5) YEAR RENEWALS, THE U.S. GOVERNMENT IS GRANTED FOR ITSELF AND OTHERS ACTING ON ITS BEHALF A PAID-UP,
+ NONEXCLUSIVE, IRREVOCABLE, WORLDWIDE LICENSE IN THE SOFTWARE TO REPRODUCE, PREPARE DERIVATIVE WORKS, DISTRIBUTE COPIES TO THE
+ PUBLIC, PERFORM PUBLICLY AND DISPLAY PUBLICLY, AND TO PERMIT OTHERS TO DO SO.
+
+
+ PARAMETERS FOR FLEXIBLE DIMENSIONING OF MAJOR ARRAYS (MAIN PROGRAM) ARE AS FOLLOWS
+
+ MNEL =  12000   MNCON =  25000   MNEQ =  3   MNK =  2   MNPH =  2   MNB =  8   MNOGN =  300   MGTAB =  2000
+ ===================================================================================================================================
+
+ MAXIMUM NUMBER OF VOLUME ELEMENTS (GRID BLOCKS):            MNEL  =   12000
+ MAXIMUM NUMBER OF CONNECTIONS (INTERFACES):                 MNCON =   25000
+ MAXIMUM LENGTH OF PRIMARY VARIABLE ARRAYS:                  MPRIM =   36000
+ MAXIMUM NUMBER OF GENERATION ITEMS (SINKS/SOURCES):         MNOGN =     300
+ MAXIMUM NUMBER OF TABULAR (TIME-DEPENDENT) GENERATION DATA: MGTAB =    2000
+ LENGTH OF SECONDARY PARAMETER ARRAY:                        MSEC  = 1056000
+ MAXIMUM NUMBER OF JACOBIAN MATRIX ELEMENTS:                 MNZ   =  558000
+
+ LARGE LINEAR EQUATION ARRAYS: LENGTH OF IRN IS              LIRN  =  558000
+                               LENGTH OF ICN AND CO IS       LICN  =  558000
+
+ ===================================================================================================================================
+
+ ARRAY DIMENSIONING IS MADE ACCORDING TO THE NEEDS OF THE CONJUGATE GRADIENT SOLVERS
+ WHEN USING LUBAND, ONLY A SMALLER-SIZE PROBLEM CAN BE ACCOMMODATED
+ RESTRICTION WITH MA28 IS: {NUMBER OF ELEMENTS} + 2 * {NUMBER OF CONNECTIONS} < {MNEL + 2* MNCON}/4
+
+ ===================================================================================================================================
+
+
+ SUMMARY OF DISK FILES
+
+ FILE *VERS*  EXISTS --- OPEN AS AN OLD FILE
+ FILE *MESH*  EXISTS --- OPEN AS AN OLD FILE
+ FILE *INCON* EXISTS --- OPEN AS AN OLD FILE
+ FILE *GENER* EXISTS --- OPEN AS AN OLD FILE
+ FILE *SAVE*  EXISTS --- OPEN AS AN OLD FILE
+ FILE *LINEQ* EXISTS --- OPEN AS AN OLD FILE
+ FILE *TABLE* EXISTS --- OPEN AS AN OLD FILE
+
+ ===================================================================================================================================
+
+     PROBLEM TITLE:  Horizontal 1D example                                                           
+
+
+
+ DOMAIN NO.  1     MATERIAL NAME -- dfalt
+     
+ WRITE FILE *MESH* FROM INPUT DATA
+     
+ WRITE FILE *INCON* FROM INPUT DATA
+
+                        ************************************************************************************
+                        *                       EVALUATE FLOATING POINT ARITHMETIC                         *
+                        ************************************************************************************
+                        *                                                                                  *
+                        * FLOATING POINT PROCESSOR HAS APPROXIMATELY 15 SIGNIFICANT DIGITS                 *
+                        *                                                                                  *
+                        * DEFAULT VALUE OF INCREMENT FACTOR FOR NUMERICAL DERIVATIVES IS DFAC = 0.1051E-07 *
+                        * DEFAULT VALUE FOR DFAC WILL BE USED                                              *
+                        *                                                                                  *
+                        ************************************************************************************
+
+ 
+*        THE NUMBERS OF CONNECTIONS IN THE X-, Y- AND Z-DIRECTIONS ARE    11,     0 AND     0 RESPECTIVELY                       *
+*                                                                                                                                *
+**********************************************************************************************************************************
+
+
+ ALL NCON =     11 CONNECTIONS READ FROM FILE *MESH* REFERENCE KNOWN ELEMENTS, AND HAVE BEEN INITIALIZED TO THE DATA ARRAYS
+
+
+ &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+ &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&   SUMMARY OF CAPABILITIES FOR RANDOM PERMEABILITY MODIFICATION   &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+ &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+ MODIFICATION OF ABSOLUTE PERMEABILITY ON A GRID BLOCK-BY-GRID BLOCK BASIS WILL BE MADE WHEN A DOMAIN "SEED " IS PRESENT IN DATA
+ BLOCK "ROCKS", AS FOLLOWS.
+                                    K    --->    K' = K*M
+
+ HERE, K IS THE ABSOLUTE PERMEABILITY SPECIFIED FOR THE RESERVOIR DOMAIN TO WHICH THE GRID BLOCK BELONGS. PARAMETER M IS A
+ "PERMEABILITY MODIFIER" WHICH CAN BE INTERNALLY GENERATED OR EXTERNALLY PRESCRIBED BY THE USER ON A BLOCK-BY-BLOCK BASIS.
+
+ WHEN PERMEABILITY MODIFICATION IS IN EFFECT, THE STRENGTH OF CAPILLARY PRESSURE WILL, FOLLOWING LEVERETT (1941), AUTOMATICALLY BE
+ SCALED AS   PCAP ---> PCAP' = PCAP/SQRT(M).
+
+ USER-SUPPLIED PERMEABILITY MODIFIERS HAVE TO BE ENTERED AS PARAMETER "PMX" IN COLUMNS 41-50 OF AN ELEMENT RECORD.
+ PERMEABILITY MODIFICATION OPTIONS ARE SELECTED THROUGH PARAMETERS IN DATA BLOCK "ROCKS".
+
+ &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+ SUMMARY OF AVAILABLE PERMEABILITY MODIFICATION OPTIONS
+          (WITH S - RANDOM NUMBER BETWEEN 0 AND 1; PMX - USER-SUPPLIED MODIFIERS IN DATA BLOCK "ELEME"):
+      (1) EXTERNALLY SUPPLIED:        M = PMX - PER(2)
+      (2) "LINEAR"      (DROK.NE.0):  M = PER(1) * S - PER(2)
+      (3) "LOGARITHMIC" (DROK.EQ.0):  M = EXP(- PER(1) * S) - PER(2)
+ &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+            &&&& IF A DOMAIN "SEED " IS PRESENT, PERMEABILITY MODIFICATION WILL BE MADE
+            &&&& IF NO DOMAIN "SEED " IS PRESENT, NO PERMEABILITY MODIFICATION WILL BE MADE
+ >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+ >>>>>>>>>>>>>>>>>>>>>>>>>>>  DOMAIN = "SEED " IS NOT PRESENT, NO PERMEABILITY MODIFICATION WILL BE MADE  <<<<<<<<<<<<<<<<<<<<<<<<<<
+ >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+ DATA PROVIDED IN DOMAIN "SEED " ARE USED TO SELECT THE FOLLOWING OPTIONS.
+
+ DROK   = *** RANDOM NUMBER SEED FOR INTERNAL GENERATION OF "LINEAR" PERMEABILITY MODIFIERS.
+        = 0: (DEFAULT) NO INTERNAL GENERATION OF "LINEAR" PERMEABILITY MODIFIERS.
+        > 0: PERFORM "LINEAR" PERMEABILITY MODIFICATION; RANDOM MODIFIERS ARE GENERATED INTERNALLY WITH DROK AS SEED.
+
+ POR    = *** RANDOM NUMBER SEED FOR INTERNAL GENERATION OF "LOGARITHMIC" PERMEABILITY MODIFIERS,
+        = 0: (DEFAULT) NO INTERNAL GENERATION OF "LOGARITHMIC" PERMEABILITY MODIFIERS.
+        > 0: PERFORM "LOGARITHMIC" PERMEABILITY MODIFICATION; RANDOM MODIFIERS ARE GENERATED INTERNALLY WITH POR AS SEED.
+
+            &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+            &&&&& NOTE: IF BOTH DROK AND POR ARE SPECIFIED AS NON-ZERO, DROK TAKES PRECEDENCE                                  &&&&&
+            &&&&&       IF BOTH DROK AND POR ARE ZERO, PERMEABILITY MODIFIERS AS SUPPLIED THROUGH "ELEME" DATA WILL BE USED    &&&&&
+            &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+ PER(1) = *** SCALE FACTOR (OPTIONAL) FOR INTERNALLY GENERATED  PERMEABILITY MODIFIERS.
+        = 0: (DEFAULTS TO PER(1) = 1): PERMEABILITY MODIFIERS ARE GENERATED AS RANDOM NUMBERS IN THE INTERVAL (0, 1).
+        > 0: PERMEABILITY MODIFIERS ARE GENERATED AS RANDOM NUMBERS IN THE INTERVAL (0, PER(1)).
+
+ PER(2) = *** SHIFT (OPTIONAL) FOR INTERNAL OR EXTERNAL PERMEABILITY MODIFIERS.
+        = 0: (DEFAULT) NO SHIFT IS APPLIED TO PERMEABILITY MODIFIERS.
+        > 0: PERMEABILITY MODIFIERS ARE SHIFTED ACCORDING TO M' = M - PER(2). ALL M' < 0 ARE SET EQUAL TO ZERO.
+
+
+ MESH HAS     12 ELEMENTS (     10 ACTIVE) AND     11 CONNECTIONS (INTERFACES) BETWEEN THEM
+ GENER HAS    18 SINKS/SOURCES
+
+**********************************************************************************************************************************
+*                                                                                                                                *
+*                           M A T R I X   S O L V E R   A N D   R E L E V A N T   I N F O R M A T I O N                          *
+*                                                                                                                                *
+**********************************************************************************************************************************
+
+    THE SOLVER IS DETERMINED FROM MOP(21)
+    THE SOLUTION METHOD INDICATOR MATSLV =  0     - RESET INTERNALLY TO MATSLV = 3
+
+    THE SOLUTION METHOD INDICATOR MATSLV =  3
+         MATSLV = 1: NOT AVAILABLE     - SET TO DEFAULT SOLVER
+         MATSLV = 2: SUBROUTINE DSLUBC - BI-CONJUGATE GRADIENT SOLVER
+                                         INCOMPLETE LU FACTORIZATION PRECONDITIONING
+         MATSLV = 3: SUBROUTINE DSLUCS (DEFAULT) - LANCZOS-TYPE CONJUGATE GRADIENT SQUARED SOLVER 
+                                                   INCOMPLETE LU FACTORIZATION PRECONDITIONING
+         MATSLV = 4: SUBROUTINE DSLUGM - GENERALIZED MINIMUM RESIDUAL CONJUGATE GRADIENT SOLVER
+                                         INCOMPLETE LU FACTORIZATION PRECONDITIONING
+         MATSLV = 5: SUBROUTINE DLUSTB - STABILIZED BI-CONJUGATE GRADIENT SOLVER 
+                                         INCOMPLETE LU FACTORIZATION PRECONDITIONING
+         MATSLV = 6: SUBROUTINE LUBAND - DIRECT SOLVER USING LU DECOMPOSITION 
+
+    RITMAX: MAXIMUM # OF CG ITERATIONS AS FRACTION OF THE TOTAL NUMBER OF EQUATIONS           =  1.00000E-01
+         (0.0 < RITMAX <= 1.0,   DEFAULT = 0.1)
+    CLOSUR: CONVERGENCE CRITERION FOR THE CG ITERATIONS                                       =  1.00000E-06
+         (1.0E-12 <= CLOSUR <= 1.0E-6,  DEFAULT = 1.0E-6)
+    NMAXIT: MAXIMUM # OF CG ITERATIONS - NOT TO EXCEED THE TOTAL NUMBER OF EQUATIONS NELA*NEQ =    20
+         (20 < NMAXIT <= NREDM)
+
+
+    THE MATRIX Z-PREPROCESSING SYSTEM IS ZPROCS = Z1
+
+         ZPROCS = Z0: NO Z-PREPROCESSING; DEFAULT FOR NEQ = 1 AND FOR MATSLV = 1, 6
+         ZPROCS = Z1: REPLACEMENT OF ZEROS ON THE MAIN-DIAGONAL BY A SMALL NUMBER; 
+                       DEFAULT FOR NEQ > 1 AND FOR 1 < MATSLV < 6
+         ZPROCS = Z2: LINEAR COMBINATION OF EQUATIONS IN EACH ELEMENT TO PRODUCE NON-ZERO MAIN DIAGONAL ENTRIES
+         ZPROCS = Z3: NORMALIZATION OF EQUATIONS, FOLLOWED BY Z2
+         ZPROCS = Z4: SAME AS IN OPROCS = O4
+
+
+    THE MATRIX O-PREPROCESSING SYSTEM IS OPROCS = O0
+
+         OPROCS = O0: NO O-PREPROCESSING; DEFAULT FOR NEQ = 1 AND FOR MATSLV = 1, 6
+         OPROCS = O1: ELIMINATION OF LOWER HALF OF THE MAIN-DIAGONAL SUBMATRIX WITH CENTER PIVOTING
+         OPROCS = O2: O1+ELIMINATION OF UPPER HALF OF THE MAIN-DIAGONAL SUBMATRIX WITH CENTER PIVOTING
+         OPROCS = O3: O2+NORMALIZATION - RESULTS IN UNIT MAIN-DIAGONAL SUBMATRICES 
+         OPROCS = O4: PRE-PROCESSING WHICH RESULTS IN UNIT MAIN-DIAGONAL SUBMATRICES WITHOUT CENTER PIVOTING
+
+
+
+ END OF TOUGH2 INPUT JOB --- ELAPSED TIME =   0.0000 SECONDS
+
+
+ ***********************************************************************************************************************************
+ *          ARRAY *MOP* ALLOWS TO GENERATE MORE PRINTOUT IN VARIOUS SUBROUTINES, AND TO MAKE SOME CALCULATIONAL CHOICES.           *
+ ***********************************************************************************************************************************
+
+   MOP(1)  = 1 *** ALLOWS TO GENERATE A SHORT PRINTOUT FOR EACH NEWTON-RAPHSON ITERATION
+           = 0, 1, OR 2: GENERATE 0, 1, OR 2 LINES OF PRINTOUT
+
+            MORE PRINTOUT IS GENERATED FOR MOP(I) > 0 IN THE FOLLOWING SUBROUTINES (THE LARGER MOP IS, THE MORE WILL BE PRINTED).
+
+   MOP(2)  = 0 *** CYCIT       MOP(3) = 0 *** MULTI       MOP(4) = 0 *** QU       MOP(5) = 0 *** EOS       MOP(6) = 0 *** LINEQ    
+   MOP(8)  = 0 *** DISF (T2DM ONLY)
+
+   MOP(7)  = 0 *** IF UNEQUAL ZERO, WILL GENERATE A PRINTOUT OF INPUT DATA
+
+            CALCULATIONAL CHOICES OFFERED BY MOP ARE AS FOLLOWS:
+
+   MOP(9)  = 0 *** CHOOSES FLUID COMPOSITION ON WITHDRAWAL (PRODUCTION).
+           = 0: ACCORDING TO RELATIVE MOBILITIES.
+           = 1: ACCORDING TO COMPOSITION IN PRODUCING ELEMENT.
+
+   MOP(10) = 0 *** CHOOSES INTERPOLATION FORMULA FOR DEPENDENCE OF THERMAL CONDUCTIVITY ON LIQUID SATURATION (SL).
+           = 0: K = KDRY + SQRT(SL)*(KWET-KDRY)
+           = 1: K = KDRY + SL*(KWET-KDRY)
+
+   MOP(11) = 0 *** CHOOSES EVALUATION OF MOBILITY AND ABSOLUTE PERMEABILITY AT INTERFACES.
+           = 0: MOBILITIES ARE UPSTREAM WEIGHTED WITH WUP. (DEFAULT IS WUP = 1.0). PERMEABILITY IS UPSTREAM WEIGHTED.
+           = 1: MOBILITIES ARE AVERAGED BETWEEN ADJACENT ELEMENTS. PERMEABILITY IS UPSTREAM WEIGHTED.
+           = 2: MOBILITIES ARE UPSTREAM WEIGHTED WITH WUP. (DEFAULT IS WUP = 1.0). PERMEABILITY IS HARMONIC WEIGHTED.
+           = 3: MOBILITIES ARE AVERAGED BETWEEN ADJACENT ELEMENTS. PERMEABILITY IS HARMONIC WEIGHTED.
+           = 4: MOBILITY * PERMEABILITY PRODUCT IS HARMONIC WEIGHTED.
+
+   MOP(12) = 0 *** CHOOSES PROCEDURE FOR INTERPOLATING GENERATION RATES FROM A TIME TABLE.
+           = 0: TRIPLE LINEAR INTERPOLATION.
+           = 1: "STEP FUNCTION" OPTION.
+           = 2: RIGOROUS "STEP RATE CAPABILITY" OPTION.
+
+   MOP(13) = 0 *** DEFINES CONTENT OF INCON AND SAVE FILE.
+           = 0: STANDARD CONTENT.
+           = 2: READS PARAMETERS OF HYSTERESIS MODEL FROM FILE INCON.
+
+   MOP(14) = 0 *** T2DM ONLY.  SPECIFIES ASSIGNMENT OF COMPONENTS OF BOUNDARY VELOCITY AND CONCENTRATION GRADIENT VECTORS.
+                   AFFECTS ONLY THE INTERPOLATED  COMPONENTS.  DIRECT COMPONENTS ARE USED WHERE AVAILABLE.
+           = 0: VELOCITY AND GRADIENT AT BOUNDARY ARE ZERO.
+           = 1: VELOCITY IS ZERO; GRADIENT AT BOUNDARY IS NEAREST-NEIGHBOR.
+           = 2: VELOCITY IS NEAREST NEIGHBOR; GRADIENT AT BOUNDARY IS ZERO.
+           = 3: VELOCITY AND GRADIENT AT BOUNDARY ARE NEAREST-NEIGHBOR.
+
+   MOP(15) = 0 *** ALLOWS TO SELECT A SEMI-ANALYTICAL HEAT EXCHANGE CALCULATION WITH CONFINING BEDS.
+           = 0: NO SEMI-ANALYTICAL HEAT EXCHANGE
+           > 0: SEMI-ANALYTICAL HEAT EXCHANGE ENGAGED (WHEN A SPECIAL SUBROUTINE MODULE *QLOSS* IS PRESENT)
+
+   MOP(16) = 5 *** PERMITS TO CHOOSE TIME STEP SELECTION OPTION
+           = 0: USE TIME STEPS EXPLICITLY PROVIDED AS INPUT.
+           > 0: INCREASE TIME STEP BY AT LEAST A FACTOR 2, IF CONVERGENCE OCCURS IN .LE. MOP(16) ITERATIONS.
+
+   MOP(17) = 0 *** HANDLES TIME STEPPING AFTER LINEAR EQUATION SOLVER FAILURE.
+           = 0: NO TIME STEP REDUCTION DESPITE LINEAR EQUATION SOLUTION FAILURE.
+           = 9: REDUCE TIME STEP AFTER LINEAR EQUATION SOLUTION FAILURE.
+
+   MOP(18) = 0 *** ALLOWS TO SELECT HANDLING OF INTERFACE DENSITY.
+           = 0: PERFORM UPSTREAM WEIGHTING FOR INTERFACE DENSITY.
+           > 0: COMPUTE INTERFACE DENSITY AS AVERAGE OF THE TWO GRID BLOCK DENSITIES.
+                HOWEVER, WHEN ONE OF THE TWO PHASE SATURATIONS IS ZERO, DO UPSTREAM WEIGHTING.
+
+   MOP(19) = 0 *** IS USED IN SOME EOS-MODULES FOR SELECTING DIFFERENT OPTIONS
+
+   MOP(20) = 0 *** IS USED IN SOME EOS-MODULES FOR SELECTING DIFFERENT OPTIONS
+
+   MOP(21) = 0 *** PERMITS TO SELECT LINEAR EQUATION SOLVER
+           = 0: DEFAULTS TO MOP(21) = 3
+           = 1: DIRECT SOLVER - SEE MOP(21)=6
+           = 2: SUBROUTINE DSLUBC: BI-CONJUGATE GRADIENT SOLVER; PRECONDITIONER: INCOMPLETE LU FACTORIZATION
+           = 3: SUBROUTINE DSLUCS: BI-CONJUGATE GRADIENT SOLVER - LANCZOS TYPE; PRECONDITIONER: INCOMPLETE LU FACTORIZATION
+           = 4: SUBROUTINE DSLUGM: GENERALIZED MINIMUM RESIDUAL CONJUGATE GRADIENTS; PRECONDITIONER: INCOMPLETE LU FACTORIZATION
+           = 5: SUBROUTINE DLUSTB: STABILIZED BI-CONJUGATE GRADIENT SOLVER; PRECONDITIONER: INCOMPLETE LU FACTORIZATION
+           = 6: SUBROUTINE LUBAND: DIRECT SOLVER USING LU DECOMPOSITION
+
+   MOP(22) = 0 *** T2DM ONLY.  SPECIFIES METHOD OF SUMMATION OF DUPLICATE ELEMENTS IN THE JACOBIAN. ***
+           = 0: USE SUMDUP2.
+           = 1: USE SUMDUP.
+           = 2: IF MATSLV = 1, USE MA28 INTERNAL SUMMATION.
+
+   MOP(23) = 0 *** T2DM ONLY.  HANDLES EFFECTS OF NON-CONNECTED NEIGHBOR GRID BLOCKS ON DISPERSIVE FLUX IN  DISF. ***
+           = 0: INCLUDE INFLUENCE OF NEIGHBOR GRID BLOCKS.  (MORE ACCURATE JACOBIAN, SLOWER LINEAR EQUATION SOLUTION).
+           = 1: NEGLECT INFLUENCE OF NEIGHBOR GRID BLOCKS.  (LESS ACCURATE JACOBIAN, FASTER LINEAR EQUATION SOLUTION).
+
+   MOP(24) = 0 *** PERMITS TO SELECT HANDLING OF MULTIPHASE DIFFUSIVE FLUXES AT INTERFACES
+           = 0: HARMONIC WEIGHTING OF FULLY-COUPLED EFFECTIVE MULTIPHASE DIFFUSIVITY
+           = 1: SEPARATE HARMONIC WEIGHTING OF GAS AND LIQUID PHASE DIFFUSIVITIES.
+
+ ***********************************************************************************************************************************
+
+ ***********************************************************************************************************************************
+ *                    EOS1: EQUATION OF STATE FOR WATER (OPTIONAL: TWO-WATER MIXTURES)                                             *
+ ***********************************************************************************************************************************
+
+
+    OPTIONS SELECTED ARE: (NK,NEQ,NPH,NB) = (1,2,2,6)
+
+                           NK  =  1   - NUMBER OF FLUID COMPONENTS
+                           NEQ =  2   - NUMBER OF EQUATIONS PER GRID BLOCK
+                           NPH =  2   - NUMBER OF PHASES THAT CAN BE PRESENT
+                           NB  =  6   - NUMBER OF SECONDARY PARAMETERS (OTHER THAN COMPONENT MASS FRACTIONS)
+
+                   For NK = 1 or NB = 6, diffusion is "off", for NK = 2 and NB = 8, diffusion is "on"
+
+
+    AVAILABLE OPTIONS ARE: (NK,NEQ,NPH,NB) = (1,2,2,6 or 8) - ONE WATER COMPONENT, NON-ISOTHERMAL
+                                             (1,1,2,6 or 8) - ONLY LIQUID, OR ONLY VAPOR, ISOTHERMAL
+                                             (2,3,2,6 or 8) - TWO WATERS, NON-ISOTHERMAL
+
+    Default options are (1,2,2,6) - "one" water, diffusion "off"
+
+ ***********************************************************************************************************************************
+
+
+ THE PRIMARY VARIABLES ARE
+  P - PRESSURE         T - TEMPERATURE         X2 - MASS FRACTION OF WATER "2"         S - GAS PHASE SATURATION
+
+ _______________________________________________________
+
+     PHASE CONDITION               PRIMARY VARIABLES
+ _______________________________________________________
+
+     SINGLE-PHASE GAS                P, T, [X2]
+
+     SINGLE-PHASE LIQUID             P, T, [X2]
+
+     TWO-PHASE                       P, S, [X2]
+
+ _______________________________________________________
+
+
+ ..... NEGLECT VAPOR PRESSURE LOWERING .....
+
+ ***********************************************************************************************************************************
+
+ *********** VOLUME- AND MASS-BALANCES *******************************************************************************************
+
+ ********** [KCYC,ITER] = [   0,  0] *****                        THE TIME IS  0.00000E+00 SECONDS, OR  0.00000E+00 DAYS
+
+
+ PHASE VOLUMES IN PLACE
+ GAS 0.00000E+00 M**3;  AQUEOUS 0.20000E+02 M**3
+
+ MASS IN PLACE
+ GAS 0.00000E+00 KG;    AQUEOUS 0.19966E+05 KG;  TOTAL H2O 0.19966E+05 KG;  H2O(2) 0.00000E+00 KG;  INT. ENERGY 0.10098E+11 J
+
+ *********************************************************************************************************************************
+
+
+   a 1(   1,  1) ST = 0.100000E+03 DT = 0.100000E+03 DX1= 0.000000E+00 DX2= 0.000000E+00 T =  20.000 P =   101300. S = 0.000000E+00 ICURV=0
+ ...ITERATING...  AT [   2,  1] --- DELTEX = 0.200000E+03   MAX. RES. = 0.116059E-04  AT ELEMENT   a 1  EQUATION   1
+   a 1(   2,  2) ST = 0.300000E+03 DT = 0.200000E+03 DX1= 0.255329E+05 DX2= 0.129546E-03 T =  20.000 P =   126833. S = 0.000000E+00 ICURV=0
+ ...ITERATING...  AT [   3,  1] --- DELTEX = 0.400000E+03   MAX. RES. = 0.231990E-04  AT ELEMENT   b 1  EQUATION   1
+   d 1(   3,  2) ST = 0.700000E+03 DT = 0.400000E+03 DX1= 0.509886E+05 DX2= 0.454437E-04 T =  20.000 P =   177779. S = 0.000000E+00 ICURV=0
+ ...ITERATING...  AT [   4,  1] --- DELTEX = 0.800000E+03   MAX. RES. = 0.463968E-04  AT ELEMENT   e 1  EQUATION   1
+   g 1(   4,  2) ST = 0.150000E+04 DT = 0.800000E+03 DX1= 0.101954E+06 DX2= 0.910803E-04 T =  20.000 P =   279697. S = 0.000000E+00 ICURV=0
+ ...ITERATING...  AT [   5,  1] --- DELTEX = 0.160000E+04   MAX. RES. = 0.927880E-04  AT ELEMENT   e 1  EQUATION   1
+   h 1(   5,  2) ST = 0.310000E+04 DT = 0.160000E+04 DX1= 0.201420E+06 DX2= 0.175242E-03 T =  20.000 P =   480741. S = 0.000000E+00 ICURV=0
+ ...ITERATING...  AT [   6,  1] --- DELTEX = 0.320000E+04   MAX. RES. = 0.185558E-03  AT ELEMENT   e 1  EQUATION   1
+   b 1(   6,  2) ST = 0.630000E+04 DT = 0.320000E+04 DX1= 0.379904E+06 DX2= 0.295312E-03 T =  20.001 P =   858396. S = 0.000000E+00 ICURV=0
+ ...ITERATING...  AT [   7,  1] --- DELTEX = 0.640000E+04   MAX. RES. = 0.370937E-03  AT ELEMENT   e 1  EQUATION   1
+   d 1(   7,  2) ST = 0.127000E+05 DT = 0.640000E+04 DX1= 0.808301E+06 DX2= 0.707475E-03 T =  20.001 P =  1699346. S = 0.000000E+00 ICURV=0
+ ...ITERATING...  AT [   8,  1] --- DELTEX = 0.128000E+05   MAX. RES. = 0.739174E-03  AT ELEMENT   e 1  EQUATION   1
+   f 1(   8,  2) ST = 0.255000E+05 DT = 0.128000E+05 DX1= 0.158694E+07 DX2= 0.134002E-02 T =  20.003 P =  3290223. S = 0.000000E+00 ICURV=0
+ ...ITERATING...  AT [   9,  1] --- DELTEX = 0.256000E+05   MAX. RES. = 0.144681E-02  AT ELEMENT   e 1  EQUATION   1
+   e 1(   9,  2) ST = 0.511000E+05 DT = 0.256000E+05 DX1= 0.295445E+07 DX2= 0.213021E-02 T =  20.005 P =  6256851. S = 0.000000E+00 ICURV=0
+ ...ITERATING...  AT [  10,  1] --- DELTEX = 0.512000E+05   MAX. RES. = 0.266414E-02  AT ELEMENT   e 1  EQUATION   1
+   e 1(  10,  2) ST = 0.102300E+06 DT = 0.512000E+05 DX1= 0.479918E+07 DX2= 0.139271E-02 T =  20.006 P = 11056031. S = 0.000000E+00 ICURV=0
+
+ WRITE FILE *SAVE* AFTER   10 TIME STEPS  ---  THE TIME IS 0.102300E+06 SECONDS
+
+ ...ITERATING...  AT [  11,  1] --- DELTEX = 0.102400E+06   MAX. RES. = 0.429115E-02  AT ELEMENT   e 1  EQUATION   1
+ ...ITERATING...  AT [  11,  2] --- DELTEX = 0.102400E+06   MAX. RES. = 0.162858E-04  AT ELEMENT   j 1  EQUATION   2
+   i 1(  11,  3) ST = 0.204700E+06 DT = 0.102400E+06 DX1= 0.290336E+07 DX2= -.126110E-01 T =  19.982 P =  9039726. S = 0.000000E+00 ICURV=0
+ ...ITERATING...  AT [  12,  1] --- DELTEX = 0.204800E+06   MAX. RES. = 0.552100E-02  AT ELEMENT   e 1  EQUATION   1
+ ...ITERATING...  AT [  12,  2] --- DELTEX = 0.204800E+06   MAX. RES. = 0.296154E-04  AT ELEMENT   e 1  EQUATION   2
+   i 1(  12,  3) ST = 0.409500E+06 DT = 0.204800E+06 DX1= 0.272452E+07 DX2= -.312458E-01 T =  19.951 P = 11764242. S = 0.000000E+00 ICURV=0
+ ...ITERATING...  AT [  13,  1] --- DELTEX = 0.409600E+06   MAX. RES. = 0.777780E-02  AT ELEMENT   a 1  EQUATION   2
+ ...ITERATING...  AT [  13,  2] --- DELTEX = 0.409600E+06   MAX. RES. = 0.551383E-04  AT ELEMENT   a 1  EQUATION   1
+   e 1(  13,  3) ST = 0.819100E+06 DT = 0.409600E+06 DX1= 0.359086E+07 DX2= -.917452E-01 T =  19.875 P = 26835158. S = 0.000000E+00 ICURV=0
+ ...ITERATING...  AT [  14,  1] --- DELTEX = 0.819200E+06   MAX. RES. = 0.153817E-01  AT ELEMENT   a 1  EQUATION   2
+ ...ITERATING...  AT [  14,  2] --- DELTEX = 0.819200E+06   MAX. RES. = 0.775581E-04  AT ELEMENT   a 1  EQUATION   1
+   a 1(  14,  3) ST = 0.163830E+07 DT = 0.819200E+06 DX1= 0.162430E+06 DX2= 0.298888E+00 T =  20.617 P =  5725314. S = 0.000000E+00 ICURV=0
+ ...ITERATING...  AT [  15,  1] --- DELTEX = 0.163840E+07   MAX. RES. = 0.289440E-01  AT ELEMENT   a 1  EQUATION   2
+ ...ITERATING...  AT [  15,  2] --- DELTEX = 0.163840E+07   MAX. RES. = 0.367313E-04  AT ELEMENT   j 1  EQUATION   1
+   a 1(  15,  3) ST = 0.327670E+07 DT = 0.163840E+07 DX1= -.297116E+05 DX2= 0.535751E+00 T =  21.153 P =  5695603. S = 0.000000E+00 ICURV=0
+ ...ITERATING...  AT [  16,  1] --- DELTEX = 0.327680E+07   MAX. RES. = 0.505947E-01  AT ELEMENT   a 1  EQUATION   2
+ ...ITERATING...  AT [  16,  2] --- DELTEX = 0.327680E+07   MAX. RES. = 0.148966E-03  AT ELEMENT   a 1  EQUATION   1
+   a 1(  16,  3) ST = 0.655350E+07 DT = 0.327680E+07 DX1= -.102461E+06 DX2= 0.858495E+00 T =  22.011 P =  5593142. S = 0.000000E+00 ICURV=0
+ ...ITERATING...  AT [  17,  1] --- DELTEX = 0.655360E+07   MAX. RES. = 0.848850E-01  AT ELEMENT   e 1  EQUATION   2
+ ...ITERATING...  AT [  17,  2] --- DELTEX = 0.655360E+07   MAX. RES. = 0.738581E-03  AT ELEMENT   j 1  EQUATION   1
+   e 1(  17,  3) ST = 0.131071E+08 DT = 0.655360E+07 DX1= 0.664834E+06 DX2= -.148779E+01 T =  16.998 P = 29539922. S = 0.000000E+00 ICURV=0
+ ...ITERATING...  AT [  18,  1] --- DELTEX = 0.131072E+08   MAX. RES. = 0.174879E+00  AT ELEMENT   e 1  EQUATION   2
+ ...ITERATING...  AT [  18,  2] --- DELTEX = 0.131072E+08   MAX. RES. = 0.501185E-02  AT ELEMENT   a 1  EQUATION   1
+   f 1(  18,  3) ST = 0.262143E+08 DT = 0.131072E+08 DX1= 0.143933E+07 DX2= -.268157E+01 T =  14.318 P = 30898702. S = 0.000000E+00 ICURV=0
+ ...ITERATING...  AT [  19,  1] --- DELTEX = 0.262144E+08   MAX. RES. = 0.374477E+00  AT ELEMENT   e 1  EQUATION   2
+ ...ITERATING...  AT [  19,  2] --- DELTEX = 0.262144E+08   MAX. RES. = 0.316991E-01  AT ELEMENT   a 1  EQUATION   1
+   f 1(  19,  3) ST = 0.524287E+08 DT = 0.262144E+08 DX1= 0.290426E+07 DX2= -.443276E+01 T =   9.886 P = 33802958. S = 0.000000E+00 ICURV=0
+ ...ITERATING...  AT [  20,  1] --- DELTEX = 0.524288E+08   MAX. RES. = 0.896291E+00  AT ELEMENT   e 1  EQUATION   2
+ ...ITERATING...  AT [  20,  2] --- DELTEX = 0.524288E+08   MAX. RES. = 0.966533E-01  AT ELEMENT   a 1  EQUATION   1
+ ...ITERATING...  AT [  20,  3] --- DELTEX = 0.524288E+08   MAX. RES. = 0.943270E-04  AT ELEMENT   b 1  EQUATION   1
+   c 1(  20,  4) ST = 0.104858E+09 DT = 0.524288E+08 DX1= 0.351182E+07 DX2= -.565558E+01 T =   5.376 P = 28653141. S = 0.000000E+00 ICURV=0
+
+ Horizontal 1D example                                                           
+
+          OUTPUT DATA AFTER (  20,  4)-2-TIME STEPS                                                    THE TIME IS  0.12136E+04 DAYS
+
+ @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+ 
+   TOTAL TIME   KCYC   ITER  ITERC    KON    DX1M         DX2M         DX3M                      RERM        NER    KER    DELTEX
+  0.10486E+09     20      4     50      2 0.525567E+07 0.634879E+01 0.000000E+00              0.227380E-07     3     2 0.524288E+08
+
+ @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+ 
+ ELEM.  INDEX     P           T          SG          SW          X1          X2       PCAP                       DG          DW
+                 (PA)      (DEG-C)                                                    (PA)                    (KG/M**3)   (KG/M**3)
+
+   a 1     1 0.58841E+07 0.20113E+02 0.00000E+00 0.10000E+01 0.10000E+01 0.00000E+00 0.00000E+00             0.17404E-01 0.10009E+04
+   b 1     2 0.18586E+08 0.75558E+01 0.00000E+00 0.10000E+01 0.10000E+01 0.00000E+00 0.00000E+00             0.80328E-02 0.10087E+04
+   c 1     3 0.28653E+08 0.53764E+01 0.00000E+00 0.10000E+01 0.10000E+01 0.00000E+00 0.00000E+00             0.69662E-02 0.10135E+04
+   d 1     4 0.35575E+08 0.41212E+01 0.00000E+00 0.10000E+01 0.10000E+01 0.00000E+00 0.00000E+00             0.64100E-02 0.10169E+04
+   e 1     5 0.39079E+08 0.35314E+01 0.00000E+00 0.10000E+01 0.10000E+01 0.00000E+00 0.00000E+00             0.61623E-02 0.10185E+04
+   f 1     6 0.39059E+08 0.35368E+01 0.00000E+00 0.10000E+01 0.10000E+01 0.00000E+00 0.00000E+00             0.61646E-02 0.10185E+04
+   g 1     7 0.35516E+08 0.41413E+01 0.00000E+00 0.10000E+01 0.10000E+01 0.00000E+00 0.00000E+00             0.64186E-02 0.10168E+04
+   h 1     8 0.28558E+08 0.54023E+01 0.00000E+00 0.10000E+01 0.10000E+01 0.00000E+00 0.00000E+00             0.69781E-02 0.10135E+04
+   i 1     9 0.18460E+08 0.73693E+01 0.00000E+00 0.10000E+01 0.10000E+01 0.00000E+00 0.00000E+00             0.79362E-02 0.10086E+04
+   j 1    10 0.56523E+07 0.12870E+02 0.00000E+00 0.10000E+01 0.10000E+01 0.00000E+00 0.00000E+00             0.11250E-01 0.10021E+04
+ bdy 1    11 0.12000E+06 0.20000E+03 0.10000E+01 0.00000E+00 0.10000E+01 0.00000E+00-0.00000E+00             0.55298E+00 0.86468E+03
+ bdy 2    12 0.10130E+06 0.20000E+02 0.00000E+00 0.10000E+01 0.10000E+01 0.00000E+00 0.00000E+00             0.17290E-01 0.99832E+03
+
+ @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+ 
+
+          Horizontal 1D example                                                           
+
+                                                                                KCYC =   20  -  ITER =    4  -  TIME = 0.10486E+09
+
+ ELEMENT SOURCE INDEX      GENERATION RATE     ENTHALPY      X1           X2          FF(GAS)      FF(AQ.)         P(WB)
+                             (KG/S) OR (W)     (J/KG)                                                              (PA)
+
+     A11 1       0 1           0.11580E-03    0.00000E+00  0.10000E+01  0.00000E+00
+     A21 1       0 2           0.11580E-03    0.00000E+00  0.10000E+01  0.00000E+00
+     A31 1       0 3           0.11580E-03    0.00000E+00  0.10000E+01  0.00000E+00
+     A41 1       0 4           0.11580E-03    0.00000E+00  0.10000E+01  0.00000E+00
+     A51 1       0 5           0.11580E-03    0.00000E+00  0.10000E+01  0.00000E+00
+     A61 1       0 6           0.11580E-03    0.00000E+00  0.10000E+01  0.00000E+00
+     A71 1       0 7           0.11580E-03    0.00000E+00  0.10000E+01  0.00000E+00
+     A81 1       0 8           0.11580E-03    0.00000E+00  0.10000E+01  0.00000E+00
+     A91 1       0 9           0.11580E-03    0.00000E+00  0.10000E+01  0.00000E+00
+     AE2 2       010           0.00000E+00    0.00000E+00  0.00000E+00  0.00000E+00
+     AF2 2       011           0.00000E+00    0.00000E+00  0.00000E+00  0.00000E+00
+     AG2 2       012           0.00000E+00    0.00000E+00  0.00000E+00  0.00000E+00
+     AH2 2       013           0.00000E+00    0.00000E+00  0.00000E+00  0.00000E+00
+     AI2 2       014           0.00000E+00    0.00000E+00  0.00000E+00  0.00000E+00
+     AJ2 2       015           0.00000E+00    0.00000E+00  0.00000E+00  0.00000E+00
+     AK2 2       016           0.00000E+00    0.00000E+00  0.00000E+00  0.00000E+00
+     AL2 2       017           0.00000E+00    0.00000E+00  0.00000E+00  0.00000E+00
+     AM2 2       018           0.00000E+00    0.00000E+00  0.00000E+00  0.00000E+00
+
+ @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+ 
+
+ *********** VOLUME- AND MASS-BALANCES *******************************************************************************************
+
+ ********** [KCYC,ITER] = [  20,  4] *****                        THE TIME IS  0.10486E+09 SECONDS, OR  0.12136E+04 DAYS
+
+
+ PHASE VOLUMES IN PLACE
+ GAS 0.00000E+00 M**3;  AQUEOUS 0.20000E+02 M**3
+
+ MASS IN PLACE
+ GAS 0.00000E+00 KG;    AQUEOUS 0.20236E+05 KG;  TOTAL H2O 0.20236E+05 KG;  H2O(2) 0.00000E+00 KG;  INT. ENERGY 0.37400E+10 J
+
+ *********************************************************************************************************************************
+
+
+
+ WRITE FILE *SAVE* AFTER   20 TIME STEPS  ---  THE TIME IS 0.104858E+09 SECONDS
+
+ ...ITERATING...  AT [  21,  1] --- DELTEX = 0.104858E+09   MAX. RES. = 0.357755E+01  AT ELEMENT   e 1  EQUATION   2
+ TEMPERATURE = -.990227E+00  OUT OF RANGE IN SAT 
+ ++++++++++ EOS CANNOT FIND PARAMETERS AT ELEMENT *  c 1*      XX(M) =  0.33177E+08 -0.99023E+00
+ +++++++++ REDUCE TIME STEP AT (  21,  1) ++++++++++++++++   NEW DELT = 0.262144E+08
+ ...ITERATING...  AT [  21,  1] --- DELTEX = 0.262144E+08   MAX. RES. = 0.894387E+00  AT ELEMENT   e 1  EQUATION   2
+ TEMPERATURE = 0.866404E+00  OUT OF RANGE IN SAT 
+ ++++++++++ EOS CANNOT FIND PARAMETERS AT ELEMENT *  e 1*      XX(M) =  0.41559E+08  0.86640E+00
+ +++++++++ REDUCE TIME STEP AT (  21,  1) ++++++++++++++++   NEW DELT = 0.655360E+07
+ ...ITERATING...  AT [  21,  1] --- DELTEX = 0.655360E+07   MAX. RES. = 0.223597E+00  AT ELEMENT   e 1  EQUATION   2
+ ...ITERATING...  AT [  21,  2] --- DELTEX = 0.655360E+07   MAX. RES. = 0.194723E-03  AT ELEMENT   a 1  EQUATION   1
+   g 1(  21,  3) ST = 0.111411E+09 DT = 0.655360E+07 DX1= 0.637159E+06 DX2= -.729808E+00 T =   3.412 P = 36152883. S = 0.000000E+00 ICURV=0
+ ...ITERATING...  AT [  22,  1] --- DELTEX = 0.131072E+08   MAX. RES. = 0.542602E+00  AT ELEMENT   e 1  EQUATION   2
+ ...ITERATING...  AT [  22,  2] --- DELTEX = 0.131072E+08   MAX. RES. = 0.116588E-02  AT ELEMENT   a 1  EQUATION   1
+   f 1(  22,  3) ST = 0.124518E+09 DT = 0.131072E+08 DX1= 0.136427E+07 DX2= -.138590E+01 T =   1.393 P = 41136200. S = 0.000000E+00 ICURV=0
+ ...ITERATING...  AT [  23,  1] --- DELTEX = 0.262144E+08   MAX. RES. = 0.196817E+01  AT ELEMENT   e 1  EQUATION   2
+ TEMPERATURE = -.178069E+00  OUT OF RANGE IN SAT 
+ ++++++++++ EOS CANNOT FIND PARAMETERS AT ELEMENT *  d 1*      XX(M) =  0.39478E+08 -0.17807E+00
+ +++++++++ REDUCE TIME STEP AT (  23,  1) ++++++++++++++++   NEW DELT = 0.655360E+07
+ ...ITERATING...  AT [  23,  1] --- DELTEX = 0.655360E+07   MAX. RES. = 0.492042E+00  AT ELEMENT   e 1  EQUATION   2
+ TEMPERATURE = 0.725917E+00  OUT OF RANGE IN SAT 
+ ++++++++++ EOS CANNOT FIND PARAMETERS AT ELEMENT *  e 1*      XX(M) =  0.41813E+08  0.72592E+00
+ +++++++++ REDUCE TIME STEP AT (  23,  1) ++++++++++++++++   NEW DELT = 0.163840E+07
+ ...ITERATING...  AT [  23,  1] --- DELTEX = 0.163840E+07   MAX. RES. = 0.123010E+00  AT ELEMENT   e 1  EQUATION   2
+ ...ITERATING...  AT [  23,  2] --- DELTEX = 0.163840E+07   MAX. RES. = 0.106687E-04  AT ELEMENT   f 1  EQUATION   2
+   f 1(  23,  3) ST = 0.126157E+09 DT = 0.163840E+07 DX1= 0.173382E+06 DX2= -.171277E+00 T =   1.222 P = 41309583. S = 0.000000E+00 ICURV=0
+ ...ITERATING...  AT [  24,  1] --- DELTEX = 0.327680E+07   MAX. RES. = 0.276856E+00  AT ELEMENT   e 1  EQUATION   2
+ TEMPERATURE = 0.881948E+00  OUT OF RANGE IN SAT 
+ ++++++++++ EOS CANNOT FIND PARAMETERS AT ELEMENT *  e 1*      XX(M) =  0.41658E+08  0.88195E+00
+ +++++++++ REDUCE TIME STEP AT (  24,  1) ++++++++++++++++   NEW DELT = 0.819200E+06
+ ...ITERATING...  AT [  24,  1] --- DELTEX = 0.819200E+06   MAX. RES. = 0.692141E-01  AT ELEMENT   e 1  EQUATION   2
+ ...ITERATING...  AT [  24,  2] --- DELTEX = 0.819200E+06   MAX. RES. = 0.212417E-04  AT ELEMENT   e 1  EQUATION   2
+   e 1(  24,  3) ST = 0.126976E+09 DT = 0.819200E+06 DX1= 0.862704E+05 DX2= -.851281E-01 T =   1.132 P = 41405074. S = 0.000000E+00 ICURV=0
+ ...ITERATING...  AT [  25,  1] --- DELTEX = 0.163840E+07   MAX. RES. = 0.147801E+00  AT ELEMENT   e 1  EQUATION   2
+ TEMPERATURE = 0.963244E+00  OUT OF RANGE IN SAT 
+ ++++++++++ EOS CANNOT FIND PARAMETERS AT ELEMENT *  e 1*      XX(M) =  0.41576E+08  0.96324E+00
+ +++++++++ REDUCE TIME STEP AT (  25,  1) ++++++++++++++++   NEW DELT = 0.409600E+06
+ ...ITERATING...  AT [  25,  1] --- DELTEX = 0.409600E+06   MAX. RES. = 0.369502E-01  AT ELEMENT   e 1  EQUATION   2
+ ...ITERATING...  AT [  25,  2] --- DELTEX = 0.409600E+06   MAX. RES. = 0.207692E-04  AT ELEMENT   e 1  EQUATION   2
+   e 1(  25,  3) ST = 0.127386E+09 DT = 0.409600E+06 DX1= 0.431240E+05 DX2= -.424417E-01 T =   1.089 P = 41448198. S = 0.000000E+00 ICURV=0
+ ...ITERATING...  AT [  26,  1] --- DELTEX = 0.819200E+06   MAX. RES. = 0.765055E-01  AT ELEMENT   e 1  EQUATION   2
+ ...ITERATING...  AT [  26,  2] --- DELTEX = 0.819200E+06   MAX. RES. = 0.147735E-04  AT ELEMENT   f 1  EQUATION   2
+   f 1(  26,  3) ST = 0.128205E+09 DT = 0.819200E+06 DX1= 0.864174E+05 DX2= -.844173E-01 T =   1.010 P = 41526026. S = 0.000000E+00 ICURV=0
+ ...ITERATING...  AT [  27,  1] --- DELTEX = 0.163840E+07   MAX. RES. = 0.164655E+00  AT ELEMENT   e 1  EQUATION   2
+ TEMPERATURE = 0.837957E+00  OUT OF RANGE IN SAT 
+ ++++++++++ EOS CANNOT FIND PARAMETERS AT ELEMENT *  e 1*      XX(M) =  0.41705E+08  0.83796E+00
+ +++++++++ REDUCE TIME STEP AT (  27,  1) ++++++++++++++++   NEW DELT = 0.409600E+06
+ ...ITERATING...  AT [  27,  1] --- DELTEX = 0.409600E+06   MAX. RES. = 0.411638E-01  AT ELEMENT   e 1  EQUATION   2
+ TEMPERATURE = 0.962739E+00  OUT OF RANGE IN SAT 
+ ++++++++++ EOS CANNOT FIND PARAMETERS AT ELEMENT *  e 1*      XX(M) =  0.41577E+08  0.96274E+00
+ +++++++++ REDUCE TIME STEP AT (  27,  1) ++++++++++++++++   NEW DELT = 0.102400E+06
+ ...ITERATING...  AT [  27,  1] --- DELTEX = 0.102400E+06   MAX. RES. = 0.102909E-01  AT ELEMENT   e 1  EQUATION   2
+ TEMPERATURE = 0.994272E+00  OUT OF RANGE IN SAT 
+ ++++++++++ EOS CANNOT FIND PARAMETERS AT ELEMENT *  e 1*      XX(M) =  0.41545E+08  0.99427E+00
+ +++++++++ REDUCE TIME STEP AT (  27,  1) ++++++++++++++++   NEW DELT = 0.256000E+05
+ ...ITERATING...  AT [  27,  1] --- DELTEX = 0.256000E+05   MAX. RES. = 0.257273E-02  AT ELEMENT   e 1  EQUATION   2
+   f 1(  27,  2) ST = 0.128230E+09 DT = 0.256000E+05 DX1= 0.270255E+04 DX2= -.263810E-02 T =   1.007 P = 41528729. S = 0.000000E+00 ICURV=0
+ ...ITERATING...  AT [  28,  1] --- DELTEX = 0.512000E+05   MAX. RES. = 0.515781E-02  AT ELEMENT   e 1  EQUATION   2
+ TEMPERATURE = 0.996904E+00  OUT OF RANGE IN SAT 
+ ++++++++++ EOS CANNOT FIND PARAMETERS AT ELEMENT *  e 1*      XX(M) =  0.41542E+08  0.99690E+00
+ +++++++++ REDUCE TIME STEP AT (  28,  1) ++++++++++++++++   NEW DELT = 0.128000E+05
+ ...ITERATING...  AT [  28,  1] --- DELTEX = 0.128000E+05   MAX. RES. = 0.128945E-02  AT ELEMENT   e 1  EQUATION   2
+   g 1(  28,  2) ST = 0.128243E+09 DT = 0.128000E+05 DX1= 0.120561E+04 DX2= -.126780E-02 T =   1.706 P = 37722295. S = 0.000000E+00 ICURV=0
+ ...ITERATING...  AT [  29,  1] --- DELTEX = 0.256000E+05   MAX. RES. = 0.258200E-02  AT ELEMENT   e 1  EQUATION   2
+ TEMPERATURE = 0.998222E+00  OUT OF RANGE IN SAT 
+ ++++++++++ EOS CANNOT FIND PARAMETERS AT ELEMENT *  e 1*      XX(M) =  0.41541E+08  0.99822E+00
+ +++++++++ REDUCE TIME STEP AT (  29,  1) ++++++++++++++++   NEW DELT = 0.640000E+04
+ ...ITERATING...  AT [  29,  1] --- DELTEX = 0.640000E+04   MAX. RES. = 0.645500E-03  AT ELEMENT   e 1  EQUATION   2
+   f 1(  29,  2) ST = 0.128250E+09 DT = 0.640000E+04 DX1= 0.675710E+03 DX2= -.659032E-03 T =   1.005 P = 41530756. S = 0.000000E+00 ICURV=0
+ ...ITERATING...  AT [  30,  1] --- DELTEX = 0.128000E+05   MAX. RES. = 0.129177E-02  AT ELEMENT   e 1  EQUATION   2
+ TEMPERATURE = 0.998881E+00  OUT OF RANGE IN SAT 
+ ++++++++++ EOS CANNOT FIND PARAMETERS AT ELEMENT *  e 1*      XX(M) =  0.41540E+08  0.99888E+00
+ +++++++++ REDUCE TIME STEP AT (  30,  1) ++++++++++++++++   NEW DELT = 0.320000E+04
+ ...ITERATING...  AT [  30,  1] --- DELTEX = 0.320000E+04   MAX. RES. = 0.322944E-03  AT ELEMENT   e 1  EQUATION   2
+ TEMPERATURE = 0.999870E+00  OUT OF RANGE IN SAT 
+ ++++++++++ EOS CANNOT FIND PARAMETERS AT ELEMENT *  e 1*      XX(M) =  0.41539E+08  0.99987E+00
+ +++++++++ REDUCE TIME STEP AT (  30,  1) ++++++++++++++++   NEW DELT = 0.800000E+03
+ ...ITERATING...  AT [  30,  1] --- DELTEX = 0.800000E+03   MAX. RES. = 0.807359E-04  AT ELEMENT   e 1  EQUATION   2
+   d 1(  30,  2) ST = 0.128250E+09 DT = 0.800000E+03 DX1= 0.741197E+02 DX2= -.791277E-04 T =   1.689 P = 37746824. S = 0.000000E+00 ICURV=0
+
+ WRITE FILE *SAVE* AFTER   30 TIME STEPS  ---  THE TIME IS 0.128250E+09 SECONDS
+
+ ...ITERATING...  AT [  31,  1] --- DELTEX = 0.160000E+04   MAX. RES. = 0.161484E-03  AT ELEMENT   e 1  EQUATION   2
+ TEMPERATURE = 0.999952E+00  OUT OF RANGE IN SAT 
+ ++++++++++ EOS CANNOT FIND PARAMETERS AT ELEMENT *  e 1*      XX(M) =  0.41539E+08  0.99995E+00
+ +++++++++ REDUCE TIME STEP AT (  31,  1) ++++++++++++++++   NEW DELT = 0.400000E+03
+ ...ITERATING...  AT [  31,  1] --- DELTEX = 0.400000E+03   MAX. RES. = 0.403710E-04  AT ELEMENT   e 1  EQUATION   2
+   g 1(  31,  2) ST = 0.128251E+09 DT = 0.400000E+03 DX1= 0.376722E+02 DX2= -.396350E-04 T =   1.705 P = 37723011. S = 0.000000E+00 ICURV=0
+ ...ITERATING...  AT [  32,  1] --- DELTEX = 0.800000E+03   MAX. RES. = 0.807450E-04  AT ELEMENT   e 1  EQUATION   2
+ TEMPERATURE = 0.999993E+00  OUT OF RANGE IN SAT 
+ ++++++++++ EOS CANNOT FIND PARAMETERS AT ELEMENT *  e 1*      XX(M) =  0.41539E+08  0.99999E+00
+ +++++++++ REDUCE TIME STEP AT (  32,  1) ++++++++++++++++   NEW DELT = 0.200000E+03
+ ...ITERATING...  AT [  32,  1] --- DELTEX = 0.200000E+03   MAX. RES. = 0.201863E-04  AT ELEMENT   e 1  EQUATION   2
+   e 1(  32,  2) ST = 0.128251E+09 DT = 0.200000E+03 DX1= 0.210152E+02 DX2= -.205910E-04 T =   1.000 P = 41539049. S = 0.000000E+00 ICURV=0
+ ...ITERATING...  AT [  33,  1] --- DELTEX = 0.400000E+03   MAX. RES. = 0.403733E-04  AT ELEMENT   e 1  EQUATION   2
+   e 1(  33,  2) ST = 0.128251E+09 DT = 0.400000E+03 DX1= 0.420298E+02 DX2= -.411616E-04 T =   1.000 P = 41539091. S = 0.000000E+00 ICURV=0
+ ...ITERATING...  AT [  34,  1] --- DELTEX = 0.800000E+03   MAX. RES. = 0.807496E-04  AT ELEMENT   e 1  EQUATION   2
+ TEMPERATURE = 0.999932E+00  OUT OF RANGE IN SAT 
+ ++++++++++ EOS CANNOT FIND PARAMETERS AT ELEMENT *  e 1*      XX(M) =  0.41539E+08  0.99993E+00
+ +++++++++ REDUCE TIME STEP AT (  34,  1) ++++++++++++++++   NEW DELT = 0.200000E+03
+ ...ITERATING...  AT [  34,  1] --- DELTEX = 0.200000E+03   MAX. RES. = 0.201874E-04  AT ELEMENT   e 1  EQUATION   2
+ TEMPERATURE = 0.999993E+00  OUT OF RANGE IN SAT 
+ ++++++++++ EOS CANNOT FIND PARAMETERS AT ELEMENT *  e 1*      XX(M) =  0.41539E+08  0.99999E+00
+ +++++++++ REDUCE TIME STEP AT (  34,  1) ++++++++++++++++   NEW DELT = 0.500000E+02
+   e 1(  34,  1) ST = 0.128251E+09 DT = 0.500000E+02 DX1= 0.000000E+00 DX2= 0.000000E+00 T =   1.000 P = 41539091. S = 0.000000E+00 ICURV=0
+ ...ITERATING...  AT [  35,  1] --- DELTEX = 0.100000E+03   MAX. RES. = 0.100937E-04  AT ELEMENT   e 1  EQUATION   2
+   e 1(  35,  2) ST = 0.128251E+09 DT = 0.100000E+03 DX1= 0.105076E+02 DX2= -.102966E-04 T =   1.000 P = 41539102. S = 0.000000E+00 ICURV=0
+ ...ITERATING...  AT [  36,  1] --- DELTEX = 0.200000E+03   MAX. RES. = 0.201876E-04  AT ELEMENT   e 1  EQUATION   2
+ TEMPERATURE = 0.999983E+00  OUT OF RANGE IN SAT 
+ ++++++++++ EOS CANNOT FIND PARAMETERS AT ELEMENT *  e 1*      XX(M) =  0.41539E+08  0.99998E+00
+ +++++++++ REDUCE TIME STEP AT (  36,  1) ++++++++++++++++   NEW DELT = 0.500000E+02
+   e 1(  36,  1) ST = 0.128252E+09 DT = 0.500000E+02 DX1= 0.000000E+00 DX2= 0.000000E+00 T =   1.000 P = 41539102. S = 0.000000E+00 ICURV=0
+ ...ITERATING...  AT [  37,  1] --- DELTEX = 0.100000E+03   MAX. RES. = 0.100938E-04  AT ELEMENT   e 1  EQUATION   2
+ TEMPERATURE = 0.999993E+00  OUT OF RANGE IN SAT 
+ ++++++++++ EOS CANNOT FIND PARAMETERS AT ELEMENT *  e 1*      XX(M) =  0.41539E+08  0.99999E+00
+ +++++++++ REDUCE TIME STEP AT (  37,  1) ++++++++++++++++   NEW DELT = 0.250000E+02
+   e 1(  37,  1) ST = 0.128252E+09 DT = 0.250000E+02 DX1= 0.000000E+00 DX2= 0.000000E+00 T =   1.000 P = 41539102. S = 0.000000E+00 ICURV=0
+   e 1(  38,  1) ST = 0.128252E+09 DT = 0.500000E+02 DX1= 0.000000E+00 DX2= 0.000000E+00 T =   1.000 P = 41539102. S = 0.000000E+00 ICURV=0
+ ...ITERATING...  AT [  39,  1] --- DELTEX = 0.100000E+03   MAX. RES. = 0.100938E-04  AT ELEMENT   e 1  EQUATION   2
+ TEMPERATURE = 0.999993E+00  OUT OF RANGE IN SAT 
+ ++++++++++ EOS CANNOT FIND PARAMETERS AT ELEMENT *  e 1*      XX(M) =  0.41539E+08  0.99999E+00
+
+ +++++++++ CONVERGENCE FAILURE ON TIME STEP #  39 WITH DT = 0.100000E+03 SECONDS, FOLLOWING TWO STEPS THAT CONVERGED ON ITER = 1
+           STOP EXECUTION AFTER NEXT TIME STEP
+ +++++++++ REDUCE TIME STEP AT (  39,  1) ++++++++++++++++   NEW DELT = 0.250000E+02
+   e 1(  39,  1) ST = 0.128252E+09 DT = 0.250000E+02 DX1= 0.000000E+00 DX2= 0.000000E+00 T =   1.000 P = 41539102. S = 0.000000E+00 ICURV=0
+
+ Horizontal 1D example                                                           
+
+          OUTPUT DATA AFTER (  39,  1)-2-TIME STEPS                                                    THE TIME IS  0.14844E+04 DAYS
+
+ @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+ 
+   TOTAL TIME   KCYC   ITER  ITERC    KON    DX1M         DX2M         DX3M                      RERM        NER    KER    DELTEX
+  0.12825E+09     39      1    109      2 0.000000E+00 0.000000E+00 0.000000E+00              0.252345E-05     5     2 0.250000E+02
+
+ @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+ 
+ ELEM.  INDEX     P           T          SG          SW          X1          X2       PCAP                       DG          DW
+                 (PA)      (DEG-C)                                                    (PA)                    (KG/M**3)   (KG/M**3)
+
+   a 1     1 0.60791E+07 0.18768E+02 0.00000E+00 0.10000E+01 0.10000E+01 0.00000E+00 0.00000E+00             0.16080E-01 0.10013E+04
+   b 1     2 0.19527E+08 0.55934E+01 0.00000E+00 0.10000E+01 0.10000E+01 0.00000E+00 0.00000E+00             0.70666E-02 0.10093E+04
+   c 1     3 0.30293E+08 0.31300E+01 0.00000E+00 0.10000E+01 0.10000E+01 0.00000E+00 0.00000E+00             0.59986E-02 0.10145E+04
+   d 1     4 0.37747E+08 0.16885E+01 0.00000E+00 0.10000E+01 0.10000E+01 0.00000E+00 0.00000E+00             0.54416E-02 0.10181E+04
+   e 1     5 0.41539E+08 0.10000E+01 0.00000E+00 0.10000E+01 0.10000E+01 0.00000E+00 0.00000E+00             0.51919E-02 0.10199E+04
+   f 1     6 0.41531E+08 0.10050E+01 0.00000E+00 0.10000E+01 0.10000E+01 0.00000E+00 0.00000E+00             0.51937E-02 0.10199E+04
+   g 1     7 0.37723E+08 0.17049E+01 0.00000E+00 0.10000E+01 0.10000E+01 0.00000E+00 0.00000E+00             0.54477E-02 0.10181E+04
+   h 1     8 0.30256E+08 0.31475E+01 0.00000E+00 0.10000E+01 0.10000E+01 0.00000E+00 0.00000E+00             0.60056E-02 0.10145E+04
+   i 1     9 0.19482E+08 0.53676E+01 0.00000E+00 0.10000E+01 0.10000E+01 0.00000E+00 0.00000E+00             0.69622E-02 0.10093E+04
+   j 1    10 0.59288E+07 0.11028E+02 0.00000E+00 0.10000E+01 0.10000E+01 0.00000E+00 0.00000E+00             0.10027E-01 0.10024E+04
+ bdy 1    11 0.12000E+06 0.20000E+03 0.10000E+01 0.00000E+00 0.10000E+01 0.00000E+00-0.00000E+00             0.55298E+00 0.86468E+03
+ bdy 2    12 0.10130E+06 0.20000E+02 0.00000E+00 0.10000E+01 0.10000E+01 0.00000E+00 0.00000E+00             0.17290E-01 0.99832E+03
+
+ @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+ 
+
+          Horizontal 1D example                                                           
+
+                                                                                KCYC =   39  -  ITER =    1  -  TIME = 0.12825E+09
+
+ ELEMENT SOURCE INDEX      GENERATION RATE     ENTHALPY      X1           X2          FF(GAS)      FF(AQ.)         P(WB)
+                             (KG/S) OR (W)     (J/KG)                                                              (PA)
+
+     A11 1       0 1           0.11580E-03    0.00000E+00  0.10000E+01  0.00000E+00
+     A21 1       0 2           0.11580E-03    0.00000E+00  0.10000E+01  0.00000E+00
+     A31 1       0 3           0.11580E-03    0.00000E+00  0.10000E+01  0.00000E+00
+     A41 1       0 4           0.11580E-03    0.00000E+00  0.10000E+01  0.00000E+00
+     A51 1       0 5           0.11580E-03    0.00000E+00  0.10000E+01  0.00000E+00
+     A61 1       0 6           0.11580E-03    0.00000E+00  0.10000E+01  0.00000E+00
+     A71 1       0 7           0.11580E-03    0.00000E+00  0.10000E+01  0.00000E+00
+     A81 1       0 8           0.11580E-03    0.00000E+00  0.10000E+01  0.00000E+00
+     A91 1       0 9           0.11580E-03    0.00000E+00  0.10000E+01  0.00000E+00
+     AE2 2       010           0.00000E+00    0.00000E+00  0.00000E+00  0.00000E+00
+     AF2 2       011           0.00000E+00    0.00000E+00  0.00000E+00  0.00000E+00
+     AG2 2       012           0.00000E+00    0.00000E+00  0.00000E+00  0.00000E+00
+     AH2 2       013           0.00000E+00    0.00000E+00  0.00000E+00  0.00000E+00
+     AI2 2       014           0.00000E+00    0.00000E+00  0.00000E+00  0.00000E+00
+     AJ2 2       015           0.00000E+00    0.00000E+00  0.00000E+00  0.00000E+00
+     AK2 2       016           0.00000E+00    0.00000E+00  0.00000E+00  0.00000E+00
+     AL2 2       017           0.00000E+00    0.00000E+00  0.00000E+00  0.00000E+00
+     AM2 2       018           0.00000E+00    0.00000E+00  0.00000E+00  0.00000E+00
+
+ @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+ 
+
+ *********** VOLUME- AND MASS-BALANCES *******************************************************************************************
+
+ ********** [KCYC,ITER] = [  39,  1] *****                        THE TIME IS  0.12825E+09 SECONDS, OR  0.14844E+04 DAYS
+
+
+ PHASE VOLUMES IN PLACE
+ GAS 0.00000E+00 M**3;  AQUEOUS 0.20000E+02 M**3
+
+ MASS IN PLACE
+ GAS 0.00000E+00 KG;    AQUEOUS 0.20254E+05 KG;  TOTAL H2O 0.20254E+05 KG;  H2O(2) 0.00000E+00 KG;  INT. ENERGY 0.26524E+10 J
+
+ *********************************************************************************************************************************
+
+
+
+ WRITE FILE *SAVE* AFTER   39 TIME STEPS  ---  THE TIME IS 0.128252E+09 SECONDS
+
+
+ ***********************************************************************************************************************************
+ *                                                                                                                                 *
+ *                                                 SUMMARY OF PROGRAM UNITS USED                                                   *
+ *                                                                                                                                 *
+ ***********************************************************************************************************************************
+
+       UNIT    VERSION     DATE                 COMMENTS
+ ___________________________________________________________________________________________________________________________________
+
+      IO       1.0      15 APRIL     1991      OPEN FILES *VERS*, *MESH*, *INCON*, *GENER*, *SAVE*, *LINEQ*, AND *TABLE*          
+      CPUSEC   1.0       5 APRIL     2000      RETURNS CPU-TIME (PC, DVF)                                                         
+                                                                                                                                  
+      TOUGH2   2.1      30 JUNE      2011      MAIN PROGRAM                                                                       
+                                               SPECIAL VERSION FOR CONJUGATE GRADIENT PACKAGE T2CG2                               
+                                               INCLUDES DEFINITION OF COORDINATE ARRAYS AND RADIATIVE HEAT TRANSFER CAPABILITY    
+                                               HAS ADDITIONAL COMMON BLOCKS FOR TMVOC                                             
+                                                                                                                                  
+      INPUT    2.1       1 JULY      2011      READ ALL DATA PROVIDED THROUGH FILE *INPUT*                                        
+      FLOP     1.0      11 APRIL     1991      CALCULATE NUMBER OF SIGNIFICANT DIGITS FOR FLOATING POINT ARITHMETIC               
+                                                                                                                                  
+      RFILE    2.1       1 JULY      2011      INITIALIZE DATA FROM FILES *MESH* OR *MINC*, *GENER*, AND *INCON*                  
+                                               ALSO INITIALIZES PERMEABILITY MODIFIERS AND COORDINATE ARRAYS                      
+                                               AND OPTIONALLY READS TABLES WITH FLOWING WELLBORE PRESSURES                        
+      PMIN     1.0      26 SEPTEMBER 1997      INITIALIZE BLOCK-BY-BLOCK PERMEABILITY MODIFIERS                                   
+      SINSUB   1.00      1 OCTOBER   1999      INITIALIZE PARAMETERS FOR THE SOLVER PACKAGE, AND GENERATE INFORMATIVE PRINTOUT    
+                                                                                                                                  
+      CYCIT    1.01     26 AUGUST    2010      EXECUTIVE ROUTINE FOR MARCHING IN TIME                                             
+                                                                                                                                  
+      EOS      1.0      23 August    1999      *EOS1* ... THERMOPHYSICAL PROPERTIES MODULE FOR WATER                              
+      SAT      1.0 S    17 SEPTEMBER 1990      STEAM TABLE EQUATION: SATURATION PRESSURE AS FUNCTION OF TEMPERATURE (M. OS.)      
+      VISW     1.0      22 JANUARY   1990      VISCOSITY OF LIQUID WATER AS FUNCTION OF TEMPERATURE AND PRESSURE                  
+      COWAT    1.0 S    17 SEPTEMBER 1990      LIQUID WATER DENSITY AND INT. ENERGY VERSUS TEMPERATURE AND PRESSURE (M. OS.)      
+      SUPST    1.0 S     1 FEBRUARY  1991      VAPOR DENSITY AND INTERNAL ENERGY AS FUNCTION OF TEMPERATURE AND PRESSURE (M. OS.) 
+      PCAP     2.1       1 JULY      2011      CAPILLARY PRESSURE AS FUNCTION OF SATURATION                                       
+                                               INCLUDES HYSTERETIC CURVES (ICP=12)                                                
+      VISS     1.0      22 JANUARY   1990      VISCOSITY OF VAPOR AS FUNCTION OF TEMPERATURE AND PRESSURE                         
+      RELP     2.1       1 JULY      2011      LIQUID AND GAS PHASE RELATIVE PERMEABILITIES AS FUNCTIONS OF SATURATION            
+                                               INCLUDES HYSTERETIC CURVES (IRP=12)                                                
+                                                                                                                                  
+      BALLA    1.0      22 JANUARY   1990      PERFORM SUMMARY BALANCES FOR VOLUME, MASS, AND ENERGY                              
+                                                                                                                                  
+      MULTI    2.1       7 MARCH     2011      ASSEMBLE ALL ACCUMULATION AND FLOW TERMS                                           
+                                               INCLUDES CAPABILITIES FOR RADIATIVE HEAT TRANSFER AND DIFFUSION IN ALL PHASES      
+                                               WITH LOCAL EQUILIBRIUM PHASE PARTITIONING BETWEEN GAS AND LIQUID                   
+                                               ALLOWS BLOCK-BY-BLOCK PERMEABILITY MODIFICATION                                    
+                                               PERMEABILITY CHANGES FROM PRECIP. (EWASG) THROUGH PAR(NLOC2S+3)                    
+                                               TMVOC-COMPATIBLE VERSION; NO DYNAMIC D=0 SWITCHING                                 
+                                               NCGs CAN BIODEGRADE WITH A HALF-LIFE MODEL                                         
+                                                                                                                                  
+      QU       2.0       2 APRIL     2002      ASSEMBLE ALL SOURCE AND SINK TERMS                                                 
+                                               "RIGOROUS" STEP RATE CAPABILITY FOR MOP(12) = 2,                                   
+                                               AND CAPABILITY FOR FLOWING WELLBORE PRESSURE CORRECTIONS                           
+                                                                                                                                  
+      CONVER   1.0       2 MAY       2002      UPDATE PRIMARY VARIABLES AFTER CONVERGENCE IS ACHIEVED                             
+      LINEQ    2.00      2 MAY       2006      INTERFACE FOR LINEAR EQUATION SOLVERS T2CG2                                        
+                                               CAN CALL A DIRECT SOLVER OR A PACKAGE OF CONJUGATE GRADIENT SOLVERS                
+      WRIFI    2.1       1 JULY      2011      AT THE COMPLETION OF A TOUGH2 RUN, WRITE PRIMARY VARIABLES ON FILE *SAVE*; SAVE HIS
+                                                                                                                                  
+      OUT      1.01      2 September 1999      PRINT RESULTS FOR ELEMENTS, CONNECTIONS, AND SINKS/SOURCES                         
+
+
+ ***********************************************************************************************************************************
+
+
+ END OF TOUGH2 SIMULATION --- ELAPSED TIME =    0.031 SEC --- CALCULATION TIME =    0.031 SEC --- DATA INPUT TIME =    0.000 SEC
+

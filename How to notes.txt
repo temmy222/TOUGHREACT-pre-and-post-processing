@@ -1,0 +1,11 @@
+accessing history files
+mf = lst.history([('e',dat.grid.blocklist[0].name,'T')])
+
+e stands for element, other options are g for generation, c for connection (check manual)
+dat.grid.blocklist[0].name  stands for block name
+T stands for variable name
+
+time = mf[0]
+temperature = mf[1]
+plt.semilogx(time, temperature, 'o-')
+plt.grid()
