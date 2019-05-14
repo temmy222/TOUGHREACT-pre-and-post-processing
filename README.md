@@ -6,7 +6,7 @@ TOUGHREACT-Pre-and-Post-Processing is an attempt by the author to provide a few 
 simulations. The code is inteded for users conversant with PYTHON and PYTOUGH
 
 # Installing TOUGHREACT-Pre-and-Post-Processing
-This code at present requires no installations Users can clone or download the codes and manipulate as they wish. The code is under development
+This code at present requires no installations. Users can clone or download the codes and manipulate as they wish. The code is under development
 and therefore collaborations are welcome
 
 # More information:
@@ -18,6 +18,6 @@ For more detailed information on TOUGHREACT-Pre-and-Post-Processing, contact me 
 # Where's the user guide?
 
 
-No specific user guide has been provided. All classes are properly annotated. The code is inteded for users conversant with PYTHON and PYTOUGH and 
+No specific user guide has been provided. All classes are properly annotated. The code is intended for users conversant with PYTHON and PYTOUGH and 
 therefore any collaborations to improve it further are welcome
 
