@@ -18,6 +18,6 @@ For more detailed information on TOUGHREACT-Pre-and-Post-Processing, contact me 
 # Where's the user guide?
 
 
-No specific user guide has been provided. All classes are properly annotated. The code is intended for users conversant with PYTHON and PYTOUGH and 
-therefore any collaborations to improve it further are welcome
+No specific user guide has been provided. All classes and methods are properly annotated. The code is intended for users conversant with PYTHON and PYTOUGH and 
+therefore any collaborations to improve it further is welcome
 
