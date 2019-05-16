@@ -25,6 +25,8 @@ from mpl_toolkits.mplot3d import Axes3D
 from scipy import interpolate
 from scipy.interpolate import griddata
 from prepfortoughreact import *
+from flowreactionplotroutine import *
+from batchreactionplotroutine import *
 
 """
 flow input files with mulgrid as a template to facilitate writing to pvd for viewing with paraview
@@ -173,8 +175,38 @@ Graph Plotting
 with open('test.txt') as f:
     br3 = f.read().splitlines()
 
-tre = toughreact_tecplot('kdd_concvtk.tec',br3)
+#tre = toughreact_tecplot('kdd_concvtk.tec',br3)
 
+gridblock = br3[1]
+
+width = 10
+height = 4
+
+parameters = ['pH','t_cl-','t_na+']
+plotconc = flowreactionplotroutine(myList[0],br3,parameters)
+plotconcbatch = batchreactionplotroutine(myList[0],br3,parameters)
+
+
+param2 = ['calcite','csh(1.6)','portlandite']
+plotmin = flowreactionplotroutine(myList[2],br3,param2)
+
+plotconc.threeinone(width,height,br3)
+plotconcbatch.threeinone(width,height,gridblock)
+
+
+
+
+
+
+
+
+
+
+
+"""
+---------------------------------------------
+Former Plotting Routine
+------------------------------------------------
 #lst = t2listing('horiz1D.listing')
 tre.last()
 pH = tre.element['pH']
@@ -219,3 +251,4 @@ ax1.grid()
 ax1.set_ylabel('pH')
 ax1.set_xlabel('Time (seconds)')
 plt.tight_layout()
+"""

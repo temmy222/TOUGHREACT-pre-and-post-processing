@@ -21,7 +21,8 @@ from batchreactionplotroutine import *
 read data
 """
 
-path = r"C:\Users\tajayi3\Desktop\Research\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\Gulf of Mexico Batch Reactions"
+path = r"C:\Users\tajayi3\Desktop\Research\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\Gulf of Mexico Batch Reactions - Different Brine"
+path2 = r"C:\Users\tajayi3\Desktop\Research\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\Gulf of Mexico Batch Reactions - Nonisothermal"
 dest = r"C:\Users\tajayi3\Desktop\Research\Software\PyTOUGH-master"
 file_name = "kdd_conc.tec"
 file_name2 = "MESH"
@@ -46,10 +47,18 @@ width = 10
 height = 4
 parameters = ['pH','t_ca+2','t_na+']
 param2 = ['calcite','csh(1.6)','portlandite']
+parameterlong = ['pH','t_ca+2','t_na+','P(bar)','t_h2o','t_fe+2']
+paramlong2 = ['calcite','csh(1.6)','portlandite','ettringite','katoitesi1','c3fh6']
+
 plotconc = batchreactionplotroutine(myList[0],br3,parameters)
 plotmin = batchreactionplotroutine(myList[2],br3,param2)
+plotconclong = batchreactionplotroutine(myList[0],br3,parameterlong)
+plotminlong = batchreactionplotroutine(myList[2],br3,paramlong2)
+
 plotconc.threeinone(width,height,gridblock)
 plotmin.threeinone(width,height,gridblock)
+plotconclong.sixinone(width,height,gridblock)
+plotminlong.sixinone(width,height,gridblock)
 
 
 
@@ -114,7 +123,3 @@ pH= mf[1]
 #ax3.set_xlabel('Time (seconds)')
 #ax3.legend(loc="upper right")
 #plt.legend(['Permeabiliy of 6D'], loc='upper left')
-plt.tight_layout()
-
-fig.savefig('concplots.png',bbox_inches='tight') 
-fig.savefig('concplots.pdf')

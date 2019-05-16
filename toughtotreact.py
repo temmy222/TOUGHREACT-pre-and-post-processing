@@ -10,12 +10,25 @@ import shutil
 
 class toughtotoughreact(object):
     def __init__  (self,location,destination,filename):
+        
+        """
+        An instance of this class takes in three parameters;
+        
+        location --> the current direction where the simulations have been carried out
+        destination ---> the directory containing PYTOUGH and its class which would be needed for 
+        manipulations
+        filenames -> the flow.inp file which is to be converted into TOUGHREACT
+        """
         self.location = location
         self.destination = destination
         self.filename = filename
         
     def converttotreact(self):
 #        word = 'START'
+        """
+        This method converts the TOUGH2 flow.inp file into its equivalent for TOUGHREACT
+        
+        """
         with open(self.filename, "r") as f1:
             contents = f1.readlines()
         f1.close()
@@ -38,6 +51,11 @@ class toughtotoughreact(object):
                 return os.path.join(root, namer)
             
     def copyfile(self,filename):
+        """
+        This method copies single file from the location to the destination folder. it takes in a a single argument
+        
+        filename -> the name of the file to be transferred
+        """
         #copy specific file
         src_files = os.listdir(self.location)
         for file_name in src_files:

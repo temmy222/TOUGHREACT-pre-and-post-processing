@@ -7,6 +7,9 @@ Created on Tue May 14 16:49:02 2019
 import matplotlib
 import matplotlib.pyplot as plt
 from t2listing import * 
+import os
+import pandas as pd
+
 
 class batchreactionplotroutine(object):
     """
@@ -91,3 +94,101 @@ class batchreactionplotroutine(object):
             axs[number].set_xlabel('Time (seconds)')
             plt.tight_layout()
         fig.savefig(item +'.png',bbox_inches='tight')
+            
+    def extractdata(self,fileloc,width,height,grid):
+        i = 0
+        df = pd.DataFrame()
+        if not isinstance(fileloc, list): 
+            print ('Input must be list of file directories containing the location of results')            
+        for item in fileloc:
+            try:
+                os.chdir(item)
+            except OSError:
+                print("Can't change the Current Working Directory") 
+            tre = toughreact_tecplot(self.filename,self.gridblock)
+            tre.last()
+            a = self.parameters
+            params = self.convertlisttodict(a)
+            for itema, number in params.items():
+                mf = tre.history([(grid,itema)])
+                time = mf[0]
+                data= mf[1]
+                df.insert(i,"time",time,True)
+                i = i+1
+                df.insert(i,itema , data, True) 
+                i = i +1
+        return df
+    
+    def plotdifferenttwo(self,fileloc,width,height,grid,labels):
+        if not isinstance(labels, list): 
+            print ('Label must be a list')        
+        masa = self.extractdata(fileloc,width,height,grid)
+        fig = plt.figure(figsize=(width,height))
+        i = 0; j = 1; k = 6; l=7
+        for number in range(1,4):
+            ax = fig.add_subplot(1,3,number)
+            try:
+                ax.plot(masa.iloc[:, i],masa.iloc[:, j], 'r--',label=labels[0])
+                ax.plot(masa.iloc[:, k],masa.iloc[:, l], 'b--',label=labels[1])
+            except IndexError:
+                print('Please enter a list of labels')
+            ax.grid()
+            ax.set_xlabel(masa.columns[i],fontsize=16)
+            ax.set_ylabel(masa.columns[j],fontsize=16)
+            legend = ax.legend(loc='upper right')
+            i = i+2;j=j+2;k=k+2;l=l+2
+            plt.tight_layout()
+        fig.savefig(labels[0] +'.png',bbox_inches='tight')
+            
+    def plotdifferentthree(self,fileloc,width,height,grid,labels):
+        if not isinstance(labels, list): 
+            print ('Label must be a list')  
+        masa = self.extractdata(fileloc,width,height,grid)
+        fig = plt.figure(figsize=(width,height))
+        i = 0; j = 1; k = 6; l=7;m=12;n=13
+        for number in range(1,4):
+            ax = fig.add_subplot(1,3,number)
+            try:
+                ax.plot(masa.iloc[:, i],masa.iloc[:, j], 'r--',label=labels[0])
+                ax.plot(masa.iloc[:, k],masa.iloc[:, l], 'b--',label=labels[1])
+                ax.plot(masa.iloc[:, m],masa.iloc[:, n], 'k--',label=labels[2])
+            except IndexError:
+                print('Please enter a list of labels')
+            ax.grid()
+            ax.set_xlabel(masa.columns[i],fontsize=16)
+            ax.set_ylabel(masa.columns[j],fontsize=16)
+            legend = ax.legend(loc='upper right')
+            i = i+2;j=j+2;k=k+2;l=l+2;m=m+2;n=n+2
+            plt.tight_layout()
+        fig.savefig(labels[0] +'.png',bbox_inches='tight')
+
+    def plotdifferentfour(self,fileloc,width,height,grid,labels):
+        if not isinstance(labels, list): 
+            print ('Label must be a list')  
+        masa = self.extractdata(fileloc,width,height,grid)
+        fig = plt.figure(figsize=(width,height))
+        i = 0; j = 1; k = 6; l=7;m=12;n=13;o=18;p=19
+        for number in range(1,4):
+            ax = fig.add_subplot(1,3,number)
+            try:
+                ax.plot(masa.iloc[:, i],masa.iloc[:, j], 'r--',label=labels[0])
+                ax.plot(masa.iloc[:, k],masa.iloc[:, l], 'b--',label=labels[1])
+                ax.plot(masa.iloc[:, m],masa.iloc[:, n], 'k--',label=labels[2])
+            except IndexError:
+                print('Please enter a list of labels')
+            ax.plot(masa.iloc[:, o],masa.iloc[:, p], 'm+',label=labels[3])
+            ax.grid()
+            ax.set_xlabel(masa.columns[i],fontsize=16)
+            ax.set_ylabel(masa.columns[j],fontsize=16)
+            legend = ax.legend(loc='upper right')
+            i = i+2;j=j+2;k=k+2;l=l+2;m=m+2;n=n+2;o=o+2;p=p+2
+            plt.tight_layout()
+        fig.savefig(labels[0] +'.png',bbox_inches='tight')
+        
+    def plotdifferent(self,fileloc,width,height,grid,labels):
+        if len(fileloc)==2:
+            self.plotdifferenttwo(fileloc,width,height,grid,labels)
+        elif len(fileloc)==3:
+            self.plotdifferentthree(fileloc,width,height,grid,labels)
+        elif len(fileloc)==4:
+            self.plotdifferentfour(fileloc,width,height,grid,labels)
