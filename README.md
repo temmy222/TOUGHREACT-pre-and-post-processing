@@ -18,8 +18,8 @@ therefore any collaborations to improve it further is welcome
 
 
 
-# Code 
-The code requires the standard Python libraries: Numpy, Scipy, Matplotlib, Pandas. These libraries can be installed via pip or using the Anaconda package
+# Code Requirement
+The codes require the standard Python libraries: Numpy, Scipy, Matplotlib, Pandas. These libraries can be installed via pip or using the Anaconda package
 
 # More information:
 
