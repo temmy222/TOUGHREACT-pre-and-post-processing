@@ -9,11 +9,6 @@ simulations. The code is inteded for users conversant with PYTHON and PYTOUGH
 This code at present requires no installations. Users can clone or download the codes and manipulate as they wish. The code is under development
 and therefore collaborations are welcome
 
-# More information:
-
-
-For more detailed information on TOUGHREACT-Pre-and-Post-Processing, contact me at tajayi3@lsu.edu
-
 
 # Where's the user guide?
 
@@ -21,3 +16,12 @@ For more detailed information on TOUGHREACT-Pre-and-Post-Processing, contact me 
 No specific user guide has been provided. All classes and methods are properly annotated. The code is intended for users conversant with PYTHON and PYTOUGH and 
 therefore any collaborations to improve it further is welcome
 
+
+
+# Code 
+The code requires the standard Python libraries: Numpy, Scipy, Matplotlib, Pandas. These libraries can be installed via pip or using the Anaconda package
+
+# More information:
+
+
+For detailed information on TOUGHREACT-Pre-and-Post-Processing, contact me at tajayi3@lsu.edu
