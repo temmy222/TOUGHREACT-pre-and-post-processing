@@ -65,20 +65,60 @@ class flowreactionplotroutine(object):
             xi,yi = np.meshgrid(X,Y)
             data1 = griddata((X,Y),data,(xi,yi),method='nearest')
             #levels = [-4, -3, -2, -1, 1, 2, 3, 4]
-            cs2 = plt.contourf(xi,yi,data1,10,  cmap='jet')  
+            cs2 = plt.contourf(xi,yi,data1,100,  cmap='jet',extend='both')  
             plt.colorbar()
             plt.xlabel('Distance(m)',fontsize=16)
             plt.ylabel(item,fontsize=16)
             plt.tight_layout()
             
 
-        fig.savefig(item +'.png',bbox_inches='tight') 
+        fig.savefig(item +'.png',bbox_inches='tight',dpi=(600)) 
     
-    def sixinone(self,width,height,grid,color='r--'):
+    def forparaview(self,geo):
+        filenamepara = 'trial.pvd'
+        tre = toughreact_tecplot(self.filename,self.gridblock)
+        tre.write_vtk(geo, filenamepara)
+        
+        
+    def threeinonepitz(self,width,height,grid,color='r--'):
         """
         This method plots three figures in a plot window and saves them with the name of the last item on the
         list
         
+        width -> the width of the subplot
+        height -> the height of the subplot
+        grid -> the name of the block in the TOUGHREACT flow input
+        color -> color is optional but if provided color of plot can be manipulated
+        """
+        fig = plt.figure(figsize=(width,height))
+        tre = toughreact_tecplot(self.filename,self.gridblock)
+        tre.last()
+        a = self.parameters
+        params = self.convertlisttodict(a)
+        for item, number in params.items():
+            ax = fig.add_subplot(1,3,number)
+            data = tre.element[item]
+            X = tre.element['X']
+            Y = tre.element['Y']
+            Z = tre.element['Z']
+            xi,yi = np.meshgrid(X,Y)
+            data1 = griddata((X,Y),data,(xi,yi),method='linear')
+            #levels = [-4, -3, -2, -1, 1, 2, 3, 4]
+            cs2 = plt.contourf(xi,yi,data1,100,  cmap='jet',extend='both') 
+            plt.axis('tight') 
+            plt.colorbar()
+            plt.xlabel('Distance(m)',fontsize=16)
+            plt.ylabel(item,fontsize=16)
+            plt.tight_layout()
+            
+
+        fig.savefig(item +'.png',bbox_inches='tight',dpi=(600))
+    
+    def sixinone(self,width,height,grid,color='r--'):
+        """
+        This method plots six figures in a plot window and saves them with the name of the last item on the
+        list
+        flowr
         width -> the width of the subplot
         height -> the height of the subplot
         grid -> the name of the block in the TOUGHREACT flow input
@@ -108,4 +148,4 @@ class flowreactionplotroutine(object):
             plt.tight_layout()
             
 
-        fig.savefig(item +'.png',bbox_inches='tight') 
+        fig.savefig(item +'.png',bbox_inches='tight',dpi=(600)) 

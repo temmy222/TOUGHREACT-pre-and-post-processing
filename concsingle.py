@@ -21,8 +21,9 @@ from batchreactionplotroutine import *
 read data
 """
 
-path = r"C:\Users\tajayi3\Desktop\Research\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\Gulf of Mexico Batch Reactions - Different Brine"
-path2 = r"C:\Users\tajayi3\Desktop\Research\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\Gulf of Mexico Batch Reactions - Nonisothermal"
+path = r"C:\Users\tajayi3\Desktop\Research\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\Gulf of Mexico Batch Reactions - Onshore Brine - Test"
+path2 = r"C:\Users\tajayi3\Desktop\Research\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\Pitzer\Cement Flow through 2 - pitzer compare"
+path3 = r"C:\Users\tajayi3\Desktop\Research\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\Pitzer\Gulf of Mexico Batch Reactions Offshore Brine"
 dest = r"C:\Users\tajayi3\Desktop\Research\Software\PyTOUGH-master"
 file_name = "kdd_conc.tec"
 file_name2 = "MESH"
@@ -37,44 +38,70 @@ with open('test.txt') as f:
     br3 = f.read().splitlines()
 
 #edit results
-tre = toughreact_tecplot('kdd_conc.tec',br3)
-tremin = toughreact_tecplot('kdd_min.tec',br3)
-tre.last()
-tremin.last()
+#tre = toughreact_tecplot('kdd_conc.tec',br3)
+#tremin = toughreact_tecplot('kdd_min.tec',br3)
+#tre.last()
+#tremin.last()
 
 gridblock = 'A11 1'
 width = 10
 height = 4
-parameters = ['pH','t_ca+2','t_na+']
-param2 = ['calcite','csh(1.6)','portlandite']
-parameterlong = ['pH','t_ca+2','t_na+','P(bar)','t_h2o','t_fe+2']
-paramlong2 = ['calcite','csh(1.6)','portlandite','ettringite','katoitesi1','c3fh6']
-
-plotconc = batchreactionplotroutine(myList[0],br3,parameters)
-plotmin = batchreactionplotroutine(myList[2],br3,param2)
-plotconclong = batchreactionplotroutine(myList[0],br3,parameterlong)
-plotminlong = batchreactionplotroutine(myList[2],br3,paramlong2)
-
-plotconc.threeinone(width,height,gridblock)
-plotmin.threeinone(width,height,gridblock)
-plotconclong.sixinone(width,height,gridblock)
-plotminlong.sixinone(width,height,gridblock)
+parameters = ['pH','t_ca+2','t_hco3-']
+param2 = ['calcite','Porosity','portlandite']
+parameterspitz = ['pH','ca+2','hco3-']
+parampitz = ['calcite','Porosity','portlandite']
+parampitzlong = ['calcite','Porosity','portlandite','exp(phi)','Perm(m^2)','T(C)']
+parameterspitzlong = ['pH','ca+2','mg+2','hco3-','h2o','T(C)']
+parameterlong = ['t_cl-','t_so4-2','t_hco3-','pH','t_h2o','t_fe+2']
+paramsandstone = ['ettringite','portlandite','csh(1.6)']
+paramsandstonelong = ['ettringite','portlandite','csh(1.6)','calcite','c3fh6','hydrotalcite']
+paramlong2 = ['calcite','tobermorite(','hydrotalcite','ettringite','katoitesi1','c3fh6']
 
 
+if tre1.location == path2:
+    plotconc = batchreactionplotroutine(myList[0],br3,parameters)
+    plotmin = batchreactionplotroutine(myList[2],br3,param2)
+    plotconclong = batchreactionplotroutine(myList[0],br3,parameterlong)
+    plotminlong = batchreactionplotroutine(myList[2],br3,paramlong2)
+    plotconc.threeinone(width,height,gridblock)
+    plotmin.threeinone(width,height,gridblock)
+#    plotconclong.sixinone(width,height,gridblock)
+#    plotminlong.sixinone(width,height,gridblock)
+elif tre1.location == path:
+#    plotconc = batchreactionplotroutine(myList[0],br3,parameterspitz)
+    plotconclong = batchreactionplotroutine(myList[0],br3,parameterlong,path)
+    plotminsandstone = batchreactionplotroutine(myList[2],br3,paramsandstone,path)
+    plotminsandstonelong = batchreactionplotroutine(myList[2],br3,paramsandstonelong,path)
+#    plotconc.threeinone(width,height,gridblock)
+    plotminsandstone.threeinone(width,height,gridblock)
+    plotconclong.sixinone(width,height,gridblock)
+    plotminsandstonelong.sixinone(width,height,gridblock)
+elif tre1.location == path3:
+    plotconc = batchreactionplotroutine(myList[0],br3,parameterspitz)
+    plotconclong = batchreactionplotroutine(myList[0],br3,parameterspitzlong)
+    plotminsandstone = batchreactionplotroutine(myList[2],br3,parampitz)
+    plotminsandstonelong = batchreactionplotroutine(myList[2],br3,parampitzlong)
+    plotconc.threeinonepitz(width,height,gridblock)
+    plotminsandstone.threeinonepitz(width,height,gridblock)
+    plotconclong.sixinonepitz(width,height,gridblock)
+    plotminsandstonelong.sixinonepitz(width,height,gridblock)
 
-data1 = tre.element['t_ca+2']
-X = tre.element['X(m)']
-Y = tre.element['Y(m)']
-Z = tre.element['Z(m)']
-X, Y = np.meshgrid(X, Y)
-rblk = [blk[0] for blk in br3]
-data1 = tre.element['t_ca+2']
 
 
-    
-mf = tre.history([('A11 1','pH')])
-time = mf[0]
-pH= mf[1]
+
+#data1 = tre.element['t_ca+2']
+#X = tre.element['X(m)']
+#Y = tre.element['Y(m)']
+#Z = tre.element['Z(m)']
+#X, Y = np.meshgrid(X, Y)
+#rblk = [blk[0] for blk in br3]
+#data1 = tre.element['t_ca+2']
+#
+#
+#    
+#mf = tre.history([('A11 1','pH')])
+#time = mf[0]
+#pH= mf[1]
 
 #mf1 = tre.history([('A11 1','t_ca+2')])
 #time1 = mf1[0]

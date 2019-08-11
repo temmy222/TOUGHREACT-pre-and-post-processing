@@ -4,11 +4,11 @@ Created on Tue May 14 16:49:02 2019
 
 @author: tajayi3
 """
-import matplotlib
 import matplotlib.pyplot as plt
 from t2listing import * 
 import os
 import pandas as pd
+from prepfortoughreact import *
 
 
 class batchreactionplotroutine(object):
@@ -16,7 +16,7 @@ class batchreactionplotroutine(object):
     This class helps in making plots for batch reactions carried out with TOUGHREACT
     
     """
-    def __init__  (self,filename,gridblock,parameters):
+    def __init__  (self,filename,gridblock,parameters,saveloc):
         
         """
         An instance of this class takes in three parameters;
@@ -28,6 +28,7 @@ class batchreactionplotroutine(object):
         self.filename = filename
         self.gridblock = gridblock
         self.parameters = parameters
+        self.saveloc = saveloc
         
     def convertlisttodict(self,parameters):
         
@@ -66,7 +67,36 @@ class batchreactionplotroutine(object):
             axs[number].set_ylabel(item)
             axs[number].set_xlabel('Time (seconds)')
             plt.tight_layout()
-        fig.savefig(item +'.png',bbox_inches='tight') 
+        os.chdir(self.saveloc)   
+        fig.savefig(item +'.jpg',bbox_inches='tight',dpi=(600)) 
+        
+    def threeinonepitz(self,width,height,grid,color='r--'):
+        """
+        This method plots three figures in a plot window and saves them with the name of the last item on the
+        list
+        
+        width -> the width of the subplot
+        height -> the height of the subplot
+        grid -> the name of the block in the TOUGHREACT flow input
+        color -> color is optional but if provided color of plot can be manipulated
+        """
+        fig, axs = plt.subplots(1,3, figsize=(width, height), facecolor='w', edgecolor='k')
+        axs = axs.ravel()
+        tre = toughreact_tecplot(self.filename,self.gridblock)
+        tre.last()
+        a = self.parameters
+        params = self.convertlisttodict(a)
+        for item, number in params.items():
+            mf = tre.history([(grid,item)])
+            time = mf[0]
+            data= mf[1]
+            axs[number].plot(time,data,color, marker='x')
+            axs[number].grid()
+            axs[number].set_ylabel(item)
+            axs[number].set_xlabel('Time (years)')
+            plt.tight_layout()
+        os.chdir(self.saveloc)
+        fig.savefig(item +'.jpg',bbox_inches='tight',dpi=(600))
         
     def sixinone(self,width,height,grid,color='r--'):
         """
@@ -93,9 +123,47 @@ class batchreactionplotroutine(object):
             axs[number].set_ylabel(item)
             axs[number].set_xlabel('Time (seconds)')
             plt.tight_layout()
-        fig.savefig(item +'.png',bbox_inches='tight')
+        os.chdir(self.saveloc)
+        fig.savefig(item +'.jpg',bbox_inches='tight',dpi=(600))
+        
+    def sixinonepitz(self,width,height,grid,color='r--'):
+        """
+        This method plots three figures in a plot window and saves them with the name of the last item on the
+        list
+        
+        width -> the width of the subplot
+        height -> the height of the subplot
+        grid -> the name of the block in the TOUGHREACT flow input
+        color -> color is optional but if provided color of plot can be manipulated
+        """
+        fig, axs = plt.subplots(2,3, figsize=(width, height), facecolor='w', edgecolor='k')
+        axs = axs.ravel()
+        tre = toughreact_tecplot(self.filename,self.gridblock)
+        tre.last()
+        a = self.parameters
+        params = self.convertlisttodict(a)
+        for item, number in params.items():
+            mf = tre.history([(grid,item)])
+            time = mf[0]
+            data= mf[1]
+            axs[number].plot(time,data,color, marker='x')
+            axs[number].grid()
+            axs[number].set_ylabel(item)
+            axs[number].set_xlabel('Time (years)')
+            plt.tight_layout()
+        os.chdir(self.saveloc)
+        fig.savefig(item +'.jpg',bbox_inches='tight',dpi=(600))
             
     def extractdata(self,fileloc,width,height,grid):
+        """
+        This method extracts all data from the different folders and saves them into a pandas dataframe for
+        easy manipulation subsequently
+        
+        fileloc -> list of files containing the locations of the folders to be compared
+        width -> the width of the subplot
+        height -> the height of the subplot
+        grid -> the name of the block in the TOUGHREACT flow input 
+        """
         i = 0
         df = pd.DataFrame()
         if not isinstance(fileloc, list): 
@@ -109,17 +177,29 @@ class batchreactionplotroutine(object):
             tre.last()
             a = self.parameters
             params = self.convertlisttodict(a)
+            print (params)
             for itema, number in params.items():
                 mf = tre.history([(grid,itema)])
                 time = mf[0]
                 data= mf[1]
-                df.insert(i,"time",time,True)
-                i = i+1
-                df.insert(i,itema , data, True) 
-                i = i +1
+                df['Time (seconds)'+str(i)] = pd.Series(time)
+                df[itema + str(i)] = pd.Series(data)
+                i=i+1
+#                df.insert(i,"time",time,True)
+#                i = i+1
+#                df.insert(i,itema , data, True) 
+#                i = i +1
         return df
     
     def plotdifferenttwo(self,fileloc,width,height,grid,labels):
+        """
+        This method assumes data from two folders are to be compared with same grid block length
+        
+        fileloc -> list of files containing the locations of the folders to be compared
+        width -> the width of the subplot
+        height -> the height of the subplot
+        grid -> the name of the block in the TOUGHREACT flow input
+        """
         if not isinstance(labels, list): 
             print ('Label must be a list')        
         masa = self.extractdata(fileloc,width,height,grid)
@@ -133,14 +213,26 @@ class batchreactionplotroutine(object):
             except IndexError:
                 print('Please enter a list of labels')
             ax.grid()
-            ax.set_xlabel(masa.columns[i],fontsize=16)
-            ax.set_ylabel(masa.columns[j],fontsize=16)
-            legend = ax.legend(loc='upper right')
+            tapa = masa.columns[i]
+            tapa2 = masa.columns[j]
+            ax.set_xlabel(tapa[:-1],fontsize=16)
+            ax.set_ylabel(tapa2[:-1],fontsize=16)
+            legend = ax.legend(loc='best')
             i = i+2;j=j+2;k=k+2;l=l+2
             plt.tight_layout()
-        fig.savefig(labels[0] +'.png',bbox_inches='tight')
+        os.chdir(self.saveloc)
+        fig.savefig(labels[0] +'.jpg',bbox_inches='tight',dpi=(600))
             
     def plotdifferentthree(self,fileloc,width,height,grid,labels):
+        
+        """
+        This method assumes data from three folders are to be compared with same grid block length
+        
+        fileloc -> list of files containing the locations of the folders to be compared
+        width -> the width of the subplot
+        height -> the height of the subplot
+        grid -> the name of the block in the TOUGHREACT flow input
+        """
         if not isinstance(labels, list): 
             print ('Label must be a list')  
         masa = self.extractdata(fileloc,width,height,grid)
@@ -155,14 +247,25 @@ class batchreactionplotroutine(object):
             except IndexError:
                 print('Please enter a list of labels')
             ax.grid()
-            ax.set_xlabel(masa.columns[i],fontsize=16)
-            ax.set_ylabel(masa.columns[j],fontsize=16)
-            legend = ax.legend(loc='upper right')
+            tapa = masa.columns[i]
+            tapa2 = masa.columns[j]
+            ax.set_xlabel(tapa[:-1],fontsize=16)
+            ax.set_ylabel(tapa2[:-1],fontsize=16)
+            legend = ax.legend(loc='best')
             i = i+2;j=j+2;k=k+2;l=l+2;m=m+2;n=n+2
             plt.tight_layout()
-        fig.savefig(labels[0] +'.png',bbox_inches='tight')
+        os.chdir(self.saveloc)
+        fig.savefig(labels[0] +'.jpg',bbox_inches='tight',dpi=(600))
 
     def plotdifferentfour(self,fileloc,width,height,grid,labels):
+        """
+        This method assumes data from four folders are to be compared with same grid block length
+        
+        fileloc -> list of files containing the locations of the folders to be compared
+        width -> the width of the subplot
+        height -> the height of the subplot
+        grid -> the name of the block in the TOUGHREACT flow input
+        """
         if not isinstance(labels, list): 
             print ('Label must be a list')  
         masa = self.extractdata(fileloc,width,height,grid)
@@ -174,21 +277,85 @@ class batchreactionplotroutine(object):
                 ax.plot(masa.iloc[:, i],masa.iloc[:, j], 'r--',label=labels[0])
                 ax.plot(masa.iloc[:, k],masa.iloc[:, l], 'b--',label=labels[1])
                 ax.plot(masa.iloc[:, m],masa.iloc[:, n], 'k--',label=labels[2])
+                ax.plot(masa.iloc[:, o],masa.iloc[:, p], 'm+',label=labels[3])
             except IndexError:
-                print('Please enter a list of labels')
-            ax.plot(masa.iloc[:, o],masa.iloc[:, p], 'm+',label=labels[3])
+                print('Please enter a list of labels')        
             ax.grid()
-            ax.set_xlabel(masa.columns[i],fontsize=16)
-            ax.set_ylabel(masa.columns[j],fontsize=16)
-            legend = ax.legend(loc='upper right')
+            tapa = masa.columns[i]
+            tapa2 = masa.columns[j]
+            ax.set_xlabel(tapa[:-1],fontsize=16)
+            ax.set_ylabel(tapa2[:-1],fontsize=16)
+            legend = ax.legend(loc='best',fontsize=6)
             i = i+2;j=j+2;k=k+2;l=l+2;m=m+2;n=n+2;o=o+2;p=p+2
             plt.tight_layout()
-        fig.savefig(labels[0] +'.png',bbox_inches='tight')
+        os.chdir(self.saveloc)
+        fig.savefig(labels[0] +'.jpg',bbox_inches='tight',dpi=(600))
         
     def plotdifferent(self,fileloc,width,height,grid,labels):
+        """
+        This method checks the list of file folders supplied and picks the most appropriate method for the 
+        plotting of different plots on a graph using subplots
+        
+        fileloc -> list of files containing the locations of the folders to be compared
+        width -> the width of the subplot
+        height -> the height of the subplot
+        grid -> the name of the block in the TOUGHREACT flow input
+        """
         if len(fileloc)==2:
             self.plotdifferenttwo(fileloc,width,height,grid,labels)
         elif len(fileloc)==3:
             self.plotdifferentthree(fileloc,width,height,grid,labels)
         elif len(fileloc)==4:
             self.plotdifferentfour(fileloc,width,height,grid,labels)
+            
+    def resultscompare (self,locations,dest,files,gridblocknumber,indexa,prop,labels):
+        color = ['kd-.','','k+--','','ko--','','k>--','','k<:','','kx:','','kd-.']
+        dictionary = {}
+        lst = []
+        lookup = 'CONNE'
+        for i in range(0,len(locations)):
+            timer1 = 'first' + str(i)
+            data1 = 'data' + str(i)
+            lst.append(timer1)
+            lst.append(data1)
+            os.chdir(dest)
+            tre1 = prepfortoughreact(locations[i],dest,files,lookup)
+            tre1.copyallfiles()
+            tre1.writetofile()
+            with open('test.txt') as f:
+                br3 = f.read().splitlines()
+            tre=toughreact_tecplot(files[indexa],br3)
+            tre.last()
+            mf = tre.history([(br3[gridblocknumber],prop)])
+            timerr = mf[0]
+            data= mf[1]
+            for index,character in enumerate(lst): 
+                if character not in dictionary.keys():
+                    dictionary[character] = [] # because same character might be repeated in different positions
+            for index,character in enumerate(lst): 
+                if 'first' in character and len(dictionary[character]) == 0:
+                    dictionary[character].append(timerr)
+                elif 'data' in character and len(dictionary[character]) == 0:
+                    dictionary[character].append(data)
+                
+        for state, capital in dictionary.items():
+            if len(dictionary[state][0]) > 100:
+                dictionary[state][0] = dictionary[state][0][::20]
+
+        value1 = 100000000000000000000000000000000000000000000000
+        for state, capital in dictionary.items():
+            if 'first' in state:
+                manny = dictionary[state][0]
+                value0 = manny[len(manny)-1]
+                if value0 <= value1:
+                    value1 = value0
+        plt.figure()
+        for i in range(0,len(lst),2):
+            plt.plot(dictionary[lst[i]][0],dictionary[lst[i+1]][0],color[i])
+            plt.legend(labels)
+        plt.grid()
+        plt.xlabel('Time (seconds) ')
+        plt.ylabel(prop)
+        
+        os.chdir(self.saveloc)
+        fig.savefig(labels[0] +'.jpg',bbox_inches='tight',dpi=(600))
