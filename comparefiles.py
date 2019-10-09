@@ -7,32 +7,88 @@ Created on Fri May 10 20:34:58 2019
 #from treactcompare import *
 from prepfortoughreact import *
 from batchreactionplotroutine import *
+from multiplotroutine import *
 import matplotlib
 import matplotlib.pyplot as plt
 from t2listing import * 
 import os
 import pandas as pd
 import random
-loca1 = r"C:\Users\tajayi3\Desktop\Research\my TOUGHREACT$TOUGH Simulations\Moving Forward\VTK testing"
-loca2 = r"C:\Users\tajayi3\Desktop\Research\my TOUGHREACT$TOUGH Simulations\Moving Forward\Diffusion Testing"
-loca3 = r"C:\Users\tajayi3\Desktop\Research\my TOUGHREACT$TOUGH Simulations\Moving Forward\Cement Batch Reactions TOUGH Brine - Diffusion"
-loca4 = r"C:\Users\tajayi3\Desktop\Research\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\Gulf of Mexico Sandstone Cement Flow - Onshore - GridTest"
-loca5 = r"C:\Users\tajayi3\Desktop\Research\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\Gulf of Mexico Sandstone Cement Flow - Onshore - GridTest2"
-loca6 = r"C:\Users\tajayi3\Desktop\Research\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\Gulf of Mexico Shale Cement Flow - Onshore"
-loca7 = r"C:\Users\tajayi3\Desktop\Research\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\Geometry Change\Gulf of Mexico Shale Cement Flow - Onshore"
+
+loca1 = r"C:\Users\tajayi3\Desktop\Research\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\For paper\Test Sensitivity\Gulf of Mexico Sandstone Cement Flow - Onshore"
+loca2 = r"C:\Users\tajayi3\Desktop\Research\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\For paper\Test Sensitivity\Gulf of Mexico Sandstone Cement Flow - Onshore - more hco3 in injection brine"
+loca3 = r"C:\Users\tajayi3\Desktop\Research\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\For paper\Test Sensitivity\Gulf of Mexico Sandstone Cement Flow - Onshore - more so4 in injection brine"
+loca4 = r"C:\Users\tajayi3\Desktop\Research\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\For paper\Test Sensitivity\Gulf of Mexico Sandstone Cement Flow - Onshore - more cl"
+loca5 = r"C:\Users\tajayi3\Desktop\Research\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\For paper\Test Sensitivity\Gulf of Mexico Sandstone Cement Flow - Onshore - more jennite"
+loca6 = r"C:\Users\tajayi3\Desktop\Research\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\For paper\Test Sensitivity\Gulf of Mexico Sandstone Cement Flow - Onshore - more mg in injection brine"
+loca7 = r"C:\Users\tajayi3\Desktop\Research\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\For paper\Test Sensitivity\Gulf of Mexico Sandstone Cement Flow - Onshore - more ca - chenage in injection brine"
+loca8 = r"C:\Users\tajayi3\Desktop\Research\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\For paper\Test Sensitivity\Gulf of Mexico Sandstone Cement Flow - Onshore - more cl in injection brine"
+loca9 = r"C:\Users\tajayi3\Desktop\Research\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\Geometry Change\Gulf of Mexico Sandstone Cement Flow - Onshore - longer batch"
+loca10 = r"C:\Users\tajayi3\Desktop\Research\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\Geometry Change\Gulf of Mexico Shale Cement Flow - Onshore - longer batch"
 #loca =[loca1,loca2,loca3]
-loca =[loca4,loca5,loca7]
+loca =[loca1,loca3,loca8,loca6,loca7,loca2]
+#loca = [loca9,loca10]
 dest = r"C:\Users\tajayi3\Desktop\Research\Software\PyTOUGH-master"
 files2 = ["kdd_concdiff.tec", "kdd_gasdiff.tec", "kdd_mindiff.tec", "kdd_timdiff.tec", "MESH"]
 files1 = ["kdd_concvtk.tec", "kdd_gasvtk.tec", "kdd_minvtk.tec", "kdd_timvtk.tec", "MESH"]
 files3 = ["kdd_conc.tec", "kdd_gas.tec", "kdd_min.tec", "kdd_tim.tec", "MESH"]
 lookup = 'CONNE'
-parameters = ['pH','t_ca+2','aH2O']
-param2 = ['Permx(m^2)','Porosity','Permz(m^2)','calcite']
+
+
+parameters = ['pH','t_mg+2','t_hco3-']
+parameters2 = ['t_h+','t_na+','t_cl-']
+parameters3 = ['t_ca+2','t_so4-2','t_h4sio4']
+parameters4 = ['t_al+3','t_fe+2','t_hs-']
+parameters5 = ['P(bar)','T(C)','aH2O']
+
+
+
+param2 = ['brucite','Porosity','friedel_salt']
+param3 = ['dolomite','portlandite','ettringite']
+param4  = ['katoitesi1','c3fh6','hydrotalcite']
+param5 = ['gypsum','sepiolite','monosulfoalu']
+#param2 = ['portlandite','csh(1.6)']
+param6 = ['ettringite','csh(1.6)','calcite']
 rep = 'Porosity'
 
 #plotconclong = batchreactionplotroutine(files3[0],br3,parameters)
-labels =['try1','try2','try3' ,'try4']
+labels =['Base Model','More SO4','More Cl','More Mg','More Ca','More HCO3']
+
+masa2 = multiplotroutine(loca,dest,files3,0,2,param2)
+masa3 = multiplotroutine(loca,dest,files3,0,2,param3)
+masa4 = multiplotroutine(loca,dest,files3,0,2,param4)
+masa5 = multiplotroutine(loca,dest,files3,0,2,param5)
+masa6 = multiplotroutine(loca,dest,files3,0,2,param6)
+
+
+
+masaconc1 = multiplotroutine(loca,dest,files3,0,0,parameters)
+masaconc2 = multiplotroutine(loca,dest,files3,0,0,parameters2)
+masaconc3 = multiplotroutine(loca,dest,files3,0,0,parameters3)
+masaconc4 = multiplotroutine(loca,dest,files3,0,0,parameters4)
+masaconc5 = multiplotroutine(loca,dest,files3,0,0,parameters5)
+
+
+
+
+
+masa2.plotmultimulti(labels,purpose='presentation')
+masa3.plotmultimulti(labels,purpose='presentation')
+masa4.plotmultimulti(labels,purpose='presentation')
+masa5.plotmultimulti(labels,purpose='presentation')
+masa6.plotmultimulti(labels,purpose='presentation')
+
+
+
+masaconc1.plotmultimulti(labels,purpose='presentation')
+masaconc2.plotmultimulti(labels,purpose='presentation')
+masaconc3.plotmultimulti(labels,purpose='presentation')
+masaconc4.plotmultimulti(labels,purpose='presentation')
+masaconc5.plotmultimulti(labels,purpose='presentation')
+
+
+
+#m,n,o = masa.retrievedatamulti(loca,dest,files3,0,0,parameters)
 
 '''
 def batchcompare (locations,dest,files,gridblocknumber,indexa,prop,labels):
@@ -176,7 +232,9 @@ def plotmulti (width,height,prop,linestyle='dashed'):
     matplotlib.style.use('classic')
     
     
-plotmulti(14,7,param2)
+#plotmulti(14,7,param2)
+
+
 #dictionary = {}
 #lst = []
 #color = ['kd-.','','ko--','','ko--','','k>--','','k<:','','kx:','','kd-.','kd-.','','ko--','','ko--','','k>--','','k<:','','kx:','','kd-.']

@@ -28,7 +28,7 @@ from prepfortoughreact import *
 from flowreactionplotroutine import *
 from batchreactionplotroutine import *
 
-dest = r"C:\Users\tajayi3\Desktop\Research\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\Testing\H2S\Gulf of Mexico Sandstone Cement Flow - Offshore"
+dest = r"C:\Users\tajayi3\Desktop\Research\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\For paper\Gulf of Mexico Sandstone Cement Flow - Onshore"
 
 loc = r"C:\Users\tajayi3\Desktop\Research\Software\PyTOUGH-master"
 
@@ -49,18 +49,18 @@ second = 1
 minute = 60 * second
 hour = 60 * minute
 day = 24 * hour
-year = 365 * day
+year = 365. * day
 year = float(year)
 zblock = 5
-xgridspacing = 10
-ygridspacing = 10
-zgridspacing = 10
+xgridspacing = 0.1
+ygridspacing = 0.1
+zgridspacing = 0.1
 dx = [xgridspacing]*xblock
 dy = [ygridspacing]*yblock
 dz = [zgridspacing] *zblock
-simtime = 1 * year
-rock = 'Sandstone'
-level = 'offshore'
+simtime = 100 * year
+rock = 'cement'
+level = 'onshore'
 
 if rock.lower() == 'sandstone':
     k1 = k2 = k3 = 6.51E-15
@@ -75,6 +75,9 @@ if level.lower() == 'offshore':
 elif level.lower() == 'onshore':
     depthz = -3058
     incond = [4.842E+07, 112.]
+elif level.lower() == 'validation':
+    depthz = 0
+    incond = [10E+06, 95.]
 geo = mulgrid().rectangular(dx, dy, dz,origin=[0., 0., depthz])
 geo.write('geom2.dat')
 
@@ -94,17 +97,27 @@ dat.parameter.update(
      'default_incons': incond})
 dat.start = True
 
-dat.grid.rocktype['dfalt'].permeability[:0] = 6.51E-19
-dat.grid.rocktype['dfalt'].permeability[:1] = 6.51E-19
-dat.grid.rocktype['dfalt'].permeability[:2] = 6.51E-19
+dat.grid.rocktype['dfalt'].permeability = [k1,k2,k3]
+
+#dat.grid.rocktype['dfalt'].permeability[:0] = 6.51E-19
+#dat.grid.rocktype['dfalt'].permeability[:1] = 6.51E-19
+#dat.grid.rocktype['dfalt'].permeability[:2] = 6.51E-19
 #dat.grid.rocktype['dfalt'].nad = 1  # if nad is made greater or equal to 1, it can take the second row for rocks
 dat.grid.rocktype['dfalt'].porosity = 0.27
-conductivity = 0.0
-specific_heat = 952.9
-r2 = rocktype('sands',0,2600, 0.27,[k1, k2, k3],conductivity,specific_heat)  # how to add another rocktype
-dat.grid.add_rocktype(r2)
-for blk in dat.grid.blocklist[0:]:
-    if blk.centre[0] >= 7: blk.rocktype = r2  # how to add the rocktype to specific gridblocks in the model
+
+'''
+
+#conductivity = 1.5
+#specific_heat = 952.9
+#r2 = rocktype('sands',0,2600, 0.27,[k1, k2, k3],conductivity,specific_heat)  # how to add another rocktype
+#dat.grid.add_rocktype(r2)
+# how to add the rocktype to specific gridblocks in the model
+
+#for blk in dat.grid.blocklist[0:]:
+#    if blk.centre[0] >= 7: blk.rocktype = r2  
+
+
+'''
 # Set MOPs:
 dat.parameter['option'][1] = 0     # MOP for printouts
 dat.parameter['option'][16] = 4    # MOP for automatic time step control
@@ -133,8 +146,8 @@ dat.grid.blocklist[lastgrid].volume = 10**9
 energy = 5.
 shutintime = 0.25 * year
 shutintime2 = 0.5 * year
-rate = 0.000920081019
-rate2 = -0.000920081019
+rate = 9.20081019e-9
+rate2 = -9.20081019e-9
 totalratetime = 20
 testenthalpy = [energy,0 ,0,0]
 testtime = [0, shutintime,shutintime2,simtime]
@@ -161,7 +174,7 @@ for i in range(0,totalratetime):
 
 if direction == 'x':
     for i in range(0,xblock):
-        if i%5 == 0:
+#        if i%5 == 0:
             gen = t2generator(name = well + str(i), block = dat.grid.blocklist[i].name, type = compo, ltab=totalratetime,itab = 3,time = testtime2, rate = injectionrate, enthalpy = energyrate)
             dat.add_generator(gen)
 #            dat.grid.blocklist[i].volume = 1000000000
@@ -212,6 +225,6 @@ filename = "flow.inp"
 
 tre = toughtotoughreact(loc,dest,filename)
 
-tre.converttotreact(REACT='00021')
+tre.converttotreact()
 
 tre.copyfile(filename)

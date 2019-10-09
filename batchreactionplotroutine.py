@@ -7,7 +7,9 @@ Created on Tue May 14 16:49:02 2019
 import matplotlib.pyplot as plt
 from t2listing import * 
 import os
+import random
 import pandas as pd
+import matplotlib
 from prepfortoughreact import *
 
 
@@ -64,8 +66,8 @@ class batchreactionplotroutine(object):
             data= mf[1]
             axs[number].plot(time,data,color, marker='x')
             axs[number].grid()
-            axs[number].set_ylabel(item)
-            axs[number].set_xlabel('Time (seconds)')
+            axs[number].set_ylabel(item,fontsize=16)
+            axs[number].set_xlabel('Time (secs)',fontsize=16)
             plt.tight_layout()
         os.chdir(self.saveloc)   
         fig.savefig(item +'.jpg',bbox_inches='tight',dpi=(600)) 
@@ -92,8 +94,8 @@ class batchreactionplotroutine(object):
             data= mf[1]
             axs[number].plot(time,data,color, marker='x')
             axs[number].grid()
-            axs[number].set_ylabel(item)
-            axs[number].set_xlabel('Time (years)')
+            axs[number].set_ylabel(item,fontsize=16)
+            axs[number].set_xlabel('Time (years)',fontsize=16)
             plt.tight_layout()
         os.chdir(self.saveloc)
         fig.savefig(item +'.jpg',bbox_inches='tight',dpi=(600))
@@ -120,8 +122,8 @@ class batchreactionplotroutine(object):
             data= mf[1]
             axs[number].plot(time,data,color, marker='x')
             axs[number].grid()
-            axs[number].set_ylabel(item)
-            axs[number].set_xlabel('Time (seconds)')
+            axs[number].set_ylabel(item,fontsize=16)
+            axs[number].set_xlabel('Time (secs)',fontsize=16)
             plt.tight_layout()
         os.chdir(self.saveloc)
         fig.savefig(item +'.jpg',bbox_inches='tight',dpi=(600))
@@ -300,6 +302,8 @@ class batchreactionplotroutine(object):
         width -> the width of the subplot
         height -> the height of the subplot
         grid -> the name of the block in the TOUGHREACT flow input
+        
+        example file in multipleplots.py
         """
         if len(fileloc)==2:
             self.plotdifferenttwo(fileloc,width,height,grid,labels)
@@ -308,54 +312,5 @@ class batchreactionplotroutine(object):
         elif len(fileloc)==4:
             self.plotdifferentfour(fileloc,width,height,grid,labels)
             
-    def resultscompare (self,locations,dest,files,gridblocknumber,indexa,prop,labels):
-        color = ['kd-.','','k+--','','ko--','','k>--','','k<:','','kx:','','kd-.']
-        dictionary = {}
-        lst = []
-        lookup = 'CONNE'
-        for i in range(0,len(locations)):
-            timer1 = 'first' + str(i)
-            data1 = 'data' + str(i)
-            lst.append(timer1)
-            lst.append(data1)
-            os.chdir(dest)
-            tre1 = prepfortoughreact(locations[i],dest,files,lookup)
-            tre1.copyallfiles()
-            tre1.writetofile()
-            with open('test.txt') as f:
-                br3 = f.read().splitlines()
-            tre=toughreact_tecplot(files[indexa],br3)
-            tre.last()
-            mf = tre.history([(br3[gridblocknumber],prop)])
-            timerr = mf[0]
-            data= mf[1]
-            for index,character in enumerate(lst): 
-                if character not in dictionary.keys():
-                    dictionary[character] = [] # because same character might be repeated in different positions
-            for index,character in enumerate(lst): 
-                if 'first' in character and len(dictionary[character]) == 0:
-                    dictionary[character].append(timerr)
-                elif 'data' in character and len(dictionary[character]) == 0:
-                    dictionary[character].append(data)
-                
-        for state, capital in dictionary.items():
-            if len(dictionary[state][0]) > 100:
-                dictionary[state][0] = dictionary[state][0][::20]
 
-        value1 = 100000000000000000000000000000000000000000000000
-        for state, capital in dictionary.items():
-            if 'first' in state:
-                manny = dictionary[state][0]
-                value0 = manny[len(manny)-1]
-                if value0 <= value1:
-                    value1 = value0
-        plt.figure()
-        for i in range(0,len(lst),2):
-            plt.plot(dictionary[lst[i]][0],dictionary[lst[i+1]][0],color[i])
-            plt.legend(labels)
-        plt.grid()
-        plt.xlabel('Time (seconds) ')
-        plt.ylabel(prop)
         
-        os.chdir(self.saveloc)
-        fig.savefig(labels[0] +'.jpg',bbox_inches='tight',dpi=(600))

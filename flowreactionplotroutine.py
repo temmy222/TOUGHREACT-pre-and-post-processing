@@ -8,15 +8,17 @@ import matplotlib
 import matplotlib.pyplot as plt
 from t2listing import *
 import numpy as np
+import os
 from scipy import interpolate
 from scipy.interpolate import griddata
+import random
 
 class flowreactionplotroutine(object):
     """
     This class helps in making plots for batch reactions carried out with TOUGHREACT
     
     """
-    def __init__  (self,filename,gridblock,parameters):
+    def __init__  (self,filename,gridblock,parameters,saveloc):
         
         """
         An instance of this class takes in three parameters;
@@ -28,6 +30,7 @@ class flowreactionplotroutine(object):
         self.filename = filename
         self.gridblock = gridblock
         self.parameters = parameters
+        self.saveloc = saveloc
         
     def convertlisttodict(self,parameters):
         
@@ -71,9 +74,60 @@ class flowreactionplotroutine(object):
             plt.ylabel(item,fontsize=16)
             plt.tight_layout()
             
-
+        os.chdir(self.saveloc) 
         fig.savefig(item +'.png',bbox_inches='tight',dpi=(600)) 
     
+    def retrievedatadistance(self,direction,blocknumber):
+        lst = self.parameters.copy()
+        tre = toughreact_tecplot(self.filename,self.gridblock)
+        tre.last()
+        X = tre.element['X(m)']
+        Y = tre.element['Y(m)']
+        Z = tre.element['Z(m)']
+        lst.insert(0, 'X(m)')
+        if direction.lower() == 'x':
+            dictionary = {}
+            for index,character in enumerate(lst): 
+                if character not in dictionary.keys():
+                    dictionary[character] = []
+            for i in range(0,len(lst)):
+                X = tre.element[lst[i]][:blocknumber]
+                dictionary[lst[i]].append(X)
+                
+            
+        elif direction.lower() == 'y':
+            Y = Y[:blocknumber]
+        elif direction.lower() == 'z':
+            Z = Z[:blocknumber]
+        
+        return dictionary, lst
+
+    def colorcoding(self,style):
+        markers = ["-o","-v","-^","-<","->","-1","-2","-3","-4","-8","-s","-p","-P","-*","-h","-H","-+","-x","-X","-D","-d","-|","-_"]
+        if style.lower()=='publication':
+            colormarker = 'k' + markers[random.randint(0,(len(markers)-1))]
+        elif style.lower()=='presentation':
+            colormarker = 'r' + markers[random.randint(0,(len(markers)-1))]
+        return colormarker
+            
+    def plotsingle(self,direction,blocknumber,width=8,height=8,linestyle='dashed',purpose='presentation'):
+        matplotlib.rc('xtick', labelsize=14) 
+        matplotlib.rc('ytick', labelsize=14)
+        dictionary,lst = self.retrievedatadistance(direction,blocknumber)
+        fig = plt.figure(figsize=(width,height))
+        colorcode = self.colorcoding(purpose)
+        for i in range(0,len(lst)-1):
+            colorcode = self.colorcoding(purpose)
+            mana = dictionary[lst[0]]
+            mana2 = dictionary[lst[i+1]]
+            plt.plot(mana[0],mana2[0],colorcode,linestyle=linestyle)
+            plt.legend(lst[1:len(lst)-1], prop={'size': 16})
+        plt.grid()
+        plt.xlabel('Distance (meters) ',fontsize=14,fontweight='bold')
+        plt.ylabel('property',fontsize=14,fontweight='bold')
+        os.chdir(self.saveloc) 
+        fig.savefig(lst[i]+'.png',bbox_inches='tight',dpi=(600))
+        
     def forparaview(self,geo):
         filenamepara = 'trial.pvd'
         tre = toughreact_tecplot(self.filename,self.gridblock)
@@ -111,6 +165,7 @@ class flowreactionplotroutine(object):
             plt.ylabel(item,fontsize=16)
             plt.tight_layout()
             
+        os.chdir(self.saveloc) 
 
         fig.savefig(item +'.png',bbox_inches='tight',dpi=(600))
     
@@ -147,5 +202,6 @@ class flowreactionplotroutine(object):
             plt.ylabel(item,fontsize=16)
             plt.tight_layout()
             
+        os.chdir(self.saveloc) 
 
         fig.savefig(item +'.png',bbox_inches='tight',dpi=(600)) 
