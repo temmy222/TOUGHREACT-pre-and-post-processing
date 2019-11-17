@@ -15,18 +15,24 @@ import os
 import pandas as pd
 import random
 
-loca1 = r"C:\Users\tajayi3\Desktop\Research\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\For paper\Test Sensitivity\Gulf of Mexico Sandstone Cement Flow - Onshore"
-loca2 = r"C:\Users\tajayi3\Desktop\Research\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\For paper\Test Sensitivity\Gulf of Mexico Sandstone Cement Flow - Onshore - more hco3 in injection brine"
-loca3 = r"C:\Users\tajayi3\Desktop\Research\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\For paper\Test Sensitivity\Gulf of Mexico Sandstone Cement Flow - Onshore - more so4 in injection brine"
-loca4 = r"C:\Users\tajayi3\Desktop\Research\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\For paper\Test Sensitivity\Gulf of Mexico Sandstone Cement Flow - Onshore - more cl"
-loca5 = r"C:\Users\tajayi3\Desktop\Research\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\For paper\Test Sensitivity\Gulf of Mexico Sandstone Cement Flow - Onshore - more jennite"
-loca6 = r"C:\Users\tajayi3\Desktop\Research\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\For paper\Test Sensitivity\Gulf of Mexico Sandstone Cement Flow - Onshore - more mg in injection brine"
-loca7 = r"C:\Users\tajayi3\Desktop\Research\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\For paper\Test Sensitivity\Gulf of Mexico Sandstone Cement Flow - Onshore - more ca - chenage in injection brine"
-loca8 = r"C:\Users\tajayi3\Desktop\Research\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\For paper\Test Sensitivity\Gulf of Mexico Sandstone Cement Flow - Onshore - more cl in injection brine"
-loca9 = r"C:\Users\tajayi3\Desktop\Research\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\Geometry Change\Gulf of Mexico Sandstone Cement Flow - Onshore - longer batch"
-loca10 = r"C:\Users\tajayi3\Desktop\Research\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\Geometry Change\Gulf of Mexico Shale Cement Flow - Onshore - longer batch"
-#loca =[loca1,loca2,loca3]
-loca =[loca1,loca3,loca8,loca6,loca7,loca2]
+loca1 = r"C:\Users\tajayi3\Desktop\Research\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\For paper\Gulf of Mexico Batch Reactions - Offshore Brine"
+loca2 = r"C:\Users\tajayi3\Desktop\Research\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\For paper\Gulf of Mexico Batch Reactions - Onshore Brine"
+loca3 = r"C:\Users\tajayi3\Desktop\Research\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\For paper\Gulf of Mexico Batch Reactions - Na-acetate brine"
+loca4 = r"C:\Users\tajayi3\Desktop\Research\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\For paper\Gulf of Mexico Batch Reactions - NaCl Brine"
+
+loca5 = r"C:\Users\tajayi3\Desktop\Research\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\For paper\Gulf of Mexico Sandstone Batch Reactions - Offshore Brine"
+loca6 = r"C:\Users\tajayi3\Desktop\Research\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\For paper\Gulf of Mexico Sandstone Batch Reactions - Onshore Brine"
+loca7 = r"C:\Users\tajayi3\Desktop\Research\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\For paper\Gulf of Mexico Sandstone Batch Reactions - Na-acetate brine"
+loca8 = r"C:\Users\tajayi3\Desktop\Research\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\For paper\Gulf of Mexico Sandstone Batch Reactions - NaCl Brine"
+
+loca19=r"C:\Users\tajayi3\Desktop\Research\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\For paper\GOM Cement flow with batch\Gulf of Mexico Cement Flow - Ca injected sand equil brine Offshore"
+loca20=r"C:\Users\tajayi3\Desktop\Research\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\For paper\GOM Cement flow with batch\Gulf of Mexico Cement Flow - Ca injected sand equil brine Onshore"
+loca21=r"C:\Users\tajayi3\Desktop\Research\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\For paper\GOM Cement flow with batch\Gulf of Mexico Cement Flow - Na acetate sand equil injected Onshore"
+loca22 = r"C:\Users\tajayi3\Desktop\Research\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\For paper\GOM Cement flow with batch\Gulf of Mexico Cement Flow - NaCl sand equil brine injected Onshore"
+
+#loca =[loca1,loca2,loca3,loca4]
+loca =[loca19,loca20,loca21,loca22]
+#loca = [loca5,loca6,loca7,loca8]
 #loca = [loca9,loca10]
 dest = r"C:\Users\tajayi3\Desktop\Research\Software\PyTOUGH-master"
 files2 = ["kdd_concdiff.tec", "kdd_gasdiff.tec", "kdd_mindiff.tec", "kdd_timdiff.tec", "MESH"]
@@ -47,12 +53,16 @@ param2 = ['brucite','Porosity','friedel_salt']
 param3 = ['dolomite','portlandite','ettringite']
 param4  = ['katoitesi1','c3fh6','hydrotalcite']
 param5 = ['gypsum','sepiolite','monosulfoalu']
-#param2 = ['portlandite','csh(1.6)']
-param6 = ['ettringite','csh(1.6)','calcite']
+param6 = ['ettringite','tobermorite(','calcite']
 rep = 'Porosity'
 
+#param2 = ['quartz(alpha','microcline','albite(low)']
+#param3 = ['halite','kaolinite','illite(mg)']
+#param4  = ['montmorillon','muscovite(or','chlorite(cca']
+#param5 = ['dolomite','hematite']
+
 #plotconclong = batchreactionplotroutine(files3[0],br3,parameters)
-labels =['Base Model','More SO4','More Cl','More Mg','More Ca','More HCO3']
+labels =['Ca offshore rich','Ca onshore rich','Na acetate','NaCl brine','More Mg','More Ca','More HCO3']
 
 masa2 = multiplotroutine(loca,dest,files3,0,2,param2)
 masa3 = multiplotroutine(loca,dest,files3,0,2,param3)
@@ -87,8 +97,8 @@ masaconc4.plotmultimulti(labels,purpose='presentation')
 masaconc5.plotmultimulti(labels,purpose='presentation')
 
 
-
-#m,n,o = masa.retrievedatamulti(loca,dest,files3,0,0,parameters)
+#m,n,value1 = retrievedata(loca,dest,files3,2,2,param2)
+m,n,o = masa2.retrievedatamulti(loca,dest,files3,0,0,parameters)
 
 '''
 def batchcompare (locations,dest,files,gridblocknumber,indexa,prop,labels):
@@ -205,7 +215,7 @@ def colorcoding(style):
         colormarker = 'r' + markers[random.randint(0,(len(markers)-1))]
     return colormarker
     
-m,n,value1 = retrievedata(loca,dest,files3,2,2,param2)
+
     
     
 def plotmulti (width,height,prop,linestyle='dashed'):

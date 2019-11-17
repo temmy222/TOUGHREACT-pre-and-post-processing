@@ -88,11 +88,16 @@ class multiplotroutine(object):
                         dictionary[character].append(data)
             # truncate large dataset
         for state, capital in dictionary.items():
-            if len(dictionary[state][0]) > 100:
+            if len(dictionary[state][0]) > 100 and len(dictionary[state][0]) < 500 :
                 dictionary[state][0] = dictionary[state][0][::20]
-        for state, capital in dictionary.items():
-            if len(dictionary[state][0]) > 500:
-                dictionary[state][0] = dictionary[state][0][::100]
+            elif len(dictionary[state][0]) > 500 and len(dictionary[state][0]) < 2000:
+                dictionary[state][0] = dictionary[state][0][::10]
+            elif len(dictionary[state][0]) > 2000 and len(dictionary[state][0]) < 10000:
+                dictionary[state][0] = dictionary[state][0][::500]
+            elif len(dictionary[state][0]) > 10000 and len(dictionary[state][0]) < 100000:
+                dictionary[state][0] = dictionary[state][0][::5000]
+            elif len(dictionary[state][0]) > 100000:
+                dictionary[state][0] = dictionary[state][0][::10000]                
         # pick minimum time for analysis                    
         for state, capital in dictionary.items():
             if 'first' in state:
@@ -230,7 +235,7 @@ class multiplotroutine(object):
                     label=labels[j]
                 except IndexError:
                     print('List provided not same with number of file')                    
-                ax.plot(dictionary[lst[i]][0],dictionary[lst[i+1]][0],colorcode[k],linestyle=linestyle,label=labels[j],linewidth=3,markersize=8)
+                ax.plot(dictionary[lst[i]][0],dictionary[lst[i+1]][0],colorcode[k],label=labels[j],linewidth=3,markersize=8)
                 ax.set_xlim((0,value1))
 #                ax.set_ylim((min(dictionary[lst[i]][0]),max(dictionary[lst[i+1]][0])))
                 j=j+1
