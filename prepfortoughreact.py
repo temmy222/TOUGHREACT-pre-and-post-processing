@@ -66,7 +66,7 @@ class prepfortoughreact(object):
         for i in range(0,len(self.filenames)):
             a = self.filenames[i]
             self.copyfile(a)
-            print ('...copying files...')
+        print ('...copying files...')
         
     def findword(self):
         
@@ -87,6 +87,11 @@ class prepfortoughreact(object):
         """
         This method slices off all parameters below the word stated in the instance of the class
         """
+#        os.remove("test2.txt")
+        os.chdir(self.destination)
+        f = open('test2.txt', 'r+')
+        f.truncate(0)
+        os.remove("test.txt")
         point1 = self.findword()
         with open("test2.txt", "w") as f1:
             with open(self.file2, "r") as text_file:
@@ -117,7 +122,7 @@ class prepfortoughreact(object):
                 
     def writetofile(self):
         """
-        This method writes all gridblocks to a separate file called 'text.txt' for easy location and onward
+        This method writes all gridblocks to a separate file called 'test.txt' for easy location and onward
         manipulations
         """
         mesh = self.sliceoffline()

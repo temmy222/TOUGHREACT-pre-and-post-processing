@@ -28,6 +28,18 @@ from prepfortoughreact import *
 from flowreactionplotroutine import *
 from batchreactionplotroutine import *
 
+dest = r"C:\Users\tajayi3\Desktop\Research\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\All kinetic\Gulf of Mexico flow Reactions - Onshore Brine"
+
+loc = r"C:\Users\tajayi3\Desktop\Research\Software\PyTOUGH-master"
+
+try:
+    # Change the current working Directory    
+    os.chdir(dest)
+    print("... Directory changed ...")
+    print("... Running simulation ... ")
+except OSError:
+    print("Can't change the Current Working Directory") 
+    
 """
 flow input files with mulgrid as a template to facilitate writing to pvd for viewing with paraview
 """
@@ -47,7 +59,7 @@ dat = t2data()
 dat.title = 'Hydrostatic 3D example'
 dat.grid = t2grid().fromgeo(geo)
 dat.parameter.update(
-    {'max_timesteps': 2999,
+    {'max_timesteps': 4999,
      'tstop': 8640000,
      'const_timestep': 1,
      'print_interval': 20,
@@ -158,12 +170,13 @@ print ('...simulation complete...')
 """
 copy files back to PYTOUGH folder for result treatments
 """
-path = r"C:\Users\tajayi3\Desktop\Research\my TOUGHREACT$TOUGH Simulations\Moving Forward\VTK testing"
+path = r"C:\Users\tajayi3\Desktop\Research\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\All kinetic\Gulf of Mexico flow Reactions - Onshore Brine"
 dest = r"C:\Users\tajayi3\Desktop\Research\Software\PyTOUGH-master"
+
 file_name = "kdd_conc.tec"
 file_name2 = "MESH"
 lookup = 'CONNE'
-myList = ["kdd_concvtk.tec", "kdd_gasvtk.tec", "kdd_minvtk.tec", "kdd_timvtk.tec", "MESH"]
+myList = ["kdd_conc.tec", "kdd_gas.tec", "kdd_min.tec", "kdd_tim.tec", "MESH"]
 tre1 = prepfortoughreact(path,dest,myList,lookup)
 tre1.copyallfiles()
 tre1.writetofile()
@@ -177,7 +190,7 @@ with open('test.txt') as f:
 
 #tre = toughreact_tecplot('kdd_concvtk.tec',br3)
 
-gridblock = br3[1]
+gridblock = br3[0]
 
 width = 10
 height = 4
@@ -189,9 +202,13 @@ plotconcbatch = batchreactionplotroutine(myList[0],br3,parameters)
 
 param2 = ['calcite','csh(1.6)','portlandite']
 plotmin = flowreactionplotroutine(myList[2],br3,param2)
+plotminbatch = batchreactionplotroutine(myList[2],br3,param2)
+
 
 plotconc.threeinone(width,height,br3)
 plotconcbatch.threeinone(width,height,gridblock)
+plotconcbatch.threeinone(width,height,gridblock)
+plotminbatch.threeinone(width,height,gridblock)
 
 
 

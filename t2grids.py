@@ -376,7 +376,7 @@ class t2grid(object):
                 name = geo.block_name(lay.name, col.name, blockmap)
                 centre = geo.block_centre(lay, col)
                 self.add_block(t2block(name, geo.block_volume(lay, col),
-                                       self.rocktypelist[0], centre = centre))
+                                       self.rocktypelist[0], centre = centre)) 
 
     def add_connections(self, geo, blockmap = {}):
         """Add connections from geometry"""

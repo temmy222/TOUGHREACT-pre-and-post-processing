@@ -29,11 +29,13 @@ loca19=r"C:\Users\tajayi3\Desktop\Research\my TOUGHREACT$TOUGH Simulations\Movin
 loca20=r"C:\Users\tajayi3\Desktop\Research\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\For paper\GOM Cement flow with batch\Gulf of Mexico Cement Flow - Ca injected sand equil brine Onshore"
 loca21=r"C:\Users\tajayi3\Desktop\Research\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\For paper\GOM Cement flow with batch\Gulf of Mexico Cement Flow - Na acetate sand equil injected Onshore"
 loca22 = r"C:\Users\tajayi3\Desktop\Research\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\For paper\GOM Cement flow with batch\Gulf of Mexico Cement Flow - NaCl sand equil brine injected Onshore"
+loca23 = r"C:\Users\tajayi3\Desktop\Research\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\For paper\GOM Cement flow with batch\Gulf of Mexico Cement Flow - NaCl sand equil brine injected Onshore - same cond"
+
 
 #loca =[loca1,loca2,loca3,loca4]
-loca =[loca19,loca20,loca21,loca22]
+loca =[loca19,loca20,loca21,loca22,loca23]
 #loca = [loca5,loca6,loca7,loca8]
-#loca = [loca9,loca10]
+#loca = [loca22,loca23]
 dest = r"C:\Users\tajayi3\Desktop\Research\Software\PyTOUGH-master"
 files2 = ["kdd_concdiff.tec", "kdd_gasdiff.tec", "kdd_mindiff.tec", "kdd_timdiff.tec", "MESH"]
 files1 = ["kdd_concvtk.tec", "kdd_gasvtk.tec", "kdd_minvtk.tec", "kdd_timvtk.tec", "MESH"]
@@ -53,7 +55,7 @@ param2 = ['brucite','Porosity','friedel_salt']
 param3 = ['dolomite','portlandite','ettringite']
 param4  = ['katoitesi1','c3fh6','hydrotalcite']
 param5 = ['gypsum','sepiolite','monosulfoalu']
-param6 = ['ettringite','tobermorite(','calcite']
+param6 = ['chalcedony','tobermorite(','calcite']
 rep = 'Porosity'
 
 #param2 = ['quartz(alpha','microcline','albite(low)']
@@ -62,7 +64,7 @@ rep = 'Porosity'
 #param5 = ['dolomite','hematite']
 
 #plotconclong = batchreactionplotroutine(files3[0],br3,parameters)
-labels =['Ca offshore rich','Ca onshore rich','Na acetate','NaCl brine','More Mg','More Ca','More HCO3']
+labels =['Ca offshore','Ca onshore','Na acetate','NaCl','NaCl Same','More Ca','More HCO3']
 
 masa2 = multiplotroutine(loca,dest,files3,0,2,param2)
 masa3 = multiplotroutine(loca,dest,files3,0,2,param3)

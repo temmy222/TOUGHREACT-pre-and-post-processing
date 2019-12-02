@@ -23,7 +23,7 @@ class toughtotoughreact(object):
         self.destination = destination
         self.filename = filename
         
-    def converttotreact(self):
+    def converttotreact(self,REACT='00021'):
 #        word = 'START'
         """
         This method converts the TOUGH2 flow.inp file into its equivalent for TOUGHREACT
@@ -33,15 +33,37 @@ class toughtotoughreact(object):
             contents = f1.readlines()
         f1.close()
         word2 = 'REACT'
-        word3 = '00021'
+#        REACT = '00021'
         contents.insert(10, word2)
-        contents.insert(11, word3)
+        contents.insert(11, REACT)
         with open(self.filename, 'w') as f:
             for item in contents:
                 f.write("%s" % item)
                 if word2 in item:
                     f.write("\n")
-                if word3 in item:
+                if REACT in item:
+                    f.write("\n")
+        f.close()
+        
+    def converttotreactpitzer(self,REACT='0002005000020000000'):
+#        word = 'START'
+        """
+        This method converts the TOUGH2 flow.inp file into its equivalent for TOUGHREACT
+        
+        """
+        with open(self.filename, "r") as f1:
+            contents = f1.readlines()
+        f1.close()
+        word2 = 'REACT'
+#        REACT = '00021'
+        contents.insert(10, word2)
+        contents.insert(11, REACT)
+        with open(self.filename, 'w') as f:
+            for item in contents:
+                f.write("%s" % item)
+                if word2 in item:
+                    f.write("\n")
+                if REACT in item:
                     f.write("\n")
         f.close()
         

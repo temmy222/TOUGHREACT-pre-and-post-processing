@@ -47,7 +47,9 @@ loca26 = r"C:\Users\tajayi3\Desktop\Research\my TOUGHREACT$TOUGH Simulations\Mov
 loca27 = r"C:\Users\tajayi3\Desktop\Research\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\Gulf of Mexico Batch Reactions - Onshore Brine - more HCO3 - longer time"
 loca28 = r"C:\Users\tajayi3\Desktop\Research\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\Gulf of Mexico Shale Batch Reactions - Offshore brine"
 loca29 = r"C:\Users\tajayi3\Desktop\Research\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\Gulf of Mexico Batch Reactions - Onshore Brine - more HCO3 - longer time"
-loca =[loca16a,loca16b,loca17a,loca17b]
+loca30 = r"C:\Users\tajayi3\Desktop\Research\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\Pitzer\Portlandite Calcite CSH amorphous silica- high pressure - flow"
+loca31 = r"C:\Users\tajayi3\Desktop\Research\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\Pitzer\Portlandite Calcite CSH amorphous silica- high pressure - DB flow"
+loca =[loca30,loca31]
 dest = r"C:\Users\tajayi3\Desktop\Research\Software\PyTOUGH-master"
 files3 = ["kdd_conc.tec", "kdd_gas.tec", "kdd_min.tec", "kdd_tim.tec", "MESH"]
 lookup = 'CONNE'
@@ -58,7 +60,7 @@ paramminsinglelong = ['katoitesi1','Permz(m^2)','c3fh6','calcite','csh(1.6)','hy
 paramgas = 'co2(g)'
 
 #labels =['More Calcite','Less Calcite','Less HCO3','Less HCO3 less calcite','Add cSH']
-labels =['Sandstone Onshore','Sandstone Offshore','Shale Onshore','Shale Offshore']
+labels =['Pitzer','Debye Huckel']
 
 
 plotmin = multiplotroutine(loca,dest,files3,0,2,parammin)
@@ -71,18 +73,29 @@ plotconc.plotmulti(labels,purpose='presentation')
 plotgas.plotmulti(labels,purpose='presentation')
 
 
-tre1 = prepfortoughreact(loca17,dest,files3,lookup)
+tre1 = prepfortoughreact(loca30,dest,files3,lookup)
 tre1.copyallfiles()
 tre1.writetofile()
 with open('test.txt') as f:
     br3 = f.read().splitlines()
 
 gridblock = br3[0]
-plotminbatch = batchreactionplotroutine(files3[2],br3,paramminsingle,loca17)
-plotminbatch2 = batchreactionplotroutine(files3[2],br3,paramminsinglelong,loca17)
+plotminbatchpitz = batchreactionplotroutine(files3[2],br3,parammin,loca30)
+#plotminbatch2 = batchreactionplotroutine(files3[2],br3,paramminsinglelong,loca17)
+plotminbatchpitz.threeinonepitz(10,5,gridblock)
+
+#plotminbatch2.sixinonepitz(10,5,gridblock)
+#
+#
+#plotconcbatch = batchreactionplotroutine(files3[0],br3,paramconc,loca16)
+#plotconcbatch.threeinone(10,5,gridblock)
+
+
+tre1 = prepfortoughreact(loca31,dest,files3,lookup)
+tre1.copyallfiles()
+tre1.writetofile()
+with open('test.txt') as f:
+    br3 = f.read().splitlines()
+    
+plotminbatch = batchreactionplotroutine(files3[2],br3,parammin,loca31)
 plotminbatch.threeinone(10,5,gridblock)
-plotminbatch2.sixinone(10,5,gridblock)
-
-
-plotconcbatch = batchreactionplotroutine(files3[0],br3,paramconc,loca16)
-plotconcbatch.threeinone(10,5,gridblock)

@@ -33,8 +33,10 @@ from prepfortoughreact import *
 from flowreactionplotroutine import *
 from batchreactionplotroutine import *
 
-dest = r"C:\Users\tajayi3\Desktop\Research\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\For paper\Gulf of Mexico Sandstone Cement Flow - Onshore"
+dest = r"C:\Users\tajayi3\Desktop\Research\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\Geometry Change\Gulf of Mexico Sandstone Cement Flow - Offshore"
 dest2 = r"C:\Users\tajayi3\Desktop\Research\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\Geometry Change\Gulf of Mexico Sandstone Cement Flow - Onshore - longer batch"
+
+dest3 = r"C:\Users\tajayi3\Desktop\Research\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\For paper\Gulf of Mexico Batch Reactions - Onshore Brine"
 
 loc = r"C:\Users\tajayi3\Desktop\Research\Software\PyTOUGH-master"
 
@@ -48,7 +50,7 @@ file_name2 = "MESH"
 lookup = 'CONNE'
 myList = ["kdd_conc.tec", "kdd_gas.tec", "kdd_min.tec", "kdd_tim.tec", "MESH","geom2.dat","INFILE"]
 #myList = ["hpip_conc.tec", "hpip_gas.tec", "hpip_min.tec", "hpip_tim.tec", "MESH"]
-tre1 = prepfortoughreact(dest2,loc,myList,lookup)
+tre1 = prepfortoughreact(dest,loc,myList,lookup)
 tre1.copyallfiles()
 tre1.writetofile()
 
@@ -66,12 +68,12 @@ filenamegrid = 'geom2.dat'
 
 
 
-# write to vtk for viewing with Paraview
+#write to vtk for viewing with Paraview
 
-#geo = mulgrid().read(filenamegrid)
-#filenamevtk = 'more minerals.pvd'
-#trem = toughreact_tecplot(myList[2],br3)
-#trem.write_vtk(geo, filenamevtk)
+geo = mulgrid().read(filenamegrid)
+filenamevtk = 'Gulf of Mexico Sandstone Cement Flow - Offshore.pvd'
+trem = toughreact_tecplot(myList[0],br3)
+trem.write_vtk(geo, filenamevtk)
 
 
 width = 10
@@ -79,26 +81,26 @@ height = 6
 
 parameters = ['pH','t_cl-','t_na+','t_mg+2','t_so4-2','t_hco3-']
 paramflow = ['pH','t_cl-','t_mg+2']
-plotconc = flowreactionplotroutine(myList[0],br3,paramflow,dest)
-plotconcbatch = batchreactionplotroutine(myList[0],br3,parameters,dest)
+#plotconc = flowreactionplotroutine(myList[0],br3,paramflow,dest)
+plotconcbatch = batchreactionplotroutine(myList[0],br3,parameters,dest3)
 
 
 param2 = ['friedel_salt','Porosity','brucite','portlandite','calcite','jennite']
 param2flow = ['Porosity','brucite','portlandite']
-plotmin = flowreactionplotroutine(myList[2],br3,param2flow,dest)
-plotminbatch = batchreactionplotroutine(myList[2],br3,param2,dest)
+#plotmin = flowreactionplotroutine(myList[2],br3,param2flow,dest)
+plotminbatch = batchreactionplotroutine(myList[2],br3,param2,dest3)
 
 
 paramgas = ['SatGas','RH','co2(g)']
-plotgas = flowreactionplotroutine(myList[1],br3,paramgas,dest)
-plotgasbatch = batchreactionplotroutine(myList[1],br3,paramgas,dest)
+#plotgas = flowreactionplotroutine(myList[1],br3,paramgas,dest)
+plotgasbatch = batchreactionplotroutine(myList[1],br3,paramgas,dest3)
 
 
-plotconc.threeinone(width,height,br3)
-masa,lst = plotconc.retrievedatadistance('X',25)
-plotmin.plotsingle('X',25)
-plotconc.plotsingle('X',25)
-plotmin.threeinone(width,height,br3)
+#plotconc.threeinone(width,height,br3)
+#masa,lst = plotconc.retrievedatadistance('X',25)
+#plotmin.plotsingle('X',25)
+#plotconc.plotsingle('X',25)
+#plotmin.threeinone(width,height,br3)
 plotconcbatch.sixinone(width,height,gridblock)
 plotminbatch.sixinone(width,height,gridblock)
 plotgasbatch.threeinone(width,height,gridblock)

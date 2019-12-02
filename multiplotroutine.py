@@ -116,8 +116,31 @@ class multiplotroutine(object):
                     
         return dictionary, lst, value1
     
-    def retrievedatadistance(self,locations,dest,files,gridblocknumber,indexa,prop):
-        pass
+#    def retrievedatadistance(self,locations,dest,files,gridblocknumber,indexa,prop):
+    def retrievedatadistance(self,locations,direction,blocknumber):
+        lst = self.prop.copy()
+        tre = toughreact_tecplot(self.filename,self.gridblock)
+        tre.last()
+        X = tre.element['X(m)']
+        Y = tre.element['Y(m)']
+        Z = tre.element['Z(m)']
+        lst.insert(0, 'X(m)')
+        if direction.lower() == 'x':
+            dictionary = {}
+            for index,character in enumerate(lst): 
+                if character not in dictionary.keys():
+                    dictionary[character] = []
+            for i in range(0,len(lst)):
+                X = tre.element[lst[i]][:blocknumber]
+                dictionary[lst[i]].append(X)
+                
+            
+        elif direction.lower() == 'y':
+            Y = Y[:blocknumber]
+        elif direction.lower() == 'z':
+            Z = Z[:blocknumber]
+        
+        return dictionary, lst
     
     def retrievedatasingle (self,locations,dest,files,gridblocknumber,indexa,prop):
         dictionary = {}
@@ -224,10 +247,10 @@ class multiplotroutine(object):
         matplotlib.rc('font', **font)
         kpansa = 0
         paralengthdouble = len(self.prop)*2
+        colorcode = self.sortcolor(purpose,len(self.locations))
         for number in range(1,len(self.prop)+1):
             ax = fig.add_subplot(1,len(self.prop),number)
             j = 0
-            colorcode = self.sortcolor(purpose,len(self.locations))
             print(colorcode)
             k = 0
             for i in range(kpansa,len(dictionary),paralengthdouble):  

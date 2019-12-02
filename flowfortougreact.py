@@ -28,7 +28,7 @@ from prepfortoughreact import *
 from flowreactionplotroutine import *
 from batchreactionplotroutine import *
 
-dest = r"C:\Users\tajayi3\Desktop\Research\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\For paper\Gulf of Mexico Sandstone Cement Flow - Onshore"
+dest = r"C:\Users\tajayi3\Desktop\Research\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\For paper\GOM Cement flow with batch\Increased depth\Gulf of Mexico Cement Flow - Ca injected sand equil brine Offshore"
 
 loc = r"C:\Users\tajayi3\Desktop\Research\Software\PyTOUGH-master"
 
@@ -44,23 +44,33 @@ flow input files with mulgrid as a template to facilitate writing to pvd for vie
 """
 
 xblock = 25
-yblock = 2
+yblock = 1
+zblock = 5
+
 second = 1
 minute = 60 * second
 hour = 60 * minute
 day = 24 * hour
 year = 365. * day
 year = float(year)
-zblock = 5
 xgridspacing = 0.1
 ygridspacing = 0.1
-zgridspacing = 0.1
+zgridspacing = 2
 dx = [xgridspacing]*xblock
 dy = [ygridspacing]*yblock
 dz = [zgridspacing] *zblock
 simtime = 100 * year
+
+
+    
 rock = 'cement'
-level = 'onshore'
+rocknext = 'sands'
+depth = 10032.81 #feet
+depthm = depth * 0.3048
+depthm = 5090
+depth = depthm * 3.281
+Temp = 170 #Centigrade
+pressgrad = 0.7 #psi/ft
 
 if rock.lower() == 'sandstone':
     k1 = k2 = k3 = 6.51E-15
@@ -69,16 +79,10 @@ elif rock.lower() == 'shale':
 elif rock.lower() == 'cement':
     k1 = k2 = k3 = 6.51E-19
 
-if level.lower() == 'offshore':
-    depthz = -5090
-    incond = [8.059E+07, 190.]
-elif level.lower() == 'onshore':
-    depthz = -3058
-    incond = [4.842E+07, 112.]
-elif level.lower() == 'validation':
-    depthz = 0
-    incond = [10E+06, 95.]
-geo = mulgrid().rectangular(dx, dy, dz,origin=[0., 0., depthz])
+initP = pressgrad*depth* 6894.76
+
+incond = [initP, Temp]
+geo = mulgrid().rectangular(dx, dy, dz,origin=[0., 0., depthm])
 geo.write('geom2.dat')
 
 # Testing Mulgrid for toughreact
@@ -105,19 +109,21 @@ dat.grid.rocktype['dfalt'].permeability = [k1,k2,k3]
 #dat.grid.rocktype['dfalt'].nad = 1  # if nad is made greater or equal to 1, it can take the second row for rocks
 dat.grid.rocktype['dfalt'].porosity = 0.27
 
-'''
 
-#conductivity = 1.5
-#specific_heat = 952.9
+if rocknext.lower() == 'sands':
+    k1 = k2 = k3 = 6.51E-15
+
+conductivity = 1.5
+specific_heat = 900
 #r2 = rocktype('sands',0,2600, 0.27,[k1, k2, k3],conductivity,specific_heat)  # how to add another rocktype
 #dat.grid.add_rocktype(r2)
 # how to add the rocktype to specific gridblocks in the model
 
 #for blk in dat.grid.blocklist[0:]:
-#    if blk.centre[0] >= 7: blk.rocktype = r2  
+#    if blk.centre[0] >= 2.500e-01: blk.rocktype = r2  
 
 
-'''
+
 # Set MOPs:
 dat.parameter['option'][1] = 0     # MOP for printouts
 dat.parameter['option'][16] = 4    # MOP for automatic time step control
