@@ -46,11 +46,14 @@ class flowreactionplotroutine(object):
             i = i+1
         return param
     
-    def direction(self,width,height,grid,direction,color='r--'):
+    def direction(self,width,height,grid,direction,timer,color='r--'):
         if direction=='XZ':
             fig = plt.figure(figsize=(width,height))
             tre = toughreact_tecplot(self.filename,self.gridblock)
-            tre.last()
+            if timer == None:
+                tre.last()
+            else:
+                tre.set_time(timer)
             a = self.parameters
             params = self.convertlisttodict(a)
             for item, number in params.items():
@@ -72,7 +75,10 @@ class flowreactionplotroutine(object):
         if direction=='ZX':
             fig = plt.figure(figsize=(width,height))
             tre = toughreact_tecplot(self.filename,self.gridblock)
-            tre.last()
+            if timer == None:
+                tre.last()
+            else:
+                tre.set_time(timer)
             a = self.parameters
             params = self.convertlisttodict(a)
             for item, number in params.items():
@@ -94,7 +100,10 @@ class flowreactionplotroutine(object):
         if direction=='XY':
             fig = plt.figure(figsize=(width,height))
             tre = toughreact_tecplot(self.filename,self.gridblock)
-            tre.last()
+            if timer == None:
+                tre.last()
+            else:
+                tre.set_time(timer)
             a = self.parameters
             params = self.convertlisttodict(a)
             for item, number in params.items():
@@ -116,7 +125,10 @@ class flowreactionplotroutine(object):
         if direction=='YX':
             fig = plt.figure(figsize=(width,height))
             tre = toughreact_tecplot(self.filename,self.gridblock)
-            tre.last()
+            if timer == None:
+                tre.last()
+            else:
+                tre.set_time(timer)
             a = self.parameters
             params = self.convertlisttodict(a)
             for item, number in params.items():
@@ -138,7 +150,10 @@ class flowreactionplotroutine(object):
         if direction=='YZ':
             fig = plt.figure(figsize=(width,height))
             tre = toughreact_tecplot(self.filename,self.gridblock)
-            tre.last()
+            if timer == None:
+                tre.last()
+            else:
+                tre.set_time(timer)
             a = self.parameters
             params = self.convertlisttodict(a)
             for item, number in params.items():
@@ -160,7 +175,10 @@ class flowreactionplotroutine(object):
         if direction=='ZY':
             fig = plt.figure(figsize=(width,height))
             tre = toughreact_tecplot(self.filename,self.gridblock)
-            tre.last()
+            if timer == None:
+                tre.last()
+            else:
+                tre.set_time(timer)
             a = self.parameters
             params = self.convertlisttodict(a)
             for item, number in params.items():
@@ -179,20 +197,20 @@ class flowreactionplotroutine(object):
             os.chdir(self.saveloc) 
             fig.savefig(item + str(tre.time) +'.png',bbox_inches='tight',dpi=(600))
     
-    def twoinone(self,width,height,grid,direction,color='r--'):   
-            self.direction(width,height,grid,direction,color='r--')
-    def threeinone(self,width,height,grid,direction,color='r--'):   
-            self.direction(width,height,grid,direction,color='r--')
-    def oneinone(self,width,height,grid,direction,color='r--'):   
+    def twoinone(self,width,height,grid,direction,timer,color='r--'):   
+            self.direction(width,height,grid,direction,timer,color='r--')
+    def threeinone(self,width,height,grid,direction,timer,color='r--'):   
+            self.direction(width,height,grid,direction,timer,color='r--')
+    def oneinone(self,width,height,grid,direction,timer,color='r--'):   
             self.direction(width,height,grid,direction,color='r--')
     
-    def plot2D(self,width,height,grid,direction,color='r--'):
+    def plot2D(self,width,height,grid,direction,timer=None,color='r--'):
         if len(self.parameters)==1:
-            self.oneinone(width,height,grid,direction,color='r--')
+            self.oneinone(width,height,grid,direction,timer,color='r--')
         elif len(self.parameters)==2:
-            self.twoinone(width,height,grid,direction,color='r--')
+            self.twoinone(width,height,grid,direction,timer,color='r--')
         elif len(self.parameters)==3:
-            self.threeinone(width,height,grid,direction,color='r--')
+            self.threeinone(width,height,grid,direction,timer,color='r--')
             
     
     def retrievedatadistance(self,direction,blocknumber):
@@ -238,9 +256,12 @@ class flowreactionplotroutine(object):
             colormarker = 'r' + markers[random.randint(0,(len(markers)-1))]
         return colormarker
     
-    def retrievedatadistance2(self,face,Xaxisdirection,Xlayer,Ylayer,Zlayer,paramNum):
+    def retrievedatadistance2(self,face,Xaxisdirection,Xlayer,Ylayer,Zlayer,paramNum,timer):
         tre = toughreact_tecplot(self.filename,self.gridblock)
-        tre.last()
+        if timer == None:
+            tre.last()
+        else:
+            tre.set_time(timer)
         X = tre.element['X(m)']
         Y = tre.element['Y(m)']
         Z = tre.element['Z(m)']
@@ -334,11 +355,12 @@ class flowreactionplotroutine(object):
         fig.savefig(self.parameters[paramNum] + presenttime +'.png',bbox_inches='tight',dpi=(600))
         
 
-    def plotdistance(self,face,Xaxisdirection,Xlayer,Ylayer,Zlayer,paramNum):
+    def plotdistance(self,face,Xaxisdirection,Xlayer,Ylayer,Zlayer,paramNum,timer=None):
         '''
         This method makes plot of parameters with distance
         '''
-        presenttime,df = self.retrievedatadistance2(face,Xaxisdirection,Xlayer,Ylayer,Zlayer,paramNum)
+        presenttime,df = self.retrievedatadistance2(face,Xaxisdirection,Xlayer,Ylayer,Zlayer,paramNum,timer)
+        print('time is ' + str(timer))
         if face == 'Z': 
             if Xaxisdirection == 'X':
                 self.plotstylingdistance(df,Xaxisdirection,paramNum,presenttime)
@@ -354,6 +376,24 @@ class flowreactionplotroutine(object):
                 self.plotstylingdistance(df,Xaxisdirection,paramNum,presenttime)
             if Xaxisdirection == 'Y':
                 self.plotstylingdistance(df,Xaxisdirection,paramNum,presenttime)
+                
+    def plotdistancemultiple(self,face,Xaxisdirection,Xlayer,Ylayer,Zlayer,timer=None):
+        width = 8
+        height = 8
+        fig = plt.figure(figsize=(width,height))
+        for i in range(0,len(self.parameters)):
+            presenttime,df = self.retrievedatadistance2(face,Xaxisdirection,Xlayer,Ylayer,Zlayer,i,timer)
+            if face == 'Z': 
+                if Xaxisdirection == 'X':
+                    matplotlib.rc('xtick', labelsize=14) 
+                    matplotlib.rc('ytick', labelsize=14)
+                    plt.plot(df[Xaxisdirection],df[self.parameters[i]])
+                    plt.xlabel('Distance(m)',fontsize=16)
+                    plt.ylabel('Change in Volume fraction ',fontsize=16)
+                    plt.legend(self.parameters, prop={'size': 16})
+                    plt.grid()
+                    os.chdir(self.saveloc) 
+                    fig.savefig(self.parameters[i] + presenttime +'.png',bbox_inches='tight',dpi=(600))
         
         
             

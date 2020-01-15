@@ -12,6 +12,7 @@ import random
 import pandas as pd
 import matplotlib
 from prepfortoughreact import *
+from matplotlib.font_manager import FontProperties
 
 class multiplotroutine(object):
     """
@@ -202,7 +203,8 @@ class multiplotroutine(object):
     
     def colorcoding(self,style):
         colormarker = []
-        markers = ["o","v","^","<",">","1","2","3","4","8","s","p","P","*","h","H","+","x","X","D","d","|","_"]
+        markers = ["-o","-v","-^","-<","->","-1","-2","-3","-4","-8","-s","-p","-P","-*","-h","-H","-+","-x","-X","-D","-d","-|","-_"]
+#        markers = ["o","v","^","<",">","1","2","3","4","8","s","p","P","*","h","H","+","x","X","D","d","|","_"]
         for i in range(0,len(self.locations)):
             if style.lower()=='publication':
                 a = markers[random.randint(0,(len(markers)-1))]
@@ -221,7 +223,9 @@ class multiplotroutine(object):
     
     def sortcolor(self,style,number):
         colorcode = []
-        markers = ["o","v","^","<",">","1","2","3","4","8","s","p","P","*","h","H","+","x","X","D","d","|","_"]
+        markers = ["-o","-v","-^","-<","->","-1","-2","-3","-4","-8","-s","-p","-P","-*","-h","-H","-+","-x","-X","-D","-d","-|","-_"]
+#        markers = ["o","v","^","<",">","1","2","3","4","8","s","p","P","*","h","H","+","x","X","D","d","|","_"]
+        colors = ['b','r','g','c','m','y','k']
         if style.lower()=='publication':
             for i in range(0,number):
                 m = 'k' + markers[random.randint(0,(len(markers)-1))]  
@@ -232,15 +236,20 @@ class multiplotroutine(object):
                 colorcode.append(m)
         elif style.lower()=='presentation':
             for i in range(0,number):
-                m = 'r' + markers[random.randint(0,(len(markers)-1))]  
+#                m = 'r' + markers[random.randint(0,(len(markers)-1))]  
+                part1 = colors[random.randint(0,(len(colors)-1))] 
+                part2 = markers[random.randint(0,(len(markers)-1))]
+                m = part1   + part2
                 if m in colorcode:
-                    n = m.strip('r')
-                    markers.remove(n)
-                    m = 'r' + markers[random.randint(0,(len(markers)-1))] 
+                    stripa1 = m.strip(part1)
+                    stripa2 = m.strip(part2)
+                    markers.remove(stripa1)
+                    colors.remove(stripa2)
+                    m = colors[random.randint(0,(len(colors)-1))]  + markers[random.randint(0,(len(markers)-1))] 
                 colorcode.append(m)
         return colorcode           
     
-    def plotmultimulti (self,labels,width=12,height=8,linestyle='dashed',purpose='presentation'):
+    def plotmultimulti (self,labels,width=12,height=8,linestyle='dashed',purpose='presentation',style='horizontal'):
         dictionary,lst,value1 = self.retrievedatamulti(self.locations,self.dest,self.files,self.gridblocknumber,self.indexa,self.prop)
         fig = plt.figure(figsize=(width,height))
         font = {'family' : 'normal','size'   : 18}
@@ -248,31 +257,55 @@ class multiplotroutine(object):
         kpansa = 0
         paralengthdouble = len(self.prop)*2
         colorcode = self.sortcolor(purpose,len(self.locations))
-        for number in range(1,len(self.prop)+1):
-            ax = fig.add_subplot(1,len(self.prop),number)
+        if style.lower()=='horizontal':
+            fig, axs = plt.subplots(len(self.prop), sharex=True)
+            plt.rc('legend', fontsize='small')
             j = 0
-            print(colorcode)
-            k = 0
-            for i in range(kpansa,len(dictionary),paralengthdouble):  
-                try:
-                    label=labels[j]
-                except IndexError:
-                    print('List provided not same with number of file')                    
-                ax.plot(dictionary[lst[i]][0],dictionary[lst[i+1]][0],colorcode[k],label=labels[j],linewidth=3,markersize=8)
-                ax.set_xlim((0,value1))
-#                ax.set_ylim((min(dictionary[lst[i]][0]),max(dictionary[lst[i+1]][0])))
+            for number in range(1,len(self.prop)+1):
+                k=0
+                for i in range(kpansa,len(dictionary),paralengthdouble): 
+                    axs[j].plot(dictionary[lst[i]][0],dictionary[lst[i+1]][0],label=labels[k])
+                    axs[j].legend(loc='upper right',borderpad=0.1)
+                    plt.setp(axs[j].get_legend().get_texts(), fontsize='10')
+                    axs[j].grid(True)
+                    axs[j].set_title(self.prop[number-1])
+                    k=k+1
                 j=j+1
-                k = k+1
-            kpansa = kpansa+2
-            ax.legend(prop={'size': 18})
-            ax.grid()
-            ax.set_xlabel('Time (years)',fontsize=18,fontweight='bold')
-            ax.set_ylabel(self.prop[number-1].capitalize(),fontsize=18,fontweight='bold')
-            plt.tight_layout()
+                kpansa = kpansa+2
             fig.tight_layout()
-        os.chdir(self.locations[0])
-        fig.savefig(self.prop[0] +'.jpg',bbox_inches='tight',dpi=(600))
-        matplotlib.style.use('default')
+#           plt.setp(legend.get_title(),fontsize='xx-small')
+#           plt.subplots_adjust(left  = 0.125,right = 0.9,bottom = 0.1,top = 0.9,wspace = 0.2,hspace = 0.2)
+            plt.subplots_adjust(left  = 0.125,wspace = 0.4,top = 0.95)
+            os.chdir(self.locations[0])
+            fig.savefig(self.prop[0] +'.jpg',bbox_inches='tight',dpi=(600))
+        elif style.lower()=='vertical':
+            for number in range(1,len(self.prop)+1):
+                ax = fig.add_subplot(1,len(self.prop),number)
+                j = 0
+                print(colorcode)
+                k = 0
+                for i in range(kpansa,len(dictionary),paralengthdouble):
+                    try:
+                        label=labels[j]
+                    except IndexError:
+                        print('List provided not same with number of file')                    
+                    ax.plot(dictionary[lst[i]][0],dictionary[lst[i+1]][0],colorcode[k],label=labels[j],linewidth=3,markersize=8)
+                    ax.set_xlim((0,value1))
+                    ax.set_ylim((min(dictionary[lst[i]][0]),max(dictionary[lst[i+1]][0])))
+                    j=j+1
+                    k = k+1
+                kpansa = kpansa+2
+                ax.legend(prop={'size': 18})
+                ax.grid()
+                ax.set_xlabel('Time (years)',fontsize=18,fontweight='bold')
+                ax.set_ylabel(self.prop[number-1].capitalize(),fontsize=18,fontweight='bold')
+                plt.tight_layout()
+                fig.tight_layout()
+            os.chdir(self.locations[0])
+            fig.savefig(self.prop[0] +'.jpg',bbox_inches='tight',dpi=(600))
+            matplotlib.style.use('default')
+        else:
+            print('Style can either be horizontal or vertical')
         
         
     def plotmultisingle(self,labels,width=12,height=8,linestyle='dashed',purpose='presentation'):
@@ -296,3 +329,12 @@ class multiplotroutine(object):
             self.plotmultisingle(labels,width,height,linestyle,purpose)
         elif len(self.prop) >1:
             self.plotmultimulti(labels,width,height,linestyle,purpose)
+            
+    def plotmultidistance(self,labels,width=12,height=8,linestyle='solid',purpose='presentation'):
+        with open('test.txt') as f:
+            br3 = f.read().splitlines()
+        for i in self.locations:
+            m = flowreactionplotroutine(self.files[indexa],br3,self.prop,self.locations[0])
+            
+            
+        
