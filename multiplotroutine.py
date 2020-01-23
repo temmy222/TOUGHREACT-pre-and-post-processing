@@ -257,6 +257,8 @@ class multiplotroutine(object):
         kpansa = 0
         paralengthdouble = len(self.prop)*2
         colorcode = self.sortcolor(purpose,len(self.locations))
+        colors=['r','royalblue','g','k','c','m','y']
+        markers = ["o","v","^","<",">","1","2","3","4","8","s","p","P","*","h","H","+","x","X","D","d","|","_"]
         if style.lower()=='horizontal':
             fig, axs = plt.subplots(len(self.prop), sharex=True)
             plt.rc('legend', fontsize='small')
@@ -264,11 +266,19 @@ class multiplotroutine(object):
             for number in range(1,len(self.prop)+1):
                 k=0
                 for i in range(kpansa,len(dictionary),paralengthdouble): 
-                    axs[j].plot(dictionary[lst[i]][0],dictionary[lst[i+1]][0],label=labels[k])
+                    axs[j].plot(dictionary[lst[i]][0],dictionary[lst[i+1]][0],label=labels[k],linewidth=2,color = colors[k],marker=markers[k])
                     axs[j].legend(loc='upper right',borderpad=0.1)
                     plt.setp(axs[j].get_legend().get_texts(), fontsize='10')
-                    axs[j].grid(True)
+                    axs[j].grid(True,which='both')
+                    axs[j].minorticks_on()
+                    plt.minorticks_on()
+                    axs[j].grid(b=True, which='major', linestyle='-', linewidth=0.5,color='k')
+                    axs[j].grid(b=True, which='minor', linestyle='-', linewidth=0.1)
                     axs[j].set_title(self.prop[number-1])
+                    axs[j].spines['bottom'].set_linewidth(1.5)
+                    axs[j].spines['left'].set_linewidth(1.5)
+                    axs[j].spines['top'].set_linewidth(0.2)
+                    axs[j].spines['right'].set_linewidth(0.2)
                     k=k+1
                 j=j+1
                 kpansa = kpansa+2
@@ -277,7 +287,7 @@ class multiplotroutine(object):
 #           plt.subplots_adjust(left  = 0.125,right = 0.9,bottom = 0.1,top = 0.9,wspace = 0.2,hspace = 0.2)
             plt.subplots_adjust(left  = 0.125,wspace = 0.4,top = 0.95)
             os.chdir(self.locations[0])
-            fig.savefig(self.prop[0] +'.jpg',bbox_inches='tight',dpi=(600))
+            fig.savefig(self.prop[0] +'horizontal'+'.jpg',bbox_inches='tight',dpi=(600))
         elif style.lower()=='vertical':
             for number in range(1,len(self.prop)+1):
                 ax = fig.add_subplot(1,len(self.prop),number)
@@ -289,9 +299,21 @@ class multiplotroutine(object):
                         label=labels[j]
                     except IndexError:
                         print('List provided not same with number of file')                    
-                    ax.plot(dictionary[lst[i]][0],dictionary[lst[i+1]][0],colorcode[k],label=labels[j],linewidth=3,markersize=8)
-                    ax.set_xlim((0,value1))
-                    ax.set_ylim((min(dictionary[lst[i]][0]),max(dictionary[lst[i+1]][0])))
+                    ax.plot(dictionary[lst[i]][0],dictionary[lst[i+1]][0],colors[k],marker=markers[k],label=labels[j],linewidth=2,markersize=8)
+                    ax.legend(loc='upper right',borderpad=0.1)
+                    plt.setp(ax.get_legend().get_texts(), fontsize='10')
+                    ax.grid(True,which='both')
+                    ax.minorticks_on()
+                    plt.minorticks_on()
+                    ax.grid(b=True, which='major', linestyle='-', linewidth=0.5,color='k')
+                    ax.grid(b=True, which='minor', linestyle='-', linewidth=0.1)
+                    ax.set_title(self.prop[number-1])
+                    ax.spines['top'].set_linewidth(0.2)
+                    ax.spines['right'].set_linewidth(0.2)
+                    ax.spines['bottom'].set_linewidth(1.5)
+                    ax.spines['left'].set_linewidth(1.5)
+#                    ax.set_xlim((0,value1))
+#                    ax.set_ylim((min(dictionary[lst[i]][0]),max(dictionary[lst[i+1]][0])))
                     j=j+1
                     k = k+1
                 kpansa = kpansa+2
@@ -304,8 +326,41 @@ class multiplotroutine(object):
             os.chdir(self.locations[0])
             fig.savefig(self.prop[0] +'.jpg',bbox_inches='tight',dpi=(600))
             matplotlib.style.use('default')
+        elif style.lower()=='multiple':
+#            fig = plt.figure()
+#            fig.subplots_adjust(hspace=0.4, wspace=0.4)
+            plt.rc('legend', fontsize='small')
+            j = 0
+            counter =1
+            for number in range(1,len(self.prop)+1):
+                axs = plt.subplot(3,2,counter)
+                k=0
+                for i in range(kpansa,len(dictionary),paralengthdouble): 
+                    axs.plot(dictionary[lst[i]][0],dictionary[lst[i+1]][0],label=labels[k],linewidth=2,color = colors[k],marker=markers[k])
+                    axs.legend(loc='upper right',borderpad=0.1)
+                    plt.setp(axs.get_legend().get_texts(), fontsize='10')
+                    axs.grid(True,which='both')
+                    axs.minorticks_on()
+                    plt.minorticks_on()
+                    axs.grid(b=True, which='major', linestyle='-', linewidth=0.5,color='k')
+                    axs.grid(b=True, which='minor', linestyle='-', linewidth=0.1)
+                    axs.set_title(self.prop[number-1])
+                    axs.spines['bottom'].set_linewidth(1.5)
+                    axs.spines['left'].set_linewidth(1.5)
+                    axs.spines['top'].set_linewidth(0.2)
+                    axs.spines['right'].set_linewidth(0.2)
+                    k=k+1
+                counter =counter+1
+                j=j+1
+                kpansa = kpansa+2
+            fig.tight_layout()
+#           plt.setp(legend.get_title(),fontsize='xx-small')
+#           plt.subplots_adjust(left  = 0.125,right = 0.9,bottom = 0.1,top = 0.9,wspace = 0.2,hspace = 0.2)
+            plt.subplots_adjust(left  = 0.125,wspace = 0.4,top = 0.95)
+            os.chdir(self.locations[0])
+            fig.savefig(self.prop[0] +'horizontal'+'.jpg',bbox_inches='tight',dpi=(600))      
         else:
-            print('Style can either be horizontal or vertical')
+            print('Style can either be horizontal or vertical or multiple')
         
         
     def plotmultisingle(self,labels,width=12,height=8,linestyle='dashed',purpose='presentation'):

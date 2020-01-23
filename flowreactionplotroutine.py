@@ -46,7 +46,7 @@ class flowreactionplotroutine(object):
             i = i+1
         return param
     
-    def direction(self,width,height,grid,direction,timer,color='r--'):
+    def direction(self,width,height,grid,direction,timer,color,gridding):
         if direction=='XZ':
             fig = plt.figure(figsize=(width,height))
             tre = toughreact_tecplot(self.filename,self.gridblock)
@@ -54,6 +54,8 @@ class flowreactionplotroutine(object):
                 tre.last()
             else:
                 tre.set_time(timer)
+            if color ==None:
+                color ='r'
             a = self.parameters
             params = self.convertlisttodict(a)
             for item, number in params.items():
@@ -65,6 +67,10 @@ class flowreactionplotroutine(object):
                 data1 = griddata((X,Z),data,(xi,yi),method='nearest')
                 cs2 = plt.contourf(xi,yi,data1,100,  cmap='coolwarm',extend='both')  
                 plt.colorbar()
+                if gridding == 'on':
+                    plt.grid(b=True, which='major', linestyle='-', linewidth=0.5,color='k')
+                    plt.grid(b=True, which='minor', linestyle='-', linewidth=0.5,color='k')
+#                    plt.clim(min(data),max(data)) 
                 plt.xlabel('Distance(m)',fontsize=16)
                 plt.ylabel(item,fontsize=16)
                 plt.tight_layout()
@@ -201,12 +207,14 @@ class flowreactionplotroutine(object):
             self.direction(width,height,grid,direction,timer,color='r--')
     def threeinone(self,width,height,grid,direction,timer,color='r--'):   
             self.direction(width,height,grid,direction,timer,color='r--')
-    def oneinone(self,width,height,grid,direction,timer,color='r--'):   
-            self.direction(width,height,grid,direction,color='r--')
+    def oneinone(self,width,height,grid,direction,timer,color,gridding):   
+            self.direction(width,height,grid,direction,timer,color,gridding)
     
-    def plot2D(self,width,height,grid,direction,timer=None,color='r--'):
+    
+    def plot2D(self,width,height,grid,direction,timer=None,color=None,gridding=None):
         if len(self.parameters)==1:
-            self.oneinone(width,height,grid,direction,timer,color='r--')
+            self.oneinone(width,height,grid,direction,timer,color,gridding)
+            print(gridding)
         elif len(self.parameters)==2:
             self.twoinone(width,height,grid,direction,timer,color='r--')
         elif len(self.parameters)==3:
@@ -383,19 +391,16 @@ class flowreactionplotroutine(object):
         fig = plt.figure(figsize=(width,height))
         for i in range(0,len(self.parameters)):
             presenttime,df = self.retrievedatadistance2(face,Xaxisdirection,Xlayer,Ylayer,Zlayer,i,timer)
-            if face == 'Z': 
-                if Xaxisdirection == 'X':
-                    matplotlib.rc('xtick', labelsize=14) 
-                    matplotlib.rc('ytick', labelsize=14)
-                    plt.plot(df[Xaxisdirection],df[self.parameters[i]])
-                    plt.xlabel('Distance(m)',fontsize=16)
-                    plt.ylabel('Change in Volume fraction ',fontsize=16)
-                    plt.legend(self.parameters, prop={'size': 16})
-                    plt.grid()
-                    os.chdir(self.saveloc) 
-                    fig.savefig(self.parameters[i] + presenttime +'.png',bbox_inches='tight',dpi=(600))
-        
-        
+            matplotlib.rc('xtick', labelsize=14) 
+            matplotlib.rc('ytick', labelsize=14)
+            plt.plot(df[Xaxisdirection],df[self.parameters[i]])
+            plt.xlabel('Distance(m)',fontsize=16)
+            plt.ylabel('Change in Volume fraction ',fontsize=16)
+            plt.legend(self.parameters, prop={'size': 16})
+            plt.grid()
+            os.chdir(self.saveloc) 
+        fig.savefig(self.parameters[i] + presenttime +'.png',bbox_inches='tight',dpi=(600))
+
             
     def plotsingle(self,direction,blocknumber,width=8,height=8,linestyle='dashed',purpose='presentation'):
         matplotlib.rc('xtick', labelsize=14) 
