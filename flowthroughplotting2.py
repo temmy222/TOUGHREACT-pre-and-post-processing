@@ -62,8 +62,23 @@ loca22=r"C:\Users\tajayi3\Desktop\Research\my TOUGHREACT$TOUGH Simulations\Movin
 loca23 = r"C:\Users\tajayi3\Desktop\Research\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\For paper\GOM Cement flow with batch\Increased depth\Gulf of Mexico Cement Flow - Na acetate sand equil injected Onshore - same low cond  - longer time"
 loca24=r"C:\Users\tajayi3\Desktop\Research\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\For paper\GOM Cement flow with batch\Increased depth\Gulf of Mexico Cement Flow - NaCl sand equil brine injected Onshore - same low cond"
 
-loca25 =r"C:\Users\tajayi3\Desktop\Research\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\For paper\GOM Cement flow with batch\Increased depth\Fast Rate all minerals\Gulf of Mexico Cement Flow - NaCl sand equil brine injected Onshore"
-dest = loca25
+loca25 =r"C:\Users\tajayi3\Desktop\Research\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\For paper\GOM Cement flow with batch\Increased depth\Gulf of Mexico Cement Flow - NaCl sand equil brine injected Onshore - longer"
+loca26 = r"C:\Users\tajayi3\Desktop\Research\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\For paper\GOM Cement flow with batch\Increased depth\Diffusivity sensitivity\Gulf of Mexico Cement Flow - NaCl sand equil brine injected Onshore - muchlar"
+loca27 =r"C:\Users\tajayi3\Desktop\Research\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\For paper\GOM Cement flow with batch\Increased depth\Diffusivity sensitivity\Gulf of Mexico Cement Flow - NaCl sand equil brine injected Onshore - smaller"
+
+loca28 = r"C:\Users\tajayi3\Desktop\Research\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\For paper\GOM Cement flow with batch\Increased depth\Gulf of Mexico Cement Flow - Ca injected sand equil brine Offshore - longer time"
+loca29 = r"C:\Users\tajayi3\Desktop\Research\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\For paper\GOM Cement flow with batch\Increased depth\Gulf of Mexico Cement Flow - Ca injected sand equil brine Onshore - longer time"
+loca30 = r"C:\Users\tajayi3\Desktop\Research\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\For paper\GOM Cement flow with batch\Increased depth\Gulf of Mexico Cement Flow - Na acetate sand equil injected Onshore - longer time"
+loca31 = r"C:\Users\tajayi3\Desktop\Research\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\For paper\GOM Cement flow with batch\Increased depth\Gulf of Mexico Cement Flow - NaCl sand equil brine injected Onshore - longer"
+
+
+loca37 = r"C:\Users\tajayi3\Desktop\Research\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\For paper\GOM Cement flow with batch\Increased depth\closed boundary\Gulf of Mexico Cement Flow - NaCl sand equil brine injected Onshore - longer"
+
+
+#location = [loca17,loca18,loca19,loca20]
+location = [loca28,loca29,loca30,loca31]
+dest = loca17
+labels =['Ca offshore','Ca onshore','Na acetate','NaCl','NaCl Same','More Ca','More HCO3']
 
 file_name = "kdd_conc.tec"
 file_name2 = "MESH"
@@ -89,7 +104,11 @@ param4  = ['katoitesi1','c3fh6','hydrotalcite']
 param5 = ['portlandite','calcite','monosulfoalu']
 param6 = ['gypsum','ettringite','friedel_salt']
 paramone = ['Porosity','monosulfoalu','calcite']
-minerals = ['gypsum','ettringite','friedel_salt','calcite','tobermorite(','jennite','portlandite','katoiteSi1']
+#minerals = ['gypsum','ettringite','friedel_salt','calcite','tobermorite(','jennite','portlandite','katoiteSi1','Porosity']
+minerals = ['gypsum','ettringite','friedel_salt','Porosity']
+#species = ['pH','t_cl-','t_mg+2','t_na+','t_so4-2','aH2O','t_hco3-','t_h4sio4','t_al+3']
+species = ['pH','t_cl-','t_mg+2','aH2O']
+fordomain =['Porosity']
 
 
 
@@ -98,47 +117,64 @@ minerals = ['gypsum','ettringite','friedel_salt','calcite','tobermorite(','jenni
 
 #filenamegrid = 'geom2.dat'
 #geo = mulgrid().read(filenamegrid)
-#filenamevtk = 'GOM Ca brine Cement Flow - Offshore low temp cond.pvd'
+#filenamevtk = 'GOM NaCl brine Cement Flow -longer time.pvd'
 #trem = toughreact_tecplot(myList[2],br3)
 #trem.write_vtk(geo, filenamevtk)
 
 
-face = 'Z'
-plotX = 'X'
+face = 'X'
+plotX = 'Z'
 Zlayer = 5
 Ylayer = 1
 Xlayer = 3
 years = 1*365*24*60*60
 time = 1000 * years
+initialtime =0
 
 
 plotmins = flowreactionplotroutine(myList[2],br3,minerals,dest)
-dama = plotmins.plotdistance(face,plotX,Xlayer,Ylayer,Zlayer,2,time)
+dama = plotmins.plotdistance(face,plotX,Xlayer,Ylayer,Zlayer,3,time)
 dama2 = plotmins.plotdistancemultiple(face,plotX,Xlayer,Ylayer,Zlayer,time)
+dama2 = plotmins.plotdistancemultiplefiles(face,plotX,Xlayer,Ylayer,Zlayer,location,labels,time)
+
+os.chdir(loc)
+plotconcdist = flowreactionplotroutine(myList[0],br3,species,dest)
+damaconc = plotconcdist.plotdistance(face,plotX,Xlayer,Ylayer,Zlayer,3,time)
+damaconc2 = plotconcdist.plotdistancemultiple(face,plotX,Xlayer,Ylayer,Zlayer,time)
 #dama2 = plotmins.retrievedatadistance2(face,plotX,Xlayer,Ylayer,Zlayer,0)
+
+
 
 plotconc = flowreactionplotroutine(myList[0],br3,paramconc,dest)
 plotconc.plot2D(10,5,br3,'XZ',time)
 plotmins.plot2D(10,5,br3,'XZ',time)
-
-os.chdir(loc)
-plotmin = flowreactionplotroutine(myList[2],br3,param4,dest)
-plotconc2 = flowreactionplotroutine(myList[0],br3,paramconc2,dest)
-plotconc2.plot2D(10,5,br3,'XZ',time)
-plotmin.plot2D(10,5,br3,'XZ',time)
-
-
-os.chdir(loc)
-plotmin2 = flowreactionplotroutine(myList[2],br3,param6,dest)
-plotconc3 = flowreactionplotroutine(myList[0],br3,paramconc3,dest)
-plotconc3.plot2D(10,5,br3,'XZ',time)
-plotmin2.plot2D(10,5,br3,'XZ',time)
-
-os.chdir(loc)
-plotmin3 = flowreactionplotroutine(myList[2],br3,param3,dest)
-plotconc4 = flowreactionplotroutine(myList[0],br3,paramconc4,dest)
-plotconc4.plot2D(10,5,br3,'XZ',time)
-plotmin3.plot2D(10,5,br3,'XZ',time)
+#
+#os.chdir(loc)
+#plotmin = flowreactionplotroutine(myList[2],br3,param4,dest)
+#plotconc2 = flowreactionplotroutine(myList[0],br3,paramconc2,dest)
+#plotconc2.plot2D(10,5,br3,'XZ',time)
+#plotmin.plot2D(10,5,br3,'XZ',time)
+#
+#
+#os.chdir(loc)
+#
+#plotinitialmin = flowreactionplotroutine(myList[2],br3,fordomain,dest)
+#plotinitialmin.plot2D(7,4,br3,'XZ',initialtime)
+#
+#
+#os.chdir(loc)
+#
+#
+#plotmin2 = flowreactionplotroutine(myList[2],br3,param6,dest)
+#plotconc3 = flowreactionplotroutine(myList[0],br3,paramconc3,dest)
+#plotconc3.plot2D(10,5,br3,'XZ',time)
+#plotmin2.plot2D(10,5,br3,'XZ',time)
+#
+#os.chdir(loc)
+#plotmin3 = flowreactionplotroutine(myList[2],br3,param3,dest)
+#plotconc4 = flowreactionplotroutine(myList[0],br3,paramconc4,dest)
+#plotconc4.plot2D(10,5,br3,'XZ',time)
+#plotmin3.plot2D(10,5,br3,'XZ',time)
 
 """
 what to do

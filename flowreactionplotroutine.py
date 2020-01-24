@@ -34,6 +34,7 @@ class flowreactionplotroutine(object):
         self.parameters = parameters
         self.saveloc = saveloc
         
+        
     def convertlisttodict(self,parameters):
         
         """
@@ -46,7 +47,7 @@ class flowreactionplotroutine(object):
             i = i+1
         return param
     
-    def direction(self,width,height,grid,direction,timer,color,gridding):
+    def direction(self,width,height,grid,direction,timer,color):
         if direction=='XZ':
             fig = plt.figure(figsize=(width,height))
             tre = toughreact_tecplot(self.filename,self.gridblock)
@@ -67,10 +68,10 @@ class flowreactionplotroutine(object):
                 data1 = griddata((X,Z),data,(xi,yi),method='nearest')
                 cs2 = plt.contourf(xi,yi,data1,100,  cmap='coolwarm',extend='both')  
                 plt.colorbar()
-                if gridding == 'on':
-                    plt.grid(b=True, which='major', linestyle='-', linewidth=0.5,color='k')
-                    plt.grid(b=True, which='minor', linestyle='-', linewidth=0.5,color='k')
-#                    plt.clim(min(data),max(data)) 
+#                if gridding == 'on':
+#                    plt.grid(b=True, which='major', linestyle='-', linewidth=0.5,color='k')
+#                    plt.grid(b=True, which='minor', linestyle='-', linewidth=0.5,color='k')
+##                    plt.clim(min(data),max(data)) 
                 plt.xlabel('Distance(m)',fontsize=16)
                 plt.ylabel(item,fontsize=16)
                 plt.tight_layout()
@@ -203,22 +204,22 @@ class flowreactionplotroutine(object):
             os.chdir(self.saveloc) 
             fig.savefig(item + str(tre.time) +'.png',bbox_inches='tight',dpi=(600))
     
-    def twoinone(self,width,height,grid,direction,timer,color='r--'):   
-            self.direction(width,height,grid,direction,timer,color='r--')
-    def threeinone(self,width,height,grid,direction,timer,color='r--'):   
-            self.direction(width,height,grid,direction,timer,color='r--')
-    def oneinone(self,width,height,grid,direction,timer,color,gridding):   
-            self.direction(width,height,grid,direction,timer,color,gridding)
+    def twoinone(self,width,height,grid,direction,timer,color):   
+            self.direction(width,height,grid,direction,timer,color)
+    def threeinone(self,width,height,grid,direction,timer,color):   
+            self.direction(width,height,grid,direction,timer,color)
+    def oneinone(self,width,height,grid,direction,timer,color):   
+            self.direction(width,height,grid,direction,timer,color)
     
     
-    def plot2D(self,width,height,grid,direction,timer=None,color=None,gridding=None):
+    def plot2D(self,width,height,grid,direction,timer=None,color=None):
         if len(self.parameters)==1:
-            self.oneinone(width,height,grid,direction,timer,color,gridding)
+            self.oneinone(width,height,grid,direction,timer,color)
             print(gridding)
         elif len(self.parameters)==2:
-            self.twoinone(width,height,grid,direction,timer,color='r--')
+            self.twoinone(width,height,grid,direction,timer,color)
         elif len(self.parameters)==3:
-            self.threeinone(width,height,grid,direction,timer,color='r--')
+            self.threeinone(width,height,grid,direction,timer,color)
             
     
     def retrievedatadistance(self,direction,blocknumber):
@@ -389,17 +390,74 @@ class flowreactionplotroutine(object):
         width = 8
         height = 8
         fig = plt.figure(figsize=(width,height))
+        axs = plt.subplot(1,1,1)
         for i in range(0,len(self.parameters)):
             presenttime,df = self.retrievedatadistance2(face,Xaxisdirection,Xlayer,Ylayer,Zlayer,i,timer)
             matplotlib.rc('xtick', labelsize=14) 
             matplotlib.rc('ytick', labelsize=14)
-            plt.plot(df[Xaxisdirection],df[self.parameters[i]])
+            axs.plot(df[Xaxisdirection],df[self.parameters[i]])
             plt.xlabel('Distance(m)',fontsize=16)
             plt.ylabel('Change in Volume fraction ',fontsize=16)
+#            plt.setp(axs.get_legend().get_texts(), fontsize='10')
+            axs.grid(True,which='both')
+            axs.minorticks_on()
+            plt.minorticks_on()
+            axs.grid(b=True, which='major', linestyle='-', linewidth=0.5,color='k')
+            axs.grid(b=True, which='minor', linestyle='-', linewidth=0.1)
+#            axs.set_title(self.prop[number-1])
+            axs.spines['bottom'].set_linewidth(1.5)
+            axs.spines['left'].set_linewidth(1.5)
+            axs.spines['top'].set_linewidth(0.2)
+            axs.spines['right'].set_linewidth(0.2)
             plt.legend(self.parameters, prop={'size': 16})
             plt.grid()
             os.chdir(self.saveloc) 
         fig.savefig(self.parameters[i] + presenttime +'.png',bbox_inches='tight',dpi=(600))
+        
+    def plotdistancemultiplefiles(self,face,Xaxisdirection,Xlayer,Ylayer,Zlayer,locations,labels,timer=None):
+#        plt.rc('legend', fontsize='small')
+        j = 0
+        width = 12
+        height = 8
+#        fig = plt.figure(figsize=(width,height))
+        fig = plt.figure(figsize=(width,height))
+#        font = {'family' : 'normal','size'   : 10}
+#        matplotlib.rc('font', **font)
+        counter =1
+        for file in locations:
+            axs = plt.subplot(3,2,counter)
+            k=0
+            os.chdir(file)    
+            print(file)
+            for i in range(0,len(self.parameters)): 
+                presenttime,df = self.retrievedatadistance2(face,Xaxisdirection,Xlayer,Ylayer,Zlayer,i,timer)
+                matplotlib.rc('xtick', labelsize=8) 
+                matplotlib.rc('ytick', labelsize=8)
+                axs.plot(df[Xaxisdirection],df[self.parameters[i]])
+                plt.xlabel('Distance(m)',fontsize=10)
+                plt.ylabel('Change in Volume fraction ',fontsize=10)
+#               plt.setp(axs.get_legend().get_texts(), fontsize='10')
+                axs.grid(True,which='both')
+                axs.minorticks_on()
+                plt.minorticks_on()
+                axs.grid(b=True, which='major', linestyle='-', linewidth=0.5,color='k')
+                axs.grid(b=True, which='minor', linestyle='-', linewidth=0.1)
+#               axs.set_title(self.prop[number-1])
+                axs.spines['bottom'].set_linewidth(1.5)
+                axs.set_title(labels[j])
+                axs.spines['left'].set_linewidth(1.5)
+                axs.spines['top'].set_linewidth(0.2)
+                axs.spines['right'].set_linewidth(0.2)
+                plt.legend(self.parameters, prop={'size': 8})
+                plt.grid()
+            j=j+1
+            counter =counter+1
+            fig.tight_layout()
+            k=k+1
+        plt.subplots_adjust(left  = 0.125,wspace = 0.4,top = 0.95)
+        os.chdir(self.saveloc) 
+        fig.savefig(self.parameters[i] + presenttime +'.png',bbox_inches='tight',dpi=(600)) 
+        
 
             
     def plotsingle(self,direction,blocknumber,width=8,height=8,linestyle='dashed',purpose='presentation'):
