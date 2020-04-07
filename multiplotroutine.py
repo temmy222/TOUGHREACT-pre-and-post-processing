@@ -337,18 +337,40 @@ class multiplotroutine(object):
                 k=0
                 for i in range(kpansa,len(dictionary),paralengthdouble): 
                     axs.plot(dictionary[lst[i]][0],dictionary[lst[i+1]][0],label=labels[k],linewidth=2,color = colors[k],marker=markers[k])
+                    if self.prop[number-1].lower()=='porosity':
+                        axs.set_ylabel("Porosity",fontsize=12)
+                    elif self.prop[number-1].startswith("t_"):
+                        axs.set_ylabel("Total Concentration (mol/L)",fontsize=12)
+                    elif self.prop[number-1].startswith("pH"):
+                        axs.set_ylabel("pH",fontsize=12)     
+                    else:
+                        # axs.set_ylabel("$\Delta$ in min vol frac ($m^3 min / m^3 solid$)",fontsize=12)
+                        axs.set_ylabel("Change in volume fraction",fontsize=12)
+                    axs.set_xlabel("Date (years)",fontsize=12)
                     axs.legend(loc='upper right',borderpad=0.1)
                     plt.setp(axs.get_legend().get_texts(), fontsize='10')
-                    axs.grid(True,which='both')
-                    axs.minorticks_on()
-                    plt.minorticks_on()
-                    axs.grid(b=True, which='major', linestyle='-', linewidth=0.5,color='k')
-                    axs.grid(b=True, which='minor', linestyle='-', linewidth=0.1)
-                    axs.set_title(self.prop[number-1])
+                    plt.xticks(fontsize=12)
+                    plt.yticks(fontsize=12)
+           #         axs.grid(True,which='both')
+            #        axs.minorticks_on()
+             #       plt.minorticks_on()
+            #        axs.grid(b=True, which='major', linestyle='-', linewidth=0.5,color='k')
+            #        axs.grid(b=True, which='minor', linestyle='-', linewidth=0.1)
+                    if self.prop[number-1].startswith("t_"):
+                        divider = self.prop[number-1].split("_")
+                        axs.set_title(divider[1].capitalize())
+                    elif self.prop[number-1].startswith("pH"):
+                        axs.set_title(self.prop[number-1])
+                    else:
+                        axs.set_title(self.prop[number-1].capitalize())
+                    # axs.set_xticklabels(xlabels, fontsize=12 )
+                    # axs.set_yticklabels(ylabels, fontsize=12 )
                     axs.spines['bottom'].set_linewidth(1.5)
                     axs.spines['left'].set_linewidth(1.5)
-                    axs.spines['top'].set_linewidth(0.2)
-                    axs.spines['right'].set_linewidth(0.2)
+                    axs.spines['top'].set_linewidth(0.0)
+                    axs.spines['right'].set_linewidth(0.0)
+                    
+            #        axs[0].set(xlabel="Exam score-1", ylabel="Exam score-2")
                     k=k+1
                 counter =counter+1
                 j=j+1
@@ -358,7 +380,8 @@ class multiplotroutine(object):
 #           plt.subplots_adjust(left  = 0.125,right = 0.9,bottom = 0.1,top = 0.9,wspace = 0.2,hspace = 0.2)
             plt.subplots_adjust(left  = 0.125,wspace = 0.4,top = 0.95)
             os.chdir(self.locations[0])
-            fig.savefig(self.prop[0] +'horizontal'+'.jpg',bbox_inches='tight',dpi=(600))      
+            fig.savefig(self.prop[0] +'multiple'+'.jpg',bbox_inches='tight',dpi=(600)) 
+                
         else:
             print('Style can either be horizontal or vertical or multiple')
         
