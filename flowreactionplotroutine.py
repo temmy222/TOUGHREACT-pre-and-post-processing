@@ -66,16 +66,36 @@ class flowreactionplotroutine(object):
                 Z = tre.element['Z(m)']
                 xi,yi = np.meshgrid(X,Z)
                 data1 = griddata((X,Z),data,(xi,yi),method='nearest')
-                cs2 = plt.contourf(xi,yi,data1,100,  cmap='coolwarm',extend='both')  
-                plt.colorbar()
+                import matplotlib.colors as mc
+                cbar_min = np.min(data1)
+                cbar_max = np.max(data1)+0.01
+#                cbarlabels = np.linspace(np.floor(cbar_min), np.ceil(cbar_max), num=5, endpoint=True)
+                levels = np.linspace(cbar_min, cbar_max, 3) 
+#                norm = mc.BoundaryNorm(levels, 256)
+                print(timer)
+             #   cs2 = plt.contourf(xi,yi,data1,levels, cmap='coolwarm',norm=norm)
+#                cs2 = plt.contourf(xi,yi,data1,1000,  cmap='coolwarm',vmin=6.51E-19,vmax=6.51E-18)
+                cs2 = plt.contourf(xi,yi,data1,800,extend='neither',cmap='coolwarm')
+                # cs2=ax.imshow(data1,interpolation='bilinear', cmap=plt.cm.coolwarm,origin='lower',aspect='auto', extent=[X.min(), X.max(), Z.min(), Z.max()])
+                # plt.imshow(data1,origin='lower')
+                cbar = fig.colorbar(cs2)
+                cbar.ax.set_ylabel(item,fontsize=16)
+                ticklabs = cbar.ax.get_yticklabels()
+                cbar.ax.set_yticklabels(ticklabs, fontsize=12)
+                # plt.colorbar()
 #                if gridding == 'on':
 #                    plt.grid(b=True, which='major', linestyle='-', linewidth=0.5,color='k')
 #                    plt.grid(b=True, which='minor', linestyle='-', linewidth=0.5,color='k')
 ##                    plt.clim(min(data),max(data)) 
-                plt.xlabel('Distance(m)',fontsize=16)
-                plt.ylabel(item,fontsize=16)
+                plt.xlabel('Horizontal Distance(m)',fontsize=16)
+                plt.ylabel('Vertical Depth (m)',fontsize=16)
+                plt.tick_params(axis='x', labelsize=12)
+                plt.tick_params(axis='y', labelsize=12)
+                # plt.clabel(cs2,fontsize=20)
                 plt.tight_layout()
-        
+                
+            
+            # return data1,xi,yi
             os.chdir(self.saveloc) 
             fig.savefig(item + str(tre.time) +'.png',bbox_inches='tight',dpi=(600))
             
@@ -198,7 +218,7 @@ class flowreactionplotroutine(object):
                 cs2 = plt.contourf(xi,yi,data1,100,  cmap='jet',extend='both')  
                 plt.colorbar()
                 plt.xlabel('Distance(m)',fontsize=16)
-                plt.ylabel(item,fontsize=16)
+                plt.ylabel('Vertical Depth (m)',fontsize=16)
                 plt.tight_layout()
         
             os.chdir(self.saveloc) 
@@ -215,7 +235,7 @@ class flowreactionplotroutine(object):
     def plot2D(self,width,height,grid,direction,timer=None,color=None):
         if len(self.parameters)==1:
             self.oneinone(width,height,grid,direction,timer,color)
-            print(gridding)
+            #print(gridding)
         elif len(self.parameters)==2:
             self.twoinone(width,height,grid,direction,timer,color)
         elif len(self.parameters)==3:
@@ -358,6 +378,7 @@ class flowreactionplotroutine(object):
         fig = plt.figure(figsize=(width,height))
         plt.plot(df[Xdirection],df[self.parameters[paramNum]])
         plt.grid()
+        plt.xlim(min(df[Xdirection]),min(df[Xdirection])+1)
         plt.xlabel('Distance(m)',fontsize=16)
         plt.ylabel(self.parameters[paramNum],fontsize=16)
         os.chdir(self.saveloc) 
@@ -400,16 +421,16 @@ class flowreactionplotroutine(object):
             plt.ylabel('Change in Volume fraction ',fontsize=16)
 #            plt.setp(axs.get_legend().get_texts(), fontsize='10')
             axs.grid(True,which='both')
-            axs.minorticks_on()
-            plt.minorticks_on()
-            axs.grid(b=True, which='major', linestyle='-', linewidth=0.5,color='k')
-            axs.grid(b=True, which='minor', linestyle='-', linewidth=0.1)
+            # axs.minorticks_on()
+            # plt.minorticks_on()
+            # axs.grid(b=True, which='major', linestyle='-', linewidth=0.5,color='k')
+            # axs.grid(b=True, which='minor', linestyle='-', linewidth=0.1)
 #            axs.set_title(self.prop[number-1])
             axs.spines['bottom'].set_linewidth(1.5)
             axs.spines['left'].set_linewidth(1.5)
-            axs.spines['top'].set_linewidth(0.2)
-            axs.spines['right'].set_linewidth(0.2)
-            plt.legend(self.parameters, prop={'size': 16})
+            axs.spines['top'].set_linewidth(0)
+            axs.spines['right'].set_linewidth(0)
+            plt.legend(self.parameters.capitalize(), prop={'size': 16})
             plt.grid()
             os.chdir(self.saveloc) 
         fig.savefig(self.parameters[i] + presenttime +'.png',bbox_inches='tight',dpi=(600))
@@ -419,6 +440,8 @@ class flowreactionplotroutine(object):
         j = 0
         width = 12
         height = 8
+        colors=['r','royalblue','g','k','c','m','y']
+        markers = ["o","v","^","<",">","1","2","3","4","8","s","p","P","*","h","H","+","x","X","D","d","|","_"]
 #        fig = plt.figure(figsize=(width,height))
         fig = plt.figure(figsize=(width,height))
 #        font = {'family' : 'normal','size'   : 10}
@@ -427,29 +450,35 @@ class flowreactionplotroutine(object):
         for file in locations:
             axs = plt.subplot(3,2,counter)
             k=0
+            l=0
             os.chdir(file)    
-            print(file)
+            # print(file)
+            lama =self.parameters.copy()
             for i in range(0,len(self.parameters)): 
                 presenttime,df = self.retrievedatadistance2(face,Xaxisdirection,Xlayer,Ylayer,Zlayer,i,timer)
-                matplotlib.rc('xtick', labelsize=8) 
-                matplotlib.rc('ytick', labelsize=8)
-                axs.plot(df[Xaxisdirection],df[self.parameters[i]])
-                plt.xlabel('Distance(m)',fontsize=10)
-                plt.ylabel('Change in Volume fraction ',fontsize=10)
-#               plt.setp(axs.get_legend().get_texts(), fontsize='10')
-                axs.grid(True,which='both')
-                axs.minorticks_on()
-                plt.minorticks_on()
-                axs.grid(b=True, which='major', linestyle='-', linewidth=0.5,color='k')
-                axs.grid(b=True, which='minor', linestyle='-', linewidth=0.1)
+                # matplotlib.rc('xtick', labelsize=8) 
+                # matplotlib.rc('ytick', labelsize=8)
+                axs.plot(df[Xaxisdirection],df[self.parameters[i]],color =colors[l],marker=markers[l])
+                plt.xticks(fontsize=12)
+                plt.yticks(fontsize=12)
+                plt.xlabel('Distance(m)',fontsize=12)
+                plt.ylabel('Change in Volume fraction ',fontsize=12)
+                # plt.setp(axs.get_legend().get_texts(), fontsize='10')
+                # axs.grid(True,which='both')
+                # axs.minorticks_on()
+                # plt.minorticks_on()
+                # axs.grid(b=True, which='major', linestyle='-', linewidth=0.5,color='k')
+                # axs.grid(b=True, which='minor', linestyle='-', linewidth=0.1)
 #               axs.set_title(self.prop[number-1])
                 axs.spines['bottom'].set_linewidth(1.5)
-                axs.set_title(labels[j])
+                axs.set_title(labels[j], fontsize='14')
+                lama[i]=lama[i].capitalize()
                 axs.spines['left'].set_linewidth(1.5)
-                axs.spines['top'].set_linewidth(0.2)
-                axs.spines['right'].set_linewidth(0.2)
-                plt.legend(self.parameters, prop={'size': 8})
+                axs.spines['top'].set_linewidth(0)
+                axs.spines['right'].set_linewidth(0)
+                plt.legend(lama, prop={'size': 10})
                 plt.grid()
+                l=l+1
             j=j+1
             counter =counter+1
             fig.tight_layout()

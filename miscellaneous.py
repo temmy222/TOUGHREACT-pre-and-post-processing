@@ -24,12 +24,10 @@ class miscellaneous(object):
     def __init__  (self,dest,file):
         
         """
-        An instance of this class takes in three parameters;
+        An instance of this class takes in two parameters;
         
-        filename --> the output file to be interpreted (in tecplot format) e.g. kddconc.tec
-        gridblock ---> the total number of gridblocks in the simulations trypically should be a single block
-        parameters -> parameters to be investigated (should be in a python list) e.g. ['pH','t_na+','t_ca2+']
-        saveloc -> location to save results images
+        file --> the name of the file
+        dest ---> where the file is located
         """
         self.dest = dest
         self.file = file
@@ -82,7 +80,7 @@ class miscellaneous(object):
                 del m[i]
         pattern =r"[^'#]"
         pattern = r"['#]" # means string that contains any of ' or # (the [] means that)
-        pattern2 = r'^#######'  # ^ is used to check if a string starts with a certain character.
+        pattern2 = r'^#######'  # ^ is used to check if a string starts with a certain character. https://www.programiz.com/python-programming/regex
         nextpattern = r'[^#]' # means string that does not contain the #
         nextpattern2 = r'[^null]'
         
@@ -111,26 +109,48 @@ class miscellaneous(object):
         gases,aqueouss,minerals = self.getComponents()
         pos = self.searchComp(compname,gases)
         temp = [0,25,60,100,150,200,250,300]
+        fig = plt.figure(figsize=(10,5))
         values = gases[pos[1]][1:9]
         for i in range(0,len(values)):
             values[i] = float(values[i])
         plt.plot(temp,values)
         plt.grid()
+        compname2 = list(compname.split(" "))
+        plt.legend(compname2, prop={'size': 16})
+        plt.xlabel('Temperature (Celsius) ',fontsize=14)
+        plt.ylabel('Log of Equilibirum Constant',fontsize=14)
+        fig.savefig('Equilibrium constant' +'.jpg',bbox_inches='tight',dpi=(600)) 
         
     def plotSpecieK(self,compname):
         gases,aqueouss,minerals = self.getComponents()
         pos = self.searchComp(compname,aqueouss)
         temp = [0,25,60,100,150,200,250,300]
+        fig = plt.figure(figsize=(10,5))
         values = aqueouss[pos[1]][1:9]
         for i in range(0,len(values)):
             values[i] = float(values[i])
         plt.plot(temp,values)
         plt.grid()
+        compname2 = list(compname.split(" "))
+        plt.legend(compname2, prop={'size': 16})
+        plt.xlabel('Temperature (Celsius) ',fontsize=14,fontweight='bold')
+        plt.ylabel('Log of Equilibirum Constant',fontsize=14,fontweight='bold')
+        plt.grid(True,which='both')
+        plt.minorticks_on()
+        plt.grid(b=True, which='major', linestyle='-', linewidth=0.5,color='k')
+        plt.grid(b=True, which='minor', linestyle='-', linewidth=0.1)
+        plt.spines['bottom'].set_linewidth(1.5)
+        plt.spines['left'].set_linewidth(1.5)
+        plt.spines['top'].set_linewidth(0.2)
+        plt.spines['right'].set_linewidth(0.2)
+        fig.savefig('Equilibrium constant' +'.jpg',bbox_inches='tight',dpi=(600)) 
         
     def plotMineralK(self,compname):
         gases,aqueouss,minerals = self.getComponents()
         pos = self.searchComp(compname,minerals)
         temp = [0,25,60,100,150,200,250,300]
+        fig = plt.figure(figsize=(10,5))
+        fig, axs = plt.subplots(1)
         values = minerals[pos[1]][1:9]
         for i in range(0,len(values)):
             values[i] = float(values[i])
@@ -139,22 +159,44 @@ class miscellaneous(object):
         plt.legend(compname2, prop={'size': 16})
         plt.grid()
         plt.xlabel('Temperature (Celsius) ',fontsize=14,fontweight='bold')
-        plt.ylabel('Equlibirum Constant',fontsize=14,fontweight='bold')
+        plt.ylabel('Log of Equilibirum Constant',fontsize=14,fontweight='bold')
+        plt.grid(True,which='both')
+        plt.minorticks_on()
+        plt.grid(b=True, which='major', linestyle='-', linewidth=0.5,color='k')
+        plt.grid(b=True, which='minor', linestyle='-', linewidth=0.1)
+        axs.spines['bottom'].set_linewidth(1.5)
+        axs.spines['left'].set_linewidth(1.5)
+        axs.spines['top'].set_linewidth(0.2)
+        axs.spines['right'].set_linewidth(0.2)
+        fig.savefig('Equilibrium constant' +'.jpg',bbox_inches='tight',dpi=(600)) 
         
     def plotmultipleMineralK(self,compname):
         temp = [0,25,60,100,150,200,250,300]
         fig = plt.figure(figsize=(10,10))
+        fig, axs = plt.subplots(1,1)
+        markers = ["o","v","^","<",">","1","2","3","4","8","s","p","P","*","h","H","+","x","X","D","d","|","_"]
         if isinstance(compname, list):
+            k=0
             for i in range(0,len(compname)):
                 gases,aqueouss,minerals = self.getComponents()
                 pos = self.searchComp(compname[i],minerals)
                 values = minerals[pos[1]][1:9]
                 value = self.converttofloat(values)
-                plt.plot(temp,value)
-                plt.legend(compname, prop={'size': 16})
+                plt.plot(temp,value,marker=markers[k],linewidth=2)
+                plt.legend(compname, prop={'size': 9})
+                k=k+1
             plt.grid()
-            plt.xlabel('Temperature (Celsius) ',fontsize=14,fontweight='bold')
-            plt.ylabel('Equlibirum Constant',fontsize=14,fontweight='bold')
+            plt.xlabel('Temperature (Celsius) ',fontsize=14)
+            plt.ylabel('Log of Equilibirum Constant',fontsize=14)
+            plt.grid(True,which='both')
+            plt.minorticks_on()
+            plt.grid(b=True, which='major', linestyle='-', linewidth=0.5,color='k')
+            plt.grid(b=True, which='minor', linestyle='-', linewidth=0.1)
+            axs.spines['bottom'].set_linewidth(1.5)
+            axs.spines['left'].set_linewidth(1.5)
+            axs.spines['top'].set_linewidth(0.2)
+            axs.spines['right'].set_linewidth(0.2)
+            fig.savefig('Equilibrium constant' +'.jpg',bbox_inches='tight',dpi=(600)) 
             
             
         
