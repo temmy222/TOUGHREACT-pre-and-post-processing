@@ -6,6 +6,7 @@ Created on Wed May 15 09:02:10 2019
 """
 import matplotlib
 import matplotlib.pyplot as plt
+from matplotlib.font_manager import FontProperties
 from t2listing import *
 import numpy as np
 import os
@@ -78,7 +79,8 @@ class flowreactionplotroutine(object):
                 cs2 = plt.contourf(xi,yi,data1,800,extend='neither',cmap='coolwarm')
                 # cs2=ax.imshow(data1,interpolation='bilinear', cmap=plt.cm.coolwarm,origin='lower',aspect='auto', extent=[X.min(), X.max(), Z.min(), Z.max()])
                 # plt.imshow(data1,origin='lower')
-                cbar = fig.colorbar(cs2)
+                # cbaxes = fig.add_axes([0.9, 0.2, 0.01, 0.7]) 
+                cbar = fig.colorbar(cs2,pad=0.01)
                 cbar.ax.set_ylabel(item,fontsize=16)
                 ticklabs = cbar.ax.get_yticklabels()
                 cbar.ax.set_yticklabels(ticklabs, fontsize=12)
@@ -438,6 +440,8 @@ class flowreactionplotroutine(object):
     def plotdistancemultiplefiles(self,face,Xaxisdirection,Xlayer,Ylayer,Zlayer,locations,labels,timer=None):
 #        plt.rc('legend', fontsize='small')
         j = 0
+        fontP = FontProperties()
+        fontP.set_size(10)
         width = 12
         height = 8
         colors=['r','royalblue','g','k','c','m','y']
@@ -458,11 +462,25 @@ class flowreactionplotroutine(object):
                 presenttime,df = self.retrievedatadistance2(face,Xaxisdirection,Xlayer,Ylayer,Zlayer,i,timer)
                 # matplotlib.rc('xtick', labelsize=8) 
                 # matplotlib.rc('ytick', labelsize=8)
-                axs.plot(df[Xaxisdirection],df[self.parameters[i]],color =colors[l],marker=markers[l])
-                plt.xticks(fontsize=12)
-                plt.yticks(fontsize=12)
-                plt.xlabel('Distance(m)',fontsize=12)
-                plt.ylabel('Change in Volume fraction ',fontsize=12)
+                if i<len(self.parameters)-1:
+                    axs.plot(df[Xaxisdirection],df[self.parameters[i]],color =colors[l],marker=markers[l],label=self.parameters[i].capitalize())
+                    plt.xticks(fontsize=12)
+                    plt.yticks(fontsize=12)
+                    plt.xlabel('Distance(m)',fontsize=12)
+                    plt.ylabel('Change in Volume fraction ',fontsize=12)
+                else:
+                    axs2 = axs.twinx()
+                    axs2.plot(df[Xaxisdirection],df[self.parameters[i]],color =colors[l],marker=markers[l],label=self.parameters[i].capitalize())
+                    plt.xticks(fontsize=12)
+                    plt.yticks(fontsize=12)
+                    plt.xlabel('Distance(m)',fontsize=12)
+                    plt.ylabel(self.parameters[i],fontsize=12)
+                    axs2.legend(loc='best',prop=fontP)
+                    axs2.spines['left'].set_linewidth(1.5)
+                    axs2.spines['top'].set_linewidth(0)
+                    axs2.spines['right'].set_linewidth(1.5)
+                    axs2.spines['bottom'].set_linewidth(1.5)
+                    # axs2.grid(b=False)
                 # plt.setp(axs.get_legend().get_texts(), fontsize='10')
                 # axs.grid(True,which='both')
                 # axs.minorticks_on()
@@ -476,8 +494,9 @@ class flowreactionplotroutine(object):
                 axs.spines['left'].set_linewidth(1.5)
                 axs.spines['top'].set_linewidth(0)
                 axs.spines['right'].set_linewidth(0)
-                plt.legend(lama, prop={'size': 10})
-                plt.grid()
+                axs.legend(loc='center right',prop=fontP)
+                # plt.legend(lama, prop={'size': 10})
+                # plt.grid()
                 l=l+1
             j=j+1
             counter =counter+1

@@ -16,107 +16,107 @@ import pandas as pd
 import random
 
 
-loca1 = r"D:\Working-folder - Ajayi\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\For paper\GOM Cement flow with batch\Increased depth\Gulf of Mexico Cement Flow - Ca injected sand equil brine Offshore"
-loca2 = r"D:\Working-folder - Ajayi\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\For paper\GOM Cement flow with batch\Increased depth\Gulf of Mexico Cement Flow - Ca injected sand equil brine Onshore"
-loca3 = r"D:\Working-folder - Ajayi\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\For paper\GOM Cement flow with batch\Increased depth\Gulf of Mexico Cement Flow - Na acetate sand equil injected Onshore"
-loca4 = r"D:\Working-folder - Ajayi\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\For paper\GOM Cement flow with batch\Increased depth\Gulf of Mexico Cement Flow - NaCl sand equil brine injected Onshore"
-loca5 = r"D:\Working-folder - Ajayi\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\For paper\GOM Cement flow with batch\Gulf of Mexico Cement Flow - Ca injected sand equil brine Offshore - same cond"
+loca1 = r"C:\Users\AJ\OneDrive - Louisiana State University\Increased depth\Gulf of Mexico Cement Flow - Ca injected sand equil brine Offshore"
+loca2 = r"C:\Users\AJ\OneDrive - Louisiana State University\Increased depth\Gulf of Mexico Cement Flow - Ca injected sand equil brine Onshore"
+loca3 = r"C:\Users\AJ\OneDrive - Louisiana State University\Increased depth\Gulf of Mexico Cement Flow - Na acetate sand equil injected Onshore"
+loca4 = r"C:\Users\AJ\OneDrive - Louisiana State University\Increased depth\Gulf of Mexico Cement Flow - NaCl sand equil brine injected Onshore"
+loca5 = r"C:\Users\AJ\OneDrive - Louisiana State University\Gulf of Mexico Cement Flow - Ca injected sand equil brine Offshore - same cond"
 
-loca6=r"D:\Working-folder - Ajayi\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\For paper\GOM Cement flow with batch\Increased depth\Gulf of Mexico Cement Flow - Ca injected sand equil brine Offshore - same high cond"
-loca7=r"D:\Working-folder - Ajayi\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\For paper\GOM Cement flow with batch\Increased depth\Gulf of Mexico Cement Flow - Ca injected sand equil brine Onshore - same high cond"
-loca8=r"D:\Working-folder - Ajayi\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\For paper\GOM Cement flow with batch\Increased depth\Gulf of Mexico Cement Flow - Na acetate sand equil injected Onshore - same high cond"
-loca9=r"D:\Working-folder - Ajayi\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\For paper\GOM Cement flow with batch\Increased depth\Gulf of Mexico Cement Flow - NaCl sand equil brine injected Onshore - same high cond"
+loca6=r"C:\Users\AJ\OneDrive - Louisiana State University\Increased depth\Gulf of Mexico Cement Flow - Ca injected sand equil brine Offshore - same high cond"
+loca7=r"C:\Users\AJ\OneDrive - Louisiana State University\Increased depth\Gulf of Mexico Cement Flow - Ca injected sand equil brine Onshore - same high cond"
+loca8=r"C:\Users\AJ\OneDrive - Louisiana State University\Increased depth\Gulf of Mexico Cement Flow - Na acetate sand equil injected Onshore - same high cond"
+loca9=r"C:\Users\AJ\OneDrive - Louisiana State University\Increased depth\Gulf of Mexico Cement Flow - NaCl sand equil brine injected Onshore - same high cond"
 
-loca10=r"D:\Working-folder - Ajayi\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\For paper\GOM Cement flow with batch\Increased depth\Gulf of Mexico Cement Flow - Ca injected sand equil brine Offshore - same low cond"
-loca11=r"D:\Working-folder - Ajayi\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\For paper\GOM Cement flow with batch\Increased depth\Gulf of Mexico Cement Flow - Ca injected sand equil brine Onshore - same low cond"
-loca12=r"D:\Working-folder - Ajayi\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\For paper\GOM Cement flow with batch\Increased depth\Gulf of Mexico Cement Flow - Na acetate sand equil injected Onshore - same low cond"
-loca13=r"D:\Working-folder - Ajayi\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\For paper\GOM Cement flow with batch\Increased depth\Gulf of Mexico Cement Flow - NaCl sand equil brine injected Onshore - same low cond"
+loca10=r"C:\Users\AJ\OneDrive - Louisiana State University\Increased depth\Gulf of Mexico Cement Flow - Ca injected sand equil brine Offshore - same low cond"
+loca11=r"C:\Users\AJ\OneDrive - Louisiana State University\Increased depth\Gulf of Mexico Cement Flow - Ca injected sand equil brine Onshore - same low cond"
+loca12=r"C:\Users\AJ\OneDrive - Louisiana State University\Increased depth\Gulf of Mexico Cement Flow - Na acetate sand equil injected Onshore - same low cond"
+loca13=r"C:\Users\AJ\OneDrive - Louisiana State University\Increased depth\Gulf of Mexico Cement Flow - NaCl sand equil brine injected Onshore - same low cond"
 
-loca14 =r"D:\Working-folder - Ajayi\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\For paper\GOM Cement flow with batch\Increased depth\Grid Sensitivity\Gulf of Mexico Cement Flow - Ca injected sand equil brine Offshore"
-loca15 = r"D:\Working-folder - Ajayi\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\For paper\GOM Cement flow with batch\Increased depth\Grid Sensitivity\Gulf of Mexico Cement Flow - Ca injected sand equil brine Offshore - longer grid"
-loca16 = r"D:\Working-folder - Ajayi\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\For paper\GOM Cement flow with batch\Increased depth\Grid Sensitivity\Gulf of Mexico Cement Flow - Ca injected sand equil brine Offshore - longer grid2"
+loca14 =r"C:\Users\AJ\OneDrive - Louisiana State University\Increased depth\Grid Sensitivity\Gulf of Mexico Cement Flow - Ca injected sand equil brine Offshore"
+loca15 = r"C:\Users\AJ\OneDrive - Louisiana State University\Increased depth\Grid Sensitivity\Gulf of Mexico Cement Flow - Ca injected sand equil brine Offshore - longer grid"
+loca16 = r"C:\Users\AJ\OneDrive - Louisiana State University\Increased depth\Grid Sensitivity\Gulf of Mexico Cement Flow - Ca injected sand equil brine Offshore - longer grid2"
 
-loca17=r"D:\Working-folder - Ajayi\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\For paper\GOM Cement flow with batch\Increased depth\Gulf of Mexico Cement Flow - Ca injected sand equil brine Offshore - shc - longer time"
-loca18=r"D:\Working-folder - Ajayi\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\For paper\GOM Cement flow with batch\Increased depth\Gulf of Mexico Cement Flow - Ca injected sand equil brine Onshore - same high cond - longer time"
-loca19 = r"D:\Working-folder - Ajayi\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\For paper\GOM Cement flow with batch\Increased depth\Gulf of Mexico Cement Flow - Na acetate sand equil injected Onshore - same high cond - longer time"
-loca20=r"D:\Working-folder - Ajayi\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\For paper\GOM Cement flow with batch\Increased depth\Gulf of Mexico Cement Flow - NaCl sand equil brine injected Onshore - same high cond - longer time"
+loca17=r"C:\Users\AJ\OneDrive - Louisiana State University\Increased depth\Gulf of Mexico Cement Flow - Ca injected sand equil brine Offshore - shc - longer time"
+loca18=r"C:\Users\AJ\OneDrive - Louisiana State University\Increased depth\Gulf of Mexico Cement Flow - Ca injected sand equil brine Onshore - same high cond - longer time"
+loca19 = r"C:\Users\AJ\OneDrive - Louisiana State University\Increased depth\Gulf of Mexico Cement Flow - Na acetate sand equil injected Onshore - same high cond - longer time"
+loca20=r"C:\Users\AJ\OneDrive - Louisiana State University\Increased depth\Gulf of Mexico Cement Flow - NaCl sand equil brine injected Onshore - same high cond - longer time"
 
-loca21=r"D:\Working-folder - Ajayi\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\For paper\GOM Cement flow with batch\Increased depth\Gulf of Mexico Cement Flow - Ca injected sand equil brine Offshore - same low cond  - longer time"
-loca22=r"D:\Working-folder - Ajayi\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\For paper\GOM Cement flow with batch\Increased depth\Gulf of Mexico Cement Flow - Ca injected sand equil brine Onshore - same low cond - longer time"
-loca23 = r"D:\Working-folder - Ajayi\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\For paper\GOM Cement flow with batch\Increased depth\Gulf of Mexico Cement Flow - Na acetate sand equil injected Onshore - same low cond  - longer time"
-loca24=r"D:\Working-folder - Ajayi\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\For paper\GOM Cement flow with batch\Increased depth\Gulf of Mexico Cement Flow - NaCl sand equil brine injected Onshore - same low cond"
+loca21=r"C:\Users\AJ\OneDrive - Louisiana State University\Increased depth\Gulf of Mexico Cement Flow - Ca injected sand equil brine Offshore - same low cond  - longer time"
+loca22=r"C:\Users\AJ\OneDrive - Louisiana State University\Increased depth\Gulf of Mexico Cement Flow - Ca injected sand equil brine Onshore - same low cond - longer time"
+loca23 = r"C:\Users\AJ\OneDrive - Louisiana State University\Increased depth\Gulf of Mexico Cement Flow - Na acetate sand equil injected Onshore - same low cond  - longer time"
+loca24=r"C:\Users\AJ\OneDrive - Louisiana State University\Increased depth\Gulf of Mexico Cement Flow - NaCl sand equil brine injected Onshore - same low cond"
 
-loca25=r"D:\Working-folder - Ajayi\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\For paper\GOM Cement flow with batch\Increased depth\Diffusivity sensitivity\Gulf of Mexico Cement Flow - NaCl sand equil brine injected Onshore"
-loca26=r"D:\Working-folder - Ajayi\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\For paper\GOM Cement flow with batch\Increased depth\Diffusivity sensitivity\Gulf of Mexico Cement Flow - NaCl sand equil brine injected Onshore - larger"
-loca26b =r"D:\Working-folder - Ajayi\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\For paper\GOM Cement flow with batch\Increased depth\Diffusivity sensitivity\Gulf of Mexico Cement Flow - NaCl sand equil brine injected Onshore - muchlar"
-loca27=r"D:\Working-folder - Ajayi\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\For paper\GOM Cement flow with batch\Increased depth\Diffusivity sensitivity\Gulf of Mexico Cement Flow - NaCl sand equil brine injected Onshore - smaller"
+loca25=r"C:\Users\AJ\OneDrive - Louisiana State University\Increased depth\Diffusivity sensitivity\Gulf of Mexico Cement Flow - NaCl sand equil brine injected Onshore"
+loca26=r"C:\Users\AJ\OneDrive - Louisiana State University\Increased depth\Diffusivity sensitivity\Gulf of Mexico Cement Flow - NaCl sand equil brine injected Onshore - larger"
+loca26b =r"C:\Users\AJ\OneDrive - Louisiana State University\Increased depth\Diffusivity sensitivity\Gulf of Mexico Cement Flow - NaCl sand equil brine injected Onshore - muchlar"
+loca27=r"C:\Users\AJ\OneDrive - Louisiana State University\Increased depth\Diffusivity sensitivity\Gulf of Mexico Cement Flow - NaCl sand equil brine injected Onshore - smaller"
 
-loca28 = r"D:\Working-folder - Ajayi\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\For paper\GOM Cement flow with batch\Increased depth\Gulf of Mexico Cement Flow - Ca injected sand equil brine Offshore - longer time"
-loca29 = r"D:\Working-folder - Ajayi\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\For paper\GOM Cement flow with batch\Increased depth\Gulf of Mexico Cement Flow - Ca injected sand equil brine Onshore - longer time"
-loca30 = r"D:\Working-folder - Ajayi\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\For paper\GOM Cement flow with batch\Increased depth\Gulf of Mexico Cement Flow - Na acetate sand equil injected Onshore - longer time"
-loca31 = r"D:\Working-folder - Ajayi\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\For paper\GOM Cement flow with batch\Increased depth\Gulf of Mexico Cement Flow - NaCl sand equil brine injected Onshore - longer"
+loca28 = r"C:\Users\AJ\OneDrive - Louisiana State University\Increased depth\Gulf of Mexico Cement Flow - Ca injected sand equil brine Offshore - longer time"
+loca29 = r"C:\Users\AJ\OneDrive - Louisiana State University\Increased depth\Gulf of Mexico Cement Flow - Ca injected sand equil brine Onshore - longer time"
+loca30 = r"C:\Users\AJ\OneDrive - Louisiana State University\Increased depth\Gulf of Mexico Cement Flow - Na acetate sand equil injected Onshore - longer time"
+loca31 = r"C:\Users\AJ\OneDrive - Louisiana State University\Increased depth\Gulf of Mexico Cement Flow - NaCl sand equil brine injected Onshore - longer"
 
-loca32 = r"D:\Working-folder - Ajayi\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\For paper\GOM Cement flow with batch\Increased depth\same RSA\Gulf of Mexico Cement Flow - NaCl sand equil brine injected Onshore - longer"
-loca33 = r"D:\Working-folder - Ajayi\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\For paper\GOM Cement flow with batch\Increased depth\Gulf of Mexico Cement Flow - NaCl sand equil brine injected Onshore - longer"
+loca32 = r"C:\Users\AJ\OneDrive - Louisiana State University\Increased depth\same RSA\Gulf of Mexico Cement Flow - NaCl sand equil brine injected Onshore - longer"
+loca33 = r"C:\Users\AJ\OneDrive - Louisiana State University\Increased depth\Gulf of Mexico Cement Flow - NaCl sand equil brine injected Onshore - longer"
 
-loca34 = r"D:\Working-folder - Ajayi\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\For paper\GOM Cement flow with batch\Increased depth\no monosulfoaluminate\Gulf of Mexico Cement Flow - NaCl sand equil brine injected Onshore - longer"
-loca35 = r"D:\Working-folder - Ajayi\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\For paper\GOM Cement flow with batch\Increased depth\Gulf of Mexico Cement Flow - NaCl sand equil brine injected Onshore - longer"
+loca34 = r"C:\Users\AJ\OneDrive - Louisiana State University\Increased depth\no monosulfoaluminate\Gulf of Mexico Cement Flow - NaCl sand equil brine injected Onshore - longer"
+loca35 = r"C:\Users\AJ\OneDrive - Louisiana State University\Increased depth\Gulf of Mexico Cement Flow - NaCl sand equil brine injected Onshore - longer"
 
-loca36 = r"D:\Working-folder - Ajayi\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\For paper\GOM Cement flow with batch\Increased depth\Fast Rate all minerals\Gulf of Mexico Cement Flow - NaCl sand equil brine injected Onshore - longer"
+loca36 = r"C:\Users\AJ\OneDrive - Louisiana State University\Increased depth\Fast Rate all minerals\Gulf of Mexico Cement Flow - NaCl sand equil brine injected Onshore - longer"
 
-loca37 = r"D:\Working-folder - Ajayi\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\For paper\GOM Cement flow with batch\Increased depth\closed boundary\Gulf of Mexico Cement Flow - NaCl sand equil brine injected Onshore - longer"
+loca37 = r"C:\Users\AJ\OneDrive - Louisiana State University\Increased depth\closed boundary\Gulf of Mexico Cement Flow - NaCl sand equil brine injected Onshore - longer"
 
-loca38 =r"D:\Working-folder - Ajayi\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\For paper\GOM Cement flow with batch\Increased depth\closed boundary\Gulf of Mexico Cement Flow - Ca injected sand equil brine Offshore - longer time"
-loca39 = r"D:\Working-folder - Ajayi\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\For paper\GOM Cement flow with batch\Increased depth\closed boundary\Gulf of Mexico Cement Flow - Ca injected sand equil brine Onshore - longer time"
-loca40 =r"D:\Working-folder - Ajayi\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\For paper\GOM Cement flow with batch\Increased depth\closed boundary\Gulf of Mexico Cement Flow - Na acetate sand equil injected Onshore - longer time"
-loca41 = r"D:\Working-folder - Ajayi\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\For paper\GOM Cement flow with batch\Increased depth\closed boundary\Gulf of Mexico Cement Flow - NaCl sand equil brine injected Onshore - longer"
+loca38 =r"C:\Users\AJ\OneDrive - Louisiana State University\Increased depth\closed boundary\Gulf of Mexico Cement Flow - Ca injected sand equil brine Offshore - longer time"
+loca39 = r"C:\Users\AJ\OneDrive - Louisiana State University\Increased depth\closed boundary\Gulf of Mexico Cement Flow - Ca injected sand equil brine Onshore - longer time"
+loca40 =r"C:\Users\AJ\OneDrive - Louisiana State University\Increased depth\closed boundary\Gulf of Mexico Cement Flow - Na acetate sand equil injected Onshore - longer time"
+loca41 = r"C:\Users\AJ\OneDrive - Louisiana State University\Increased depth\closed boundary\Gulf of Mexico Cement Flow - NaCl sand equil brine injected Onshore - longer"
 
-loca42 =r"D:\Working-folder - Ajayi\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\For paper\GOM Cement flow with batch\Increased depth\remove gypsum\Gulf of Mexico Cement Flow - Ca injected sand equil brine Offshore - longer time"
-loca43 = r"D:\Working-folder - Ajayi\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\For paper\GOM Cement flow with batch\Increased depth\CSH\Gulf of Mexico Cement Flow - Ca injected sand equil brine Offshore - longer time"
+loca42 =r"C:\Users\AJ\OneDrive - Louisiana State University\Increased depth\remove gypsum\Gulf of Mexico Cement Flow - Ca injected sand equil brine Offshore - longer time"
+loca43 = r"C:\Users\AJ\OneDrive - Louisiana State University\Increased depth\CSH\Gulf of Mexico Cement Flow - Ca injected sand equil brine Offshore - longer time"
 
-loca44 = r"D:\Working-folder - Ajayi\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\For paper\GOM Cement flow with batch\Increased depth\more co2\Gulf of Mexico Cement Flow - Ca injected sand equil brine Offshore - longer time"
+loca44 = r"C:\Users\AJ\OneDrive - Louisiana State University\Increased depth\more co2\Gulf of Mexico Cement Flow - Ca injected sand equil brine Offshore - longer time"
 
-loca45 = r"D:\Working-folder - Ajayi\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\For paper\GOM Cement flow with batch\Increased depth\h2s\Gulf of Mexico Cement Flow - Ca injected sand equil brine Offshore - longer time"
+loca45 = r"C:\Users\AJ\OneDrive - Louisiana State University\Increased depth\h2s\Gulf of Mexico Cement Flow - Ca injected sand equil brine Offshore - longer time"
 
-loca46 = r"D:\Working-folder - Ajayi\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\For paper\GOM Cement flow with batch\Increased depth\increased flow\Gulf of Mexico Cement Flow - Ca injected sand equil brine Offshore - longer time"
-loca47 = r"D:\Working-folder - Ajayi\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\For paper\GOM Cement flow with batch\Increased depth\increased flow\Gulf of Mexico Cement Flow - Ca injected sand equil brine Offshore - longer time2"
+loca46 = r"C:\Users\AJ\OneDrive - Louisiana State University\Increased depth\increased flow\Gulf of Mexico Cement Flow - Ca injected sand equil brine Offshore - longer time"
+loca47 = r"C:\Users\AJ\OneDrive - Louisiana State University\Increased depth\increased flow\Gulf of Mexico Cement Flow - Ca injected sand equil brine Offshore - longer time2"
 
-loca48 = r"D:\Working-folder - Ajayi\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\For paper\GOM Cement flow with batch\Increased depth\same RSA\Gulf of Mexico Cement Flow - Ca injected sand equil brine Offshore - longer time"
+loca48 = r"C:\Users\AJ\OneDrive - Louisiana State University\Increased depth\same RSA\Gulf of Mexico Cement Flow - Ca injected sand equil brine Offshore - longer time"
 
-loca49 = r"D:\Working-folder - Ajayi\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\For paper\GOM Cement flow with batch\Increased depth\Fast Rate all minerals\Gulf of Mexico Cement Flow - Ca injected sand equil brine Offshore - longer"
+loca49 = r"C:\Users\AJ\OneDrive - Louisiana State University\Increased depth\Fast Rate all minerals\Gulf of Mexico Cement Flow - Ca injected sand equil brine Offshore - longer"
 
-loca50 = r"D:\Working-folder - Ajayi\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\For paper\GOM Cement flow with batch\Increased depth\more ca\Gulf of Mexico Cement Flow - Ca injected sand equil brine Offshore - longer time"
-loca50b = r"D:\Working-folder - Ajayi\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\For paper\GOM Cement flow with batch\Increased depth\Zeolites\Gulf of Mexico Cement Flow - Ca injected sand equil brine Offshore - longer time -addnocash"
+loca50 = r"C:\Users\AJ\OneDrive - Louisiana State University\Increased depth\more ca\Gulf of Mexico Cement Flow - Ca injected sand equil brine Offshore - longer time"
+loca50b = r"C:\Users\AJ\OneDrive - Louisiana State University\Increased depth\Zeolites\Gulf of Mexico Cement Flow - Ca injected sand equil brine Offshore - longer time -addnocash"
 
-loca51=r"D:\Working-folder - Ajayi\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\For paper\GOM Sandstone Cement flow with Batch surface\Increased depth\Gulf of Mexico Sandstone Cement Flow - Ca injected brine Offshore"
-loca52=r"D:\Working-folder - Ajayi\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\For paper\GOM Sandstone Cement flow with Batch surface\Increased depth\Gulf of Mexico Sandstone Cement Flow - Ca injected brine Onshore"
-loca53=r"D:\Working-folder - Ajayi\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\For paper\GOM Sandstone Cement flow with Batch surface\Increased depth\Gulf of Mexico Sandstone Cement Flow - Na acetate brine"
-loca54=r"D:\Working-folder - Ajayi\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\For paper\GOM Sandstone Cement flow with Batch surface\Increased depth\Gulf of Mexico Sandstone Cement Flow - NaCl brine"
+loca51=r"C:\Users\AJ\OneDrive - Louisiana State University\GOM Sandstone Cement flow with Batch surface\Increased depth\Gulf of Mexico Sandstone Cement Flow - Ca injected brine Offshore"
+loca52=r"C:\Users\AJ\OneDrive - Louisiana State University\GOM Sandstone Cement flow with Batch surface\Increased depth\Gulf of Mexico Sandstone Cement Flow - Ca injected brine Onshore"
+loca53=r"C:\Users\AJ\OneDrive - Louisiana State University\GOM Sandstone Cement flow with Batch surface\Increased depth\Gulf of Mexico Sandstone Cement Flow - Na acetate brine"
+loca54=r"C:\Users\AJ\OneDrive - Louisiana State University\GOM Sandstone Cement flow with Batch surface\Increased depth\Gulf of Mexico Sandstone Cement Flow - NaCl brine"
 
-loca55=r"D:\Working-folder - Ajayi\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\For paper\GOM Cement flow with batch\Increased depth\Zeolites\Gulf of Mexico Cement Flow - Ca injected sand equil brine Offshore - longer time -add"
-loca56=r"D:\Working-folder - Ajayi\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\For paper\GOM Cement flow with batch\Increased depth\Zeolites\Gulf of Mexico Cement Flow - Ca injected sand equil brine Offshore - longer time"
-loca57 = r"D:\Working-folder - Ajayi\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\For paper\GOM Cement flow with batch\Increased depth\more cl\Gulf of Mexico Cement Flow - NaCl sand equil brine injected Onshore - longer"
+loca55=r"C:\Users\AJ\OneDrive - Louisiana State University\Increased depth\Zeolites\Gulf of Mexico Cement Flow - Ca injected sand equil brine Offshore - longer time -add"
+loca56=r"C:\Users\AJ\OneDrive - Louisiana State University\Increased depth\Zeolites\Gulf of Mexico Cement Flow - Ca injected sand equil brine Offshore - longer time"
+loca57 = r"C:\Users\AJ\OneDrive - Louisiana State University\Increased depth\more cl\Gulf of Mexico Cement Flow - NaCl sand equil brine injected Onshore - longer"
 
-loca58 = r"D:\Working-folder - Ajayi\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\For paper\GOM Cement flow with batch\Increased depth\more na\Gulf of Mexico Cement Flow - NaCl sand equil brine injected Onshore - longer -highertemp"
-loca59 = r"D:\Working-folder - Ajayi\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\For paper\GOM Cement flow with batch\Increased depth\more cl\Gulf of Mexico Cement Flow - NaCl sand equil brine injected Onshore - longer -hightemp"
-loca60 = r"D:\Working-folder - Ajayi\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\For paper\GOM Cement flow with batch\Increased depth\more ca\Gulf of Mexico Cement Flow - NaCl sand equil brine injected Onshore - longer"
+loca58 = r"C:\Users\AJ\OneDrive - Louisiana State University\Increased depth\more na\Gulf of Mexico Cement Flow - NaCl sand equil brine injected Onshore - longer -highertemp"
+loca59 = r"C:\Users\AJ\OneDrive - Louisiana State University\Increased depth\more cl\Gulf of Mexico Cement Flow - NaCl sand equil brine injected Onshore - longer -hightemp"
+loca60 = r"C:\Users\AJ\OneDrive - Louisiana State University\Increased depth\more ca\Gulf of Mexico Cement Flow - NaCl sand equil brine injected Onshore - longer"
 
-loca61 = r"D:\Working-folder - Ajayi\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\For paper\GOM Cement flow with batch\Increased depth\more na\Gulf of Mexico Cement Flow - Ca injected sand equil brine Offshore - longer time"
-loca62 = r"D:\Working-folder - Ajayi\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\For paper\GOM Cement flow with batch\Increased depth\more cl\Gulf of Mexico Cement Flow - Ca injected sand equil brine Offshore - longer time"
-loca63 = r"D:\Working-folder - Ajayi\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\For paper\GOM Cement flow with batch\Increased depth\more ca\Gulf of Mexico Cement Flow - Ca injected sand equil brine Offshore - longer time"
+loca61 = r"C:\Users\AJ\OneDrive - Louisiana State University\Increased depth\more na\Gulf of Mexico Cement Flow - Ca injected sand equil brine Offshore - longer time"
+loca62 = r"C:\Users\AJ\OneDrive - Louisiana State University\Increased depth\more cl\Gulf of Mexico Cement Flow - Ca injected sand equil brine Offshore - longer time"
+loca63 = r"C:\Users\AJ\OneDrive - Louisiana State University\Increased depth\more ca\Gulf of Mexico Cement Flow - Ca injected sand equil brine Offshore - longer time"
 
-loca64=r"D:\Working-folder - Ajayi\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\For paper\GOM Sandstone Cement flow with Batch\Increased depth\Gulf of Mexico Sandstone Cement Flow - Ca injected brine Offshore"
-loca65=r"D:\Working-folder - Ajayi\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\For paper\GOM Sandstone Cement flow with Batch\Increased depth\Gulf of Mexico Sandstone Cement Flow - Ca injected brine Onshore"
-loca66=r"D:\Working-folder - Ajayi\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\For paper\GOM Sandstone Cement flow with Batch\Increased depth\Gulf of Mexico Sandstone Cement Flow - Na acetate brine"
-loca67=r"D:\Working-folder - Ajayi\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\For paper\GOM Sandstone Cement flow with Batch\Increased depth\Gulf of Mexico Sandstone Cement Flow - NaCl brine"
+loca64=r"C:\Users\AJ\OneDrive - Louisiana State University\GOM Sandstone Cement flow with Batch\Increased depth\Gulf of Mexico Sandstone Cement Flow - Ca injected brine Offshore"
+loca65=r"C:\Users\AJ\OneDrive - Louisiana State University\GOM Sandstone Cement flow with Batch\Increased depth\Gulf of Mexico Sandstone Cement Flow - Ca injected brine Onshore"
+loca66=r"C:\Users\AJ\OneDrive - Louisiana State University\GOM Sandstone Cement flow with Batch\Increased depth\Gulf of Mexico Sandstone Cement Flow - Na acetate brine"
+loca67=r"C:\Users\AJ\OneDrive - Louisiana State University\GOM Sandstone Cement flow with Batch\Increased depth\Gulf of Mexico Sandstone Cement Flow - NaCl brine"
 
 
-loca68 =r"D:\Working-folder - Ajayi\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\For paper\GOM Shale Cement flow with Batch\Gulf of Mexico Shale Cement Flow - Ca injected brine Offshore"
-loca69=r"D:\Working-folder - Ajayi\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\For paper\GOM Shale Cement flow with Batch\Gulf of Mexico Shale Cement Flow - Ca injected brine Onshore"
-loca70 = r"D:\Working-folder - Ajayi\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\For paper\GOM Shale Cement flow with Batch\Gulf of Mexico Shale Cement Flow - Na acetate brine"
-loca71 = r"D:\Working-folder - Ajayi\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\For paper\GOM Shale Cement flow with Batch\Gulf of Mexico Shale Cement Flow - NaCl brine"
+loca68 =r"C:\Users\AJ\OneDrive - Louisiana State University\GOM Shale Cement flow with Batch\Gulf of Mexico Shale Cement Flow - Ca injected brine Offshore"
+loca69=r"C:\Users\AJ\OneDrive - Louisiana State University\GOM Shale Cement flow with Batch\Gulf of Mexico Shale Cement Flow - Ca injected brine Onshore"
+loca70 = r"C:\Users\AJ\OneDrive - Louisiana State University\GOM Shale Cement flow with Batch\Gulf of Mexico Shale Cement Flow - Na acetate brine"
+loca71 = r"C:\Users\AJ\OneDrive - Louisiana State University\GOM Shale Cement flow with Batch\Gulf of Mexico Shale Cement Flow - NaCl brine"
 
-loca72 = r"D:\Working-folder - Ajayi\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\For paper\GOM Cement flow with batch\Increased depth\Crack investigation\Gulf of Mexico Sandstone Cement Flow - NaCl brine"
+loca72 = r"C:\Users\AJ\OneDrive - Louisiana State University\Increased depth\Crack investigation\Gulf of Mexico Sandstone Cement Flow - NaCl brine"
 
 
 
@@ -125,7 +125,7 @@ loca72 = r"D:\Working-folder - Ajayi\my TOUGHREACT$TOUGH Simulations\Moving Forw
 
 #loca =[loca21,loca22,loca23,loca24]
 # loca =[loca27,loca25,loca26,loca26b]
-loca =[loca28,loca29,loca30,loca31]
+# loca =[loca28,loca29,loca30,loca31]
 #loca = [loca51,loca52,loca53,loca54]
 #loca=[loca64,loca65,loca66,loca67]
 #loca=[loca68,loca69,loca70,loca71]
@@ -140,12 +140,12 @@ loca =[loca28,loca29,loca30,loca31]
 #loca = [loca38,loca39,loca40,loca41]
 #loca = [loca17,loca18,loca19,loca20]
 # loca = [loca41,loca31]
-# loca = [loca47,loca46,loca28]
+loca = [loca47,loca46,loca28]
 # loca = [loca60,loca31]
 # loca = [loca36]
 # loca = [loca55,loca56,loca28]
 #loca = [loca57,loca31]
-dest = r"D:\Working-folder - Ajayi\Software\PyTOUGH-master"
+dest = r"C:\Users\AJ\Desktop\My Desktop\LSU\LSU-Corona\PyTOUGH-master"
 files2 = ["kdd_concdiff.tec", "kdd_gasdiff.tec", "kdd_mindiff.tec", "kdd_timdiff.tec", "MESH"]
 files1 = ["kdd_concvtk.tec", "kdd_gasvtk.tec", "kdd_minvtk.tec", "kdd_timvtk.tec", "MESH"]
 files3 = ["kdd_conc.tec", "kdd_gas.tec", "kdd_min.tec", "kdd_tim.tec", "MESH"]
@@ -162,8 +162,8 @@ parameters7 = ['t_h4sio4','t_hs-']
 parameters8 = ['aH2O','t_h2o']
 
 
-param2 = ['gypsum','Porosity','friedel_salt','ettringite']
-# param2 = ['calcite','Porosity','friedel_salt','ettringite']
+# param2 = ['gypsum','Porosity','friedel_salt','ettringite']
+param2 = ['calcite','Porosity','friedel_salt','ettringite']
 param3 = ['portlandite','gypsum','jennite','monosulfoalu']
 #param3 = ['portlandite','calcite','gypsum','monosulfoalu']
 #param3 = ['portlandite','ettringite']
@@ -182,7 +182,7 @@ rep = 'Porosity'
 #param5 = ['dolomite','hematite']
 
 #plotconclong = batchreactionplotroutine(files3[0],br3,parameters)
-labels =['Ca Offshore (Case 4)','Ca onshore (Case 3)','Na acetate (Case 2)','NaCl (Case 1)','NaCl Same','More Ca','More HCO3']
+# labels =['Ca Offshore (Case 4)','Ca onshore (Case 3)','Na acetate (Case 2)','NaCl (Case 1)','NaCl Same','More Ca','More HCO3']
 # labels =['$1.65E-11 m^{2}$','$1.65E-10 m^{2}$','$1.65E-9 m^{2}$','$1.65E-5 m^{2}$']
 # labels =['Closed boundary','Open boundary']
 # labels =['Cracked Cement','Uncracked Cement']
@@ -190,7 +190,7 @@ labels =['Ca Offshore (Case 4)','Ca onshore (Case 3)','Na acetate (Case 2)','NaC
 # labels = ["Increased Calcium Conc","Base Case Calcium Conc"]
 # labels = ["0.01 Mole fraction CO2","1.00 Mole fraction CO2"]
 # labels =['Fastest rate','Faster rate','Fast rate']
-# labels =['1.53E-3 m$^3$/day','1.53E-4 m$^3$/day','1.53E-5 m$^3$/day']
+labels =['1.53E-3 m$^3$/day','1.53E-4 m$^3$/day','1.53E-5 m$^3$/day']
 # labels =['Fixed reactive area','Varying reactive area']
 # labels = ['Fixed kinetic parameters','Different kinetic parameters']
 
@@ -401,6 +401,7 @@ commented out codes
 #        ax.set_xlabel('Time (seconds)',fontsize=14,fontweight='bold')
 #        ax.set_ylabel(prop[number-1],fontsize=14,fontweight='bold')
 #        plt.tight_layout()
+
 #    os.chdir(loca[0])
 #    fig.savefig(labels[0] +'.jpg',bbox_inches='tight',dpi=(600))
 #    matplotlib.style.use('classic')
