@@ -420,7 +420,7 @@ class flowreactionplotroutine(object):
             matplotlib.rc('ytick', labelsize=14)
             axs.plot(df[Xaxisdirection],df[self.parameters[i]])
             plt.xlabel('Distance(m)',fontsize=16)
-            plt.ylabel('Change in Volume fraction ',fontsize=16)
+            plt.ylabel('Change in volume fraction ',fontsize=16)
 #            plt.setp(axs.get_legend().get_texts(), fontsize='10')
             axs.grid(True,which='both')
             # axs.minorticks_on()
@@ -467,7 +467,7 @@ class flowreactionplotroutine(object):
                     plt.xticks(fontsize=12)
                     plt.yticks(fontsize=12)
                     plt.xlabel('Distance(m)',fontsize=12)
-                    plt.ylabel('Change in Volume fraction ',fontsize=12)
+                    plt.ylabel('Change in volume fraction ',fontsize=12)
                 else:
                     axs2 = axs.twinx()
                     axs2.plot(df[Xaxisdirection],df[self.parameters[i]],color =colors[l],marker=markers[l],label=self.parameters[i].capitalize())

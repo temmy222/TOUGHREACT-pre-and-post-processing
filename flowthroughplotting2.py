@@ -50,7 +50,7 @@ dest13=r"C:\Users\AJ\OneDrive - Louisiana State University\Increased depth\Gulf 
 
 dest14 = r"D:\Working-folder - Ajayi\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\Testing\Portlandite Calcite normal compare"
 
-loc = r"D:\Working-folder - Ajayi\Software\PyTOUGH-master"
+loc = r"C:\Users\AJ\Desktop\My Desktop\LSU\LSU-Corona\PyTOUGH-master"
 
 loca17=r"C:\Users\AJ\OneDrive - Louisiana State University\Increased depth\Gulf of Mexico Cement Flow - Ca injected sand equil brine Offshore - same high cond - longer time"
 loca18=r"C:\Users\AJ\OneDrive - Louisiana State University\Increased depth\Gulf of Mexico Cement Flow - Ca injected sand equil brine Onshore - same high cond - longer time"
@@ -97,13 +97,13 @@ loca71 = r"C:\Users\AJ\OneDrive - Louisiana State University\GOM Shale Cement fl
 loca72 =r"C:\Users\AJ\OneDrive - Louisiana State University\Increased depth\Crack investigation\Gulf of Mexico Sandstone Cement Flow - NaCl brine"
 
 #location = [loca17,loca18,loca19,loca20]
-location = [loca64,loca65,loca66,loca67]
-# location =[loca27,loca25,loca26,loca26b]
+# location = [loca64,loca65,loca66,loca67]
+location =[loca27,loca25,loca26,loca26b]
 # location =[loca28,loca29,loca30,loca31]
 #location = [loca38,loca28]
-dest = loca67
-labels =['Ca Offshore (Case 4)','Ca onshore (Case 3)','Na acetate (Case 2)','NaCl (Case 1)','NaCl Same','More Ca','More HCO3']
-# labels =['$1.65E-11 m^{2}$','$1.65E-10 m^{2}$','$1.65E-9 m^{2}$','$1.65E-5 m^{2}$']
+dest = loca64
+# labels =['Ca Offshore (Case 4)','Ca onshore (Case 3)','Na acetate (Case 2)','NaCl (Case 1)','NaCl Same','More Ca','More HCO3']
+labels =['$1.65E-11 m^{2}$','$1.65E-10 m^{2}$','$1.65E-9 m^{2}$','$1.65E-5 m^{2}$']
 
 file_name = "kdd_conc.tec"
 file_name2 = "MESH"
@@ -148,8 +148,8 @@ fordomain =['Porosity']
 #trem.write_vtk(geo, filenamevtk)
 
 
-face = 'Z'
-plotX = 'X'
+face = 'X'
+plotX = 'Z'
 Zlayer = 1 
 Ylayer = 1
 Xlayer = 24
@@ -174,7 +174,7 @@ plotmins = flowreactionplotroutine(myList[2],br3,minerals,dest)
 plotconc = flowreactionplotroutine(myList[0],br3,paramconc,dest)
 plotmins1 = flowreactionplotroutine(myList[2],br3,mineralone,dest)
 plotconc.plot2D(10,5,br3,'XZ',time)
-# plotmins1.plot2D(10,5,br3,'XZ',time)
+plotmins1.plot2D(10,5,br3,'XZ',time)
 # data,X,Y = plotmins1.direction(10,5,br3,'XZ',time,color="r")
 # #
 # #os.chdir(loc)
