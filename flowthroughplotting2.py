@@ -103,7 +103,7 @@ location =[loca27,loca25,loca26,loca26b]
 #location = [loca38,loca28]
 dest = loca64
 # labels =['Ca Offshore (Case 4)','Ca onshore (Case 3)','Na acetate (Case 2)','NaCl (Case 1)','NaCl Same','More Ca','More HCO3']
-labels =['$1.65E-11 m^{2}$','$1.65E-10 m^{2}$','$1.65E-9 m^{2}$','$1.65E-5 m^{2}$']
+labels =['$1.65E-11 m^{2}/s$','$1.65E-10 m^{2}/s$','$1.65E-9 m^{2}/s$','$1.65E-5 m^{2}/s$']
 
 file_name = "kdd_conc.tec"
 file_name2 = "MESH"
@@ -161,7 +161,7 @@ initialtime =0
 plotmins = flowreactionplotroutine(myList[2],br3,minerals,dest)
 # dama = plotmins.plotdistance(face,plotX,Xlayer,Ylayer,Zlayer,3,time)
 # dama2 = plotmins.plotdistancemultiple(face,plotX,Xlayer,Ylayer,Zlayer,time)
-# dama2 = plotmins.plotdistancemultiplefiles(face,plotX,Xlayer,Ylayer,Zlayer,location,labels,time)
+dama2 = plotmins.plotdistancemultiplefiles(face,plotX,Xlayer,Ylayer,Zlayer,location,labels,time)
 
 # os.chdir(loc)
 # plotconcdist = flowreactionplotroutine(myList[0],br3,species,dest)
@@ -173,8 +173,8 @@ plotmins = flowreactionplotroutine(myList[2],br3,minerals,dest)
 # os.chdir(loc)
 plotconc = flowreactionplotroutine(myList[0],br3,paramconc,dest)
 plotmins1 = flowreactionplotroutine(myList[2],br3,mineralone,dest)
-plotconc.plot2D(10,5,br3,'XZ',time)
-plotmins1.plot2D(10,5,br3,'XZ',time)
+# plotconc.plot2D(10,5,br3,'XZ',time)
+# plotmins1.plot2D(10,5,br3,'XZ',time)
 # data,X,Y = plotmins1.direction(10,5,br3,'XZ',time,color="r")
 # #
 # #os.chdir(loc)
