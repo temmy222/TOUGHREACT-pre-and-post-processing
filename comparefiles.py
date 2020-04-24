@@ -125,12 +125,12 @@ loca72 = r"C:\Users\AJ\OneDrive - Louisiana State University\Increased depth\Cra
 
 #loca =[loca21,loca22,loca23,loca24]
 # loca =[loca27,loca25,loca26,loca26b]
-# loca =[loca28,loca29,loca30,loca31]
+loca =[loca28,loca29,loca30,loca31]
 #loca = [loca51,loca52,loca53,loca54]
 #loca=[loca64,loca65,loca66,loca67]
 #loca=[loca68,loca69,loca70,loca71]
 
-loca=[loca72,loca31]
+# loca=[loca72,loca31]
 # loca =[loca32,loca33]
 #loca = [loca6,loca7,loca8,loca9]
 #loca = [loca10,loca11,loca12,loca13]
@@ -163,16 +163,16 @@ parameters7 = ['t_h4sio4','t_hs-']
 parameters8 = ['aH2O','t_h2o']
 
 
-# param2 = ['gypsum','Porosity','friedel_salt','ettringite']
-param2 = ['calcite','Porosity','friedel_salt','ettringite']
+param2 = ['gypsum','Porosity','friedel_salt','ettringite']
+# param2 = ['calcite','Porosity','friedel_salt','ettringite']
 param3 = ['portlandite','gypsum','jennite','monosulfoalu']
 #param3 = ['portlandite','calcite','gypsum','monosulfoalu']
 #param3 = ['portlandite','ettringite']
 param4 = ['calcite','friedel_salt']
 #param4  = ['katoitesi1','c3fh6']
-param5  = ['katoitesi1','c3fh6']
-param6 = ['brucite','tobermorite(']
-param7 = ['chalcedony','tobermorite(']
+param5  = ['katoitesi1','c3fh6','tobermorite(','hydrotalcite']
+param6 = ['brucite','chalcedony','dolomite','calcite']
+param7 = ['calcite','sepiolite']
 param8 = ['hydrotalcite','dolomite']
 param9 = ['monosulfoalu','jennite']
 rep = 'Porosity'
@@ -183,10 +183,10 @@ rep = 'Porosity'
 #param5 = ['dolomite','hematite']
 
 #plotconclong = batchreactionplotroutine(files3[0],br3,parameters)
-# labels =['Ca Offshore (Case 4)','Ca onshore (Case 3)','Na acetate (Case 2)','NaCl (Case 1)','NaCl Same','More Ca','More HCO3']
+labels =['Ca Offshore (Case 4)','Ca onshore (Case 3)','Na acetate (Case 2)','NaCl (Case 1)','NaCl Same','More Ca','More HCO3']
 # labels =['$1.65E-11 m^{2}/s$','$1.65E-10 m^{2}/s$','$1.65E-9 m^{2}/s$','$1.65E-5 m^{2}/s$']
 # labels =['Closed boundary','Open boundary']
-labels =['Cracked Cement','Uncracked Cement']
+# labels =['Cracked Cement','Uncracked Cement']
 # labels=['Zeolites added from start','Zeolites only allowed to precipitate','No zeolites at all']
 # labels = ["Increased Calcium Conc","Base Case Calcium Conc"]
 # labels = ["0.01 Mole fraction CO2","1.00 Mole fraction CO2"]
@@ -195,19 +195,19 @@ labels =['Cracked Cement','Uncracked Cement']
 # labels =['Fixed reactive area','Varying reactive area']
 # labels = ['Fixed kinetic parameters','Different kinetic parameters']
 
-masa2 = multiplotroutine(loca,dest,files3,60,2,param2)
-masa3 = multiplotroutine(loca,dest,files3,60,2,param3)
+masa2 = multiplotroutine(loca,dest,files3,0,2,param2)
+# masa3 = multiplotroutine(loca,dest,files3,0,2,param3)
 #masa4 = multiplotroutine(loca,dest,files3,0,2,param4)
-#masa5 = multiplotroutine(loca,dest,files3,0,2,param5)
-#masa6 = multiplotroutine(loca,dest,files3,0,2,param6)
-#masa7 = multiplotroutine(loca,dest,files3,0,2,param7)
+# masa5 = multiplotroutine(loca,dest,files3,0,2,param5)
+# masa6 = multiplotroutine(loca,dest,files3,0,2,param6)
+# masa7 = multiplotroutine(loca,dest,files3,0,2,param7)
 #masa8 = multiplotroutine(loca,dest,files3,0,2,param8)
 #masa9 = multiplotroutine(loca,dest,files3,0,2,param9)
 #
 #
 #
-masaconc1 = multiplotroutine(loca,dest,files3,0,0,parameters)
-masaconc2 = multiplotroutine(loca,dest,files3,0,0,parameters2)
+# masaconc1 = multiplotroutine(loca,dest,files3,0,0,parameters)
+# masaconc2 = multiplotroutine(loca,dest,files3,0,0,parameters2)
 #masaconc3 = multiplotroutine(loca,dest,files3,0,0,parameters3)
 #masaconc4 = multiplotroutine(loca,dest,files3,0,0,parameters4)
 #masaconc5 = multiplotroutine(loca,dest,files3,0,0,parameters5)
@@ -220,11 +220,11 @@ masaconc2 = multiplotroutine(loca,dest,files3,0,0,parameters2)
 
 
 masa2.plotmultimulti(labels,purpose='presentation',style='multiple')
-masa3.plotmultimulti(labels,purpose='presentation',style='multiple')
+# masa3.plotmultimulti(labels,purpose='presentation',style='multiple')
 #masa4.plotmultimulti(labels,purpose='presentation')
-#masa5.plotmultimulti(labels,purpose='presentation')
-#masa6.plotmultimulti(labels,purpose='presentation')
-#masa7.plotmultimulti(labels,purpose='presentation')
+# masa5.plotmultimulti(labels,purpose='presentation',style='multiple')
+# masa6.plotmultimulti(labels,purpose='presentation',style='multiple')
+# masa7.plotmultimulti(labels,purpose='presentation',style='multiple')
 #masa8.plotmultimulti(labels,purpose='presentation')
 #masa9.plotmultimulti(labels,purpose='presentation')
 #
@@ -239,8 +239,8 @@ masa3.plotmultimulti(labels,purpose='presentation',style='multiple')
 #
 #
 #
-masaconc1.plotmultimulti(labels,purpose='presentation',style='multiple')
-masaconc2.plotmultimulti(labels,purpose='presentation',style='multiple')
+# masaconc1.plotmultimulti(labels,purpose='presentation',style='multiple')
+# masaconc2.plotmultimulti(labels,purpose='presentation',style='multiple')
 #masaconc3.plotmultimulti(labels,purpose='presentation')
 #masaconc4.plotmultimulti(labels,purpose='presentation')
 #masaconc5.plotmultimulti(labels,purpose='presentation')
