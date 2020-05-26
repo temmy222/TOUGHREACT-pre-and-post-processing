@@ -14,6 +14,7 @@ from scipy import interpolate
 from scipy.interpolate import griddata
 import random
 import pandas as pd
+import decimal
 
 class flowreactionplotroutine(object):
     """
@@ -75,8 +76,8 @@ class flowreactionplotroutine(object):
 #                norm = mc.BoundaryNorm(levels, 256)
                 print(timer)
              #   cs2 = plt.contourf(xi,yi,data1,levels, cmap='coolwarm',norm=norm)
-                cs2 = plt.contourf(xi,yi,data1,10,  cmap='coolwarm',vmin=8.5,vmax=8.9)
-                # cs2 = plt.contourf(xi,yi,data1,800,extend='neither',cmap='coolwarm')
+                # cs2 = plt.contourf(xi,yi,data1,10,  cmap='coolwarm',vmin=8.5,vmax=8.9)
+                cs2 = plt.contourf(xi,yi,data1,800,extend='neither',cmap='coolwarm')
                 # cs2=ax.imshow(data1,interpolation='bilinear', cmap=plt.cm.coolwarm,origin='lower',aspect='auto', extent=[X.min(), X.max(), Z.min(), Z.max()])
                 # plt.imshow(data1,origin='lower')
                 # cbaxes = fig.add_axes([0.9, 0.2, 0.01, 0.7]) 
@@ -243,6 +244,126 @@ class flowreactionplotroutine(object):
         elif len(self.parameters)==3:
             self.threeinone(width,height,grid,direction,timer,color)
             
+    def getgridnumber(self,df,direction):
+        X = df[direction]
+        d ={}
+        for i in X:
+            if i not in d:
+                d[i] = 1
+            else:
+                d[i] += 1
+        m = list(d.keys())
+        return m, len(d) 
+    
+    def cust_range(self,*args, rtol=1e-05, atol=1e-08, include=[True, False]):
+        """
+        Combines numpy.arange and numpy.isclose to mimic
+        open, half-open and closed intervals.
+        Avoids also floating point rounding errors as with
+        >>> numpy.arange(1, 1.3, 0.1)
+        array([1. , 1.1, 1.2, 1.3])
+    
+        args: [start, ]stop, [step, ]
+            as in numpy.arange
+        rtol, atol: floats
+            floating point tolerance as in numpy.isclose
+        include: boolean list-like, length 2
+            if start and end point are included
+        """
+        # process arguments
+        if len(args) == 1:
+            start = 0
+            stop = args[0]
+            step = 1
+        elif len(args) == 2:
+            start, stop = args
+            step = 1
+        else:
+            assert len(args) == 3
+            start, stop, step = tuple(args)
+    
+        # determine number of segments
+        n = (stop-start)/step + 1
+    
+        # do rounding for n
+        if np.isclose(n, np.round(n), rtol=rtol, atol=atol):
+            n = np.round(n)
+    
+        # correct for start/end is exluded
+        if not include[0]:
+            n -= 1
+            start += step
+        if not include[1]:
+            n -= 1
+            stop -= step
+    
+        return np.linspace(start, stop, int(n))
+
+    def crange(self,*args, **kwargs):
+        return self.cust_range(*args, **kwargs, include=[True, True])
+    
+    def orange(self,*args, **kwargs):
+        return self.cust_range(*args, **kwargs, include=[True, False])
+            
+    def plot2D_withgrid(self,param,timer,direction='XZ'):
+        if direction=='XZ':
+            fig, ax = plt.subplots(1,1)
+            tre = toughreact_tecplot(self.filename,self.gridblock)
+            if timer == None:
+                tre.last()
+            else:
+                print('yes')
+                tre.set_time(timer)
+            X = tre.element['X(m)']
+            Y = tre.element['Y(m)']
+            Z = tre.element['Z(m)']
+            presenttime = str(tre.time)
+            # param = tre.element[self.parameters[paramNum]]
+            df = pd.DataFrame(index=range(len(X)))
+            df['X'] = X
+            df['Y'] = Y
+            df['Z'] = Z
+            Zvalues,Ztotal = self.getgridnumber(df,'Z')
+            Yvalues,Ytotal = self.getgridnumber(df,'Y')
+            Xvalues,Xtotal = self.getgridnumber(df,'X')
+            xi,yi = np.meshgrid(X,Z)
+            orig_data = tre.element[param]
+            data = np.asarray(tre.element[param])
+            data = data.reshape(Ztotal,Xtotal)
+            data1 = griddata((X,Z),orig_data,(xi,yi),method='nearest')
+            extent = [min(X), max(X), min(Z), max(Z)]
+            cs2 = plt.imshow(np.reshape(data, newshape=(Ztotal,Xtotal)),cmap='coolwarm',interpolation='none');
+            ax = plt.gca();
+            # Major ticks
+            x_tick = np.arange(0, Xtotal, 4)
+            z_tick = np.arange(0, Ztotal, 1)
+            Z_array = np.asarray(Z)
+            Z_array = np.abs(Z_array)
+            ax.set_xticks(x_tick)
+            num_tick_x = len(x_tick)
+            num_tick_z = len(z_tick)
+            ax.set_yticks(z_tick)
+            # Labels for major ticks
+            tick_x = max(X)-min(X)
+            tick_z = max(Z)-min(Z)
+            ax.set_xticklabels(np.round(self.crange(min(X),max(X),tick_x/(num_tick_x-1)),2),fontsize=8);
+            ax.set_yticklabels(np.round(self.crange(min(Z_array),max(Z_array),tick_z/(num_tick_z-1)),2),fontsize=8);
+            # Minor ticks
+            ax.set_xticks(np.arange(-.5, Xtotal, 1), minor=True);
+            ax.set_yticks(np.arange(-.5,Ztotal, 1), minor=True);
+            # Gridlines based on minor ticks
+            ax.grid(which='minor', color='k', linestyle='-', linewidth=1)
+            cbar = fig.colorbar(cs2,ax=ax,pad=0.2,orientation="horizontal")
+            # cbar.ax.set_ylabel(param,fontsize=8)
+            cbar.ax.set_title(param,fontsize=8)
+            cbar.ax.tick_params(labelsize=8)
+            cbar.ax.locator_params(nbins=7)
+            plt.xlabel('Horizontal Distance(m)',fontsize=8)
+            plt.ylabel('Vertical Depth (m)',fontsize=8)
+            plt.tight_layout()
+            print(presenttime)
+            os.chdir(self.saveloc) 
+            fig.savefig('Grid' +'.png',bbox_inches='tight',dpi=(600))
     
     def retrievedatadistance(self,direction,blocknumber):
         lst = self.parameters.copy()
@@ -268,16 +389,7 @@ class flowreactionplotroutine(object):
             Z = Z[:blocknumber]
         
         return dictionary, lst
-    def getgridnumber(self,df,direction):
-        X = df[direction]
-        d ={}
-        for i in X:
-            if i not in d:
-                d[i] = 1
-            else:
-                d[i] += 1
-        m = list(d.keys())
-        return m, len(d) 
+
     
     def colorcoding(self,style):
         markers = ["-o","-v","-^","-<","->","-1","-2","-3","-4","-8","-s","-p","-P","-*","-h","-H","-+","-x","-X","-D","-d","-|","-_"]
@@ -475,7 +587,7 @@ class flowreactionplotroutine(object):
                     plt.yticks(fontsize=12)
                     plt.xlabel('Distance(m)',fontsize=12)
                     plt.ylabel(self.parameters[i],fontsize=12)
-                    axs2.legend(loc='best',prop=fontP)
+                    # axs2.legend(loc='best',prop=fontP)
                     axs2.spines['left'].set_linewidth(1.5)
                     axs2.spines['top'].set_linewidth(0)
                     axs2.spines['right'].set_linewidth(1.5)
@@ -494,7 +606,7 @@ class flowreactionplotroutine(object):
                 axs.spines['left'].set_linewidth(1.5)
                 axs.spines['top'].set_linewidth(0)
                 axs.spines['right'].set_linewidth(0)
-                axs.legend(loc='center right',prop=fontP)
+                # axs.legend(loc='center right',prop=fontP)
                 # plt.legend(lama, prop={'size': 10})
                 # plt.grid()
                 l=l+1
@@ -504,6 +616,24 @@ class flowreactionplotroutine(object):
             k=k+1
         plt.subplots_adjust(left  = 0.125,wspace = 0.4,top = 0.95)
         os.chdir(self.saveloc) 
+        handles, labels = axs.get_legend_handles_labels()
+        handles2, labels2 = axs2.get_legend_handles_labels()
+        handles.append(handles2[0])
+        labels.append(labels2[0])
+        print(type(labels),handles)
+        # fig.legend(handles, labels, loc='upper center', bbox_to_anchor=(1.5, 1.05),ncol=2)
+        # box = axs.get_position()
+        # print(box.x0,box.y0,box.height,box.width)
+        # axs.set_position([box.x0, box.y0 + box.height * 0.1,box.width, box.height * 0.1])
+        # axs.legend(loc='upper center', bbox_to_anchor=(0.5, -0.05),fancybox=True, shadow=True, ncol=4)
+        
+        fig.tight_layout()
+#           plt.setp(legend.get_title(),fontsize='xx-small')
+#           plt.subplots_adjust(left  = 0.125,right = 0.9,bottom = 0.1,top = 0.9,wspace = 0.2,hspace = 0.2)
+        plt.subplots_adjust(left  = 0.125,wspace = 0.4,top = 0.95)
+        # axs.legend(handles , labels,loc='lower center',bbox_to_anchor=(0, -0.9),fancybox=False, shadow=False, ncol=4)
+        axs.legend(handles , labels,loc='lower center',bbox_to_anchor=(-0.3, -0.9),fancybox=False, shadow=False, ncol=4)
+        plt.setp(axs.get_legend().get_texts(), fontsize='12')
         fig.savefig(self.parameters[i] + presenttime +'.png',bbox_inches='tight',dpi=(600)) 
         
 

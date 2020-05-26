@@ -268,7 +268,7 @@ class multiplotroutine(object):
                 for i in range(kpansa,len(dictionary),paralengthdouble): 
                     axs[j].plot(dictionary[lst[i]][0],dictionary[lst[i+1]][0],label=labels[k],linewidth=2,color = colors[k],marker=markers[k])
                     # axs[j].legend(loc='upper right',borderpad=0.1)
-                    plt.setp(axs[j].get_legend().get_texts(), fontsize='10')
+                    plt.setp(axs[j].get_legend().get_texts(), fontsize='12')
                     axs[j].grid(True,which='both')
                     axs[j].minorticks_on()
                     plt.minorticks_on()
@@ -337,7 +337,7 @@ class multiplotroutine(object):
             for number in range(1,len(self.prop)+1):
                 axs = plt.subplot(3,2,counter)
                 k=0
-                for i in range(kpansa,len(dictionary),paralengthdouble): 
+                for i in range(kpansa,len(dictionary),paralengthdouble):                    
                     axs.plot(dictionary[lst[i]][0],dictionary[lst[i+1]][0],label=labels[k],linewidth=2,color = colors[k],marker=markers[k])
                     if self.prop[number-1].lower()=='porosity':
                         axs.set_ylabel("Porosity",fontsize=12)
@@ -348,7 +348,7 @@ class multiplotroutine(object):
                     else:
                         # axs.set_ylabel("$\Delta$ in min vol frac ($m^3 min / m^3 solid$)",fontsize=12)
                         axs.set_ylabel("Change in volume fraction",fontsize=12)
-                    axs.set_xlabel("Date (years)",fontsize=12)
+                    axs.set_xlabel("Time (years)",fontsize=12)
                     # axs.legend(loc='upper right',borderpad=0.1)
                     # plt.setp(axs.get_legend().get_texts(), fontsize='10')
                     plt.xticks(fontsize=12)
@@ -363,6 +363,10 @@ class multiplotroutine(object):
                         axs.set_title(divider[1].capitalize())
                     elif self.prop[number-1].startswith("pH"):
                         axs.set_title(self.prop[number-1])
+                    elif self.prop[number-1].startswith("mono"):
+                        axs.set_title('Monosulfoaluminate')
+                    elif self.prop[number-1].startswith("tobe"):
+                        axs.set_title('Tobermorite')
                     else:
                         axs.set_title(self.prop[number-1].capitalize())
                     # axs.set_xticklabels(xlabels, fontsize=12 )
@@ -389,7 +393,8 @@ class multiplotroutine(object):
 #           plt.setp(legend.get_title(),fontsize='xx-small')
 #           plt.subplots_adjust(left  = 0.125,right = 0.9,bottom = 0.1,top = 0.9,wspace = 0.2,hspace = 0.2)
             plt.subplots_adjust(left  = 0.125,wspace = 0.4,top = 0.95)
-            axs.legend(handles , labels,loc='lower center',bbox_to_anchor=(0, -0.9),fancybox=False, shadow=False, ncol=4)
+            # axs.legend(handles , labels,loc='lower center',bbox_to_anchor=(0, -0.9),fancybox=False, shadow=False, ncol=4)
+            axs.legend(handles , labels,loc='lower center',bbox_to_anchor=(-0.3, -0.9),fancybox=False, shadow=False, ncol=4)
             plt.setp(axs.get_legend().get_texts(), fontsize='12')
             os.chdir(self.locations[0])
             fig.savefig(self.prop[0] +'multiple'+'.jpg',bbox_inches='tight',dpi=(600)) 

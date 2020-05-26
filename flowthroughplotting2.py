@@ -98,10 +98,11 @@ loca72 =r"C:\Users\AJ\OneDrive - Louisiana State University\Increased depth\Crac
 
 #location = [loca17,loca18,loca19,loca20]
 # location = [loca64,loca65,loca66,loca67]
+# location = [loca68,loca69,loca70,loca71]
 location =[loca27,loca25,loca26,loca26b]
 # location =[loca28,loca29,loca30,loca31]
 #location = [loca38,loca28]
-dest = loca64
+dest = loca28
 # labels =['Ca Offshore (Case 4)','Ca onshore (Case 3)','Na acetate (Case 2)','NaCl (Case 1)','NaCl Same','More Ca','More HCO3']
 labels =['$1.65E-11 m^{2}/s$','$1.65E-10 m^{2}/s$','$1.65E-9 m^{2}/s$','$1.65E-5 m^{2}/s$']
 
@@ -161,7 +162,8 @@ initialtime =0
 plotmins = flowreactionplotroutine(myList[2],br3,minerals,dest)
 # dama = plotmins.plotdistance(face,plotX,Xlayer,Ylayer,Zlayer,3,time)
 # dama2 = plotmins.plotdistancemultiple(face,plotX,Xlayer,Ylayer,Zlayer,time)
-dama2 = plotmins.plotdistancemultiplefiles(face,plotX,Xlayer,Ylayer,Zlayer,location,labels,time)
+# plotmins.plot2D_withgrid(minerals[0],0)
+# dama2 = plotmins.plotdistancemultiplefiles(face,plotX,Xlayer,Ylayer,Zlayer,location,labels,time)
 
 # os.chdir(loc)
 # plotconcdist = flowreactionplotroutine(myList[0],br3,species,dest)
@@ -174,6 +176,7 @@ dama2 = plotmins.plotdistancemultiplefiles(face,plotX,Xlayer,Ylayer,Zlayer,locat
 plotconc = flowreactionplotroutine(myList[0],br3,paramconc,dest)
 plotmins1 = flowreactionplotroutine(myList[2],br3,mineralone,dest)
 # plotconc.plot2D(10,5,br3,'XZ',time)
+plotconc.plot2D_withgrid(paramconc[0],0)
 # plotmins1.plot2D(10,5,br3,'XZ',time)
 # data,X,Y = plotmins1.direction(10,5,br3,'XZ',time,color="r")
 # #

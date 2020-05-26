@@ -23,9 +23,9 @@ loca4 = r"C:\Users\AJ\OneDrive - Louisiana State University\Increased depth\Gulf
 loca5 = r"C:\Users\AJ\OneDrive - Louisiana State University\Gulf of Mexico Cement Flow - Ca injected sand equil brine Offshore - same cond"
 
 loca6=r"C:\Users\AJ\OneDrive - Louisiana State University\Increased depth\Gulf of Mexico Cement Flow - Ca injected sand equil brine Offshore - same high cond"
-loca7=r"C:\Users\AJ\OneDrive - Louisiana State University\Increased depth\Gulf of Mexico Cement Flow - Ca injected sand equil brine Onshore - same high cond"
-loca8=r"C:\Users\AJ\OneDrive - Louisiana State University\Increased depth\Gulf of Mexico Cement Flow - Na acetate sand equil injected Onshore - same high cond"
-loca9=r"C:\Users\AJ\OneDrive - Louisiana State University\Increased depth\Gulf of Mexico Cement Flow - NaCl sand equil brine injected Onshore - same high cond"
+loca7=r"C:\Users\AJ\OneDrive - Louisiana State University\Increased depth\Gulf of Mexico Cement Flow - Ca injected sand equil brine Onshore - same high cond - longer time"
+loca8=r"C:\Users\AJ\OneDrive - Louisiana State University\Increased depth\Gulf of Mexico Cement Flow - Na acetate sand equil injected Onshore - same high cond - longer time"
+loca9=r"C:\Users\AJ\OneDrive - Louisiana State University\Increased depth\Gulf of Mexico Cement Flow - NaCl sand equil brine injected Onshore - same high cond - longer time"
 
 loca10=r"C:\Users\AJ\OneDrive - Louisiana State University\Increased depth\Gulf of Mexico Cement Flow - Ca injected sand equil brine Offshore - same low cond"
 loca11=r"C:\Users\AJ\OneDrive - Louisiana State University\Increased depth\Gulf of Mexico Cement Flow - Ca injected sand equil brine Onshore - same low cond"
@@ -123,27 +123,28 @@ loca72 = r"C:\Users\AJ\OneDrive - Louisiana State University\Increased depth\Cra
 
 
 
-#loca =[loca21,loca22,loca23,loca24]
+loca =[loca21,loca22,loca23,loca24]
 # loca =[loca27,loca25,loca26,loca26b]
-loca =[loca28,loca29,loca30,loca31]
+# loca =[loca28,loca29,loca30,loca31]
 #loca = [loca51,loca52,loca53,loca54]
 #loca=[loca64,loca65,loca66,loca67]
 #loca=[loca68,loca69,loca70,loca71]
 
 # loca=[loca72,loca31]
 # loca =[loca32,loca33]
-#loca = [loca6,loca7,loca8,loca9]
+# loca = [loca6,loca7,loca8,loca9]
 #loca = [loca10,loca11,loca12,loca13]
 # loca = [loca48,loca28]
 #loca = [loca34,loca36]
-#loca = [loca37,loca35]
+# loca = [loca37,loca35]
+# loca = [loca38,loca28]
 #loca = [loca38,loca39,loca40,loca41]
 #loca = [loca17,loca18,loca19,loca20]
 # loca = [loca41,loca31]
 # loca = [loca47,loca46,loca28]
 # loca = [loca60,loca31]
 # loca = [loca50,loca28]
-# loca = [loca36]
+# loca = [loca49]
 # loca = [loca55,loca56,loca28]
 #loca = [loca57,loca31]
 dest = r"C:\Users\AJ\Desktop\My Desktop\LSU\LSU-Corona\PyTOUGH-master"
@@ -155,7 +156,7 @@ lookup = 'CONNE'
 
 parameters = ['pH','t_mg+2','t_ca+2','t_so4-2']
 parameters2 = ['t_h+','t_na+','t_hco3-','t_cl-']
-parameters3 = ['t_ca+2','t_so4-2']
+parameters3 = ['t_h4sio4','t_al+3','t_fe+2','t_hs-']
 parameters4 = ['t_al+3','t_fe+2']
 parameters5 = ['P(bar)','T(C)']
 parameters6 = ['t_hco3-','t_cl-']
@@ -163,12 +164,12 @@ parameters7 = ['t_h4sio4','t_hs-']
 parameters8 = ['aH2O','t_h2o']
 
 
-param2 = ['gypsum','Porosity','friedel_salt','ettringite']
-# param2 = ['calcite','Porosity','friedel_salt','ettringite']
+# param2 = ['gypsum','Porosity','friedel_salt','ettringite']
+param2 = ['calcite','Porosity','friedel_salt','ettringite']
+# param3 = ['portlandite','calcite','jennite','monosulfoalu']
 param3 = ['portlandite','gypsum','jennite','monosulfoalu']
-#param3 = ['portlandite','calcite','gypsum','monosulfoalu']
 #param3 = ['portlandite','ettringite']
-param4 = ['calcite','friedel_salt']
+# param4 = ['friedel_salt']
 #param4  = ['katoitesi1','c3fh6']
 param5  = ['katoitesi1','c3fh6','tobermorite(','hydrotalcite']
 param6 = ['brucite','chalcedony','dolomite','calcite']
@@ -196,8 +197,8 @@ labels =['Ca Offshore (Case 4)','Ca onshore (Case 3)','Na acetate (Case 2)','NaC
 # labels = ['Fixed kinetic parameters','Different kinetic parameters']
 
 masa2 = multiplotroutine(loca,dest,files3,0,2,param2)
-# masa3 = multiplotroutine(loca,dest,files3,0,2,param3)
-#masa4 = multiplotroutine(loca,dest,files3,0,2,param4)
+masa3 = multiplotroutine(loca,dest,files3,0,2,param3)
+# masa4 = multiplotroutine(loca,dest,files3,0,2,param4)
 # masa5 = multiplotroutine(loca,dest,files3,0,2,param5)
 # masa6 = multiplotroutine(loca,dest,files3,0,2,param6)
 # masa7 = multiplotroutine(loca,dest,files3,0,2,param7)
@@ -206,10 +207,10 @@ masa2 = multiplotroutine(loca,dest,files3,0,2,param2)
 #
 #
 #
-# masaconc1 = multiplotroutine(loca,dest,files3,0,0,parameters)
+masaconc1 = multiplotroutine(loca,dest,files3,0,0,parameters)
 # masaconc2 = multiplotroutine(loca,dest,files3,0,0,parameters2)
-#masaconc3 = multiplotroutine(loca,dest,files3,0,0,parameters3)
-#masaconc4 = multiplotroutine(loca,dest,files3,0,0,parameters4)
+# masaconc3 = multiplotroutine(loca,dest,files3,0,0,parameters3)
+# masaconc4 = multiplotroutine(loca,dest,files3,0,0,parameters4)
 #masaconc5 = multiplotroutine(loca,dest,files3,0,0,parameters5)
 #masaconc6 = multiplotroutine(loca,dest,files3,0,0,parameters6)
 #masaconc7 = multiplotroutine(loca,dest,files3,0,0,parameters7)
@@ -220,8 +221,8 @@ masa2 = multiplotroutine(loca,dest,files3,0,2,param2)
 
 
 masa2.plotmultimulti(labels,purpose='presentation',style='multiple')
-# masa3.plotmultimulti(labels,purpose='presentation',style='multiple')
-#masa4.plotmultimulti(labels,purpose='presentation')
+masa3.plotmultimulti(labels,purpose='presentation',style='multiple')
+# masa4.plotmultimulti(labels,purpose='presentation',style='multiple')
 # masa5.plotmultimulti(labels,purpose='presentation',style='multiple')
 # masa6.plotmultimulti(labels,purpose='presentation',style='multiple')
 # masa7.plotmultimulti(labels,purpose='presentation',style='multiple')
@@ -239,10 +240,10 @@ masa2.plotmultimulti(labels,purpose='presentation',style='multiple')
 #
 #
 #
-# masaconc1.plotmultimulti(labels,purpose='presentation',style='multiple')
+masaconc1.plotmultimulti(labels,purpose='presentation',style='multiple')
 # masaconc2.plotmultimulti(labels,purpose='presentation',style='multiple')
-#masaconc3.plotmultimulti(labels,purpose='presentation')
-#masaconc4.plotmultimulti(labels,purpose='presentation')
+# masaconc3.plotmultimulti(labels,purpose='presentation',style='multiple')
+# masaconc4.plotmultimulti(labels,purpose='presentation')
 #masaconc5.plotmultimulti(labels,purpose='presentation')
 #masaconc6.plotmultimulti(labels,purpose='presentation')
 #masaconc7.plotmultimulti(labels,purpose='presentation')
