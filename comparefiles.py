@@ -120,12 +120,15 @@ loca71 = r"C:\Users\AJ\OneDrive - Louisiana State University\GOM Shale Cement fl
 loca72 = r"C:\Users\AJ\OneDrive - Louisiana State University\Increased depth\Crack investigation\Gulf of Mexico Sandstone Cement Flow - NaCl brine"
 
 
-
+loca73=r"C:\Users\AJ\OneDrive - Louisiana State University\Increased depth\Diffusivity sensitivity\Gulf of Mexico Cement Flow - Ca injected sand equil brine Offshore - longest"
+loca74=r"C:\Users\AJ\OneDrive - Louisiana State University\Increased depth\Diffusivity sensitivity\Gulf of Mexico Cement Flow - Ca injected sand equil brine Offshore - longest - larger"
+loca75=r"C:\Users\AJ\OneDrive - Louisiana State University\Increased depth\Diffusivity sensitivity\Gulf of Mexico Cement Flow - Ca injected sand equil brine Offshore - longest - muchlar"
+loca76=r"C:\Users\AJ\OneDrive - Louisiana State University\Increased depth\Diffusivity sensitivity\Gulf of Mexico Cement Flow - Ca injected sand equil brine Offshore - longest - smaller"
 
 
 
 # loca =[loca21,loca22,loca23,loca24]
-loca =[loca27,loca25,loca26,loca26b]
+# loca =[loca27,loca25,loca26,loca26b]
 # loca =[loca28,loca29,loca30,loca31]
 #loca = [loca51,loca52,loca53,loca54]
 #loca=[loca64,loca65,loca66,loca67]
@@ -148,6 +151,7 @@ loca =[loca27,loca25,loca26,loca26b]
 # loca = [loca49]
 # loca = [loca55,loca56,loca28]
 #loca = [loca57,loca31]
+loca = [loca73,loca74,loca75,loca76]
 dest = r"C:\Users\AJ\Desktop\My Desktop\LSU\LSU-Corona\PyTOUGH-master"
 files2 = ["kdd_concdiff.tec", "kdd_gasdiff.tec", "kdd_mindiff.tec", "kdd_timdiff.tec", "MESH"]
 files1 = ["kdd_concvtk.tec", "kdd_gasvtk.tec", "kdd_minvtk.tec", "kdd_timvtk.tec", "MESH"]
