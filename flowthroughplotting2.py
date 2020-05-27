@@ -30,6 +30,7 @@ from prepfortoughreact import *
 from flowreactionplotroutine import *
 from batchreactionplotroutine import *
 import pandas as pd
+from crossplotmultiroutine import *
  
             
 dest1 = r"C:\Users\AJ\OneDrive - Louisiana State University\Increased depth\Gulf of Mexico Cement Flow - Ca injected sand equil brine Offshore"

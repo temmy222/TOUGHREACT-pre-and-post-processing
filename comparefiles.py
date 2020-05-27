@@ -14,6 +14,7 @@ from t2listing import *
 import os
 import pandas as pd
 import random
+from crossplotmultiroutine import *
 
 
 loca1 = r"C:\Users\AJ\OneDrive - Louisiana State University\Increased depth\Gulf of Mexico Cement Flow - Ca injected sand equil brine Offshore"
@@ -123,8 +124,8 @@ loca72 = r"C:\Users\AJ\OneDrive - Louisiana State University\Increased depth\Cra
 
 
 
-loca =[loca21,loca22,loca23,loca24]
-# loca =[loca27,loca25,loca26,loca26b]
+# loca =[loca21,loca22,loca23,loca24]
+loca =[loca27,loca25,loca26,loca26b]
 # loca =[loca28,loca29,loca30,loca31]
 #loca = [loca51,loca52,loca53,loca54]
 #loca=[loca64,loca65,loca66,loca67]
@@ -176,6 +177,7 @@ param6 = ['brucite','chalcedony','dolomite','calcite']
 param7 = ['calcite','sepiolite']
 param8 = ['hydrotalcite','dolomite']
 param9 = ['monosulfoalu','jennite']
+paramcross = ['brucite','chalcedony','dolomite','pH']
 rep = 'Porosity'
 
 #param2 = ['quartz(alpha','microcline','albite(low)']
@@ -204,6 +206,7 @@ masa3 = multiplotroutine(loca,dest,files3,0,2,param3)
 # masa7 = multiplotroutine(loca,dest,files3,0,2,param7)
 #masa8 = multiplotroutine(loca,dest,files3,0,2,param8)
 #masa9 = multiplotroutine(loca,dest,files3,0,2,param9)
+cross2 = crossplotmultiroutine(loca,dest,files3,0,2,paramcross)
 #
 #
 #
@@ -228,6 +231,8 @@ masa3.plotmultimulti(labels,purpose='presentation',style='multiple')
 # masa7.plotmultimulti(labels,purpose='presentation',style='multiple')
 #masa8.plotmultimulti(labels,purpose='presentation')
 #masa9.plotmultimulti(labels,purpose='presentation')
+cross2.plotmultimulti(labels,purpose='presentation',style='multiple')
+
 #
 #masa2.plotmultimulti(labels,purpose='presentation',style='vertical')
 #masa3.plotmultimulti(labels,purpose='presentation',style='vertical')
