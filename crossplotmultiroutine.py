@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 """
-Created on Mon Aug 12 15:46:42 2019
+Created on Wed May 27 01:39:24 2020
 
-@author: tajayi3
+@author: AJ
 """
 
 import matplotlib.pyplot as plt
@@ -14,7 +14,7 @@ import matplotlib
 from prepfortoughreact import *
 from matplotlib.font_manager import FontProperties
 
-class multiplotroutine(object):
+class crossplotmultiroutine(object):
     """
     This class helps in making plots for batch/flow through reactions carried out with TOUGHREACT
     
@@ -45,6 +45,56 @@ class multiplotroutine(object):
         self.gridblocknumber = gridblocknumber
         self.indexa = indexa
         self.prop = prop
+        self.filecheck = files[0:3]
+        
+    def getparam(self,location):
+        dictionary = {}
+        lst = []
+        lookup = 'CONNE'
+        tre1 = prepfortoughreact(location,self.dest,self.files,lookup)
+        tre1.copyallfiles()
+        tre1.writetofile()
+        os.chdir(self.dest)
+        with open('test.txt') as f:
+            br3 = f.read().splitlines()
+        for file in self.filecheck:  
+            tre=toughreact_tecplot(file,br3)
+            tre._file.seek(0)
+            line  = tre.skipto(['VARIABLES', 'Variables', 'variables'])
+            eqpos = line.find('=')
+            sep = ',' if ',' in line else None
+            rawcols = line[eqpos+1:].strip().split(sep)
+            cols = []
+            for col in rawcols:
+                colstrip = col.strip()
+                if colstrip:
+                    if col.startswith('"') and col.endswith('"'):
+                        cols.append(col[1:-1].strip())
+                    else:
+                        cols.append(colstrip)
+            dictionary[file]=cols
+        return dictionary
+    
+    def get_dict_for_params(self,location):
+        dictionary = self.getparam(location)
+        final={}
+        for i in range(len(self.prop)):
+            for j in range(len(self.filecheck)):
+                if self.prop[i] in dictionary[self.filecheck[j]]:
+                    if self.filecheck[j] in final.keys():
+                        final[self.filecheck[j]].append(self.prop[i])
+                    else:
+                        final[self.filecheck[j]] = [self.prop[i]]
+        return final
+    
+    def find_file_for_param2(self,param,location):
+        dictionary = self.getparam(location)
+        final={}
+        for j in range(len(self.filecheck)):
+            if param in dictionary[self.filecheck[j]]:
+                return self.filecheck[j]
+            else:
+                print("...still searching for filename...")
         
     def retrievedatamulti (self,locations,dest,files,gridblocknumber,indexa,prop):
         dictionary = {}
@@ -59,9 +109,10 @@ class multiplotroutine(object):
             data1 = 'data0'
             with open('test.txt') as f:
                 br3 = f.read().splitlines()
-            tre=toughreact_tecplot(files[indexa],br3)
-            tre.last()
-            for j in range(0,len(self.prop)):
+            for j in range(0,len(prop)):
+                file_name = self.find_file_for_param2(prop[j],locations[i])
+                tre=toughreact_tecplot(file_name,br3)
+                tre.last()
                 if (timer1 or data1) not in lst:
                     timer1 = 'first' + str(random.randint(1,101))
                     data1 = 'data' + str(random.randint(1,101))
@@ -117,110 +168,6 @@ class multiplotroutine(object):
                     
         return dictionary, lst, value1
     
-#    def retrievedatadistance(self,locations,dest,files,gridblocknumber,indexa,prop):
-    def retrievedatadistance(self,locations,direction,blocknumber):
-        lst = self.prop.copy()
-        tre = toughreact_tecplot(self.filename,self.gridblock)
-        tre.last()
-        X = tre.element['X(m)']
-        Y = tre.element['Y(m)']
-        Z = tre.element['Z(m)']
-        lst.insert(0, 'X(m)')
-        if direction.lower() == 'x':
-            dictionary = {}
-            for index,character in enumerate(lst): 
-                if character not in dictionary.keys():
-                    dictionary[character] = []
-            for i in range(0,len(lst)):
-                X = tre.element[lst[i]][:blocknumber]
-                dictionary[lst[i]].append(X)
-                
-            
-        elif direction.lower() == 'y':
-            Y = Y[:blocknumber]
-        elif direction.lower() == 'z':
-            Z = Z[:blocknumber]
-        
-        return dictionary, lst
-    
-    def retrievedatasingle (self,locations,dest,files,gridblocknumber,indexa,prop):
-        dictionary = {}
-        lst = []
-        lookup = 'CONNE'
-        for i in range(0,len(locations)):
-            timer1 = 'first' + str(i)
-            data1 = 'data' + str(i)
-            lst.append(timer1)
-            lst.append(data1)
-            os.chdir(dest)
-            tre1 = prepfortoughreact(locations[i],dest,files,lookup)
-            tre1.copyallfiles()
-            tre1.writetofile()
-            with open('test.txt') as f:
-                br3 = f.read().splitlines()
-            tre=toughreact_tecplot(files[indexa],br3)
-            tre.last()
-            try:
-                mf = tre.history([(br3[gridblocknumber],prop)])
-            except KeyError:
-                mason = prop.strip('t_')
-                mf = tre.history([(br3[gridblocknumber],mason)])
-            timerr = mf[0]
-            data= mf[1]
-            for index,character in enumerate(lst): 
-                if character not in dictionary.keys():
-                    dictionary[character] = [] # because same character might be repeated in different positions
-            for index,character in enumerate(lst): 
-                if 'first' in character and len(dictionary[character]) == 0:
-                    dictionary[character].append(timerr)
-                elif 'data' in character and len(dictionary[character]) == 0:
-                    dictionary[character].append(data)
-                
-        for state, capital in dictionary.items():
-            if len(dictionary[state][0]) > 100:
-                dictionary[state][0] = dictionary[state][0][::20]
-        for state, capital in dictionary.items():
-            if len(dictionary[state][0]) > 500:
-                dictionary[state][0] = dictionary[state][0][::100]
-
-        for state, capital in dictionary.items():
-            if 'first' in state:
-                manny = dictionary[state][0]
-                n = len(manny)-1
-                if manny[n]>1000:
-                    dictionary[state][0] = manny/3.154e+7
-                    
-        value1 = 100000000000000000000000000000000000000000000000
-        for state, capital in dictionary.items():
-            if 'first' in state:
-                manny = dictionary[state][0]
-                value0 = manny[len(manny)-1]
-                if value0 <= value1:
-                    value1 = value0
-                    
-        return dictionary, lst, value1
-    
-    
-    def colorcoding(self,style):
-        colormarker = []
-        markers = ["-o","-v","-^","-<","->","-1","-2","-3","-4","-8","-s","-p","-P","-*","-h","-H","-+","-x","-X","-D","-d","-|","-_"]
-#        markers = ["o","v","^","<",">","1","2","3","4","8","s","p","P","*","h","H","+","x","X","D","d","|","_"]
-        for i in range(0,len(self.locations)):
-            if style.lower()=='publication':
-                a = markers[random.randint(0,(len(markers)-1))]
-                colorm = 'k' + a
-                if colorm in colormarker:
-                    colormarker.remove(colorm)
-                    markers.remove(a)
-                    colorm = 'k' + markers[random.randint(0,(len(markers)-1))]
-                colormarker.append(colorm)
-            elif style.lower()=='presentation':
-                colorm = 'r' + markers[random.randint(0,(len(markers)-1))]
-                if colorm in colormarker:
-                    colorm = 'r' + markers[random.randint(0,(len(markers)-1))]
-        colormarker.append(colorm)
-        return colormarker
-    
     def sortcolor(self,style,number):
         colorcode = []
         markers = ["-o","-v","-^","-<","->","-1","-2","-3","-4","-8","-s","-p","-P","-*","-h","-H","-+","-x","-X","-D","-d","-|","-_"]
@@ -247,7 +194,7 @@ class multiplotroutine(object):
                     colors.remove(stripa2)
                     m = colors[random.randint(0,(len(colors)-1))]  + markers[random.randint(0,(len(markers)-1))] 
                 colorcode.append(m)
-        return colorcode           
+        return colorcode 
     
     def plotmultimulti (self,labels,width=12,height=8,linestyle='dashed',purpose='presentation',style='horizontal'):
         dictionary,lst,value1 = self.retrievedatamulti(self.locations,self.dest,self.files,self.gridblocknumber,self.indexa,self.prop)
@@ -401,35 +348,3 @@ class multiplotroutine(object):
                 
         else:
             print('Style can either be horizontal or vertical or multiple')
-        
-        
-    def plotmultisingle(self,labels,width=12,height=8,linestyle='dashed',purpose='presentation'):
-        dictionary,lst,value1 = self.retrievedatasingle(self.locations,self.dest,self.files,self.gridblocknumber,self.indexa,self.prop)
-        fig = plt.figure(figsize=(width,height))
-        colorcode = self.colorcoding(purpose)
-        for i in range(0,len(lst),2):
-            colorcode = self.colorcoding(purpose)
-            plt.plot(dictionary[lst[i]][0],dictionary[lst[i+1]][0],colorcode,linestyle=linestyle)
-            plt.legend(labels, prop={'size': 16})
-            plt.xlim((0,value1))
-        plt.grid()
-        plt.xlabel('Time (years) ',fontsize=14,fontweight='bold')
-        plt.ylabel(self.prop,fontsize=14,fontweight='bold')
-        
-        os.chdir(self.locations[0])
-        fig.savefig(self.prop[0] +'.jpg',bbox_inches='tight',dpi=(600))
-        
-    def plotmulti(self,labels,width=12,height=8,linestyle='dashed',purpose='presentation'):
-        if isinstance(self.prop, str):
-            self.plotmultisingle(labels,width,height,linestyle,purpose)
-        elif len(self.prop) >1:
-            self.plotmultimulti(labels,width,height,linestyle,purpose)
-            
-    def plotmultidistance(self,labels,width=12,height=8,linestyle='solid',purpose='presentation'):
-        with open('test.txt') as f:
-            br3 = f.read().splitlines()
-        for i in self.locations:
-            m = flowreactionplotroutine(self.files[indexa],br3,self.prop,self.locations[0])
-            
-            
-        

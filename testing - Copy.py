@@ -1,53 +1,82 @@
-import numpy as np
+from prepfortoughreact import *
+from batchreactionplotroutine import *
+from multiplotroutine import *
+import matplotlib
 import matplotlib.pyplot as plt
-
-origin = 'lower'
-
-delta = 0.025
-
-x = y = np.arange(-3.0, 3.01, delta)
-X, Y = np.meshgrid(x, y)
-Z1 = np.exp(-X**2 - Y**2)
-Z2 = np.exp(-(X - 1)**2 - (Y - 1)**2)
-Z = (Z1 - Z2) * 2
-
-nr, nc = Z.shape
-
-# put NaNs in one corner:
-Z[-nr // 6:, -nc // 6:] = np.nan
-# contourf will convert these to masked
+from t2listing import * 
+import os
+import pandas as pd
+import random
+from crossplotmultiroutine import *
 
 
-Z = np.ma.array(Z)
-# mask another corner:
-Z[:nr // 6, :nc // 6] = np.ma.masked
+files = ["kdd_conc.tec", "kdd_gas.tec", "kdd_min.tec", "kdd_tim.tec", "MESH"]
+filecheck = ["kdd_conc.tec", "kdd_gas.tec", "kdd_min.tec"]
+loca21=r"C:\Users\AJ\OneDrive - Louisiana State University\Increased depth\Gulf of Mexico Cement Flow - Ca injected sand equil brine Offshore - same low cond  - longer time"
+loca22=r"C:\Users\AJ\OneDrive - Louisiana State University\Increased depth\Gulf of Mexico Cement Flow - Ca injected sand equil brine Onshore - same low cond - longer time"
+loca23 = r"C:\Users\AJ\OneDrive - Louisiana State University\Increased depth\Gulf of Mexico Cement Flow - Na acetate sand equil injected Onshore - same low cond  - longer time"
+loca24=r"C:\Users\AJ\OneDrive - Louisiana State University\Increased depth\Gulf of Mexico Cement Flow - NaCl sand equil brine injected Onshore - same low cond"
 
-# mask a circle in the middle:
-interior = np.sqrt(X**2 + Y**2) < 0.5
-Z[interior] = np.ma.masked
 
-# We are using automatic selection of contour levels;
-# this is usually not such a good idea, because they don't
-# occur on nice boundaries, but we do it here for purposes
-# of illustration.
+loca28 = r"C:\Users\AJ\OneDrive - Louisiana State University\Increased depth\Gulf of Mexico Cement Flow - Ca injected sand equil brine Offshore - longer time"
+loca29 = r"C:\Users\AJ\OneDrive - Louisiana State University\Increased depth\Gulf of Mexico Cement Flow - Ca injected sand equil brine Onshore - longer time"
+loca30 = r"C:\Users\AJ\OneDrive - Louisiana State University\Increased depth\Gulf of Mexico Cement Flow - Na acetate sand equil injected Onshore - longer time"
+loca31 = r"C:\Users\AJ\OneDrive - Louisiana State University\Increased depth\Gulf of Mexico Cement Flow - NaCl sand equil brine injected Onshore - longer"
 
-fig1, ax2 = plt.subplots(constrained_layout=True)
-CS = ax2.contourf(X, Y, Z, 10, cmap=plt.cm.bone, origin=origin)
+loca =[loca28,loca29,loca30,loca31]
+dest = r"C:\Users\AJ\Desktop\My Desktop\LSU\LSU-Corona\PyTOUGH-master"
 
-# # Note that in the following, we explicitly pass in a subset of
-# # the contour levels used for the filled contours.  Alternatively,
-# # We could pass in additional levels to provide extra resolution,
-# # or leave out the levels kwarg to use all of the original levels.
 
-CS2 = ax2.contour(CS, levels=CS.levels[::2], colors='r', origin=origin)
+param6 = ['brucite','chalcedony','dolomite','pH']
 
-ax2.set_title('Nonsense (3 masked regions)')
-ax2.set_xlabel('word length anomaly')
-ax2.set_ylabel('sentence length anomaly')
+masa2 = crossplotmultiroutine(loca,dest,files,0,2,param6)
+# lista = masa2.getparam()
+# masaaa = masa2.get_dict_for_params()
+# letsee = masa2.find_file_for_param2('brucite')
+labels =['Ca Offshore (Case 4)','Ca onshore (Case 3)','Na acetate (Case 2)','NaCl (Case 1)','NaCl Same','More Ca','More HCO3']
+# dictionary,lst,value1 = masa2.retrievedatamulti(loca,dest,files,0,0,param6)
+masa2.plotmultimulti(labels,purpose='presentation',style='multiple')
 
-# Make a colorbar for the ContourSet returned by the contourf call.
-cbar = fig1.colorbar(CS)
-cbar.ax.set_ylabel('verbosity coefficient')
-# Add the contour line levels to the colorbar
-cbar.add_lines(CS2)
 
+# dictionary = {}
+# lst = []
+# lookup = 'CONNE'
+# tre1 = prepfortoughreact(loca21,dest,files,lookup)
+# tre1.copyallfiles()
+# tre1.writetofile()
+# os.chdir(dest)
+# with open('test.txt') as f:
+#     br3 = f.read().splitlines()
+
+# for file in filecheck:  
+#     tre=toughreact_tecplot(file,br3)
+#     tre._file.seek(0)
+#     line  = tre.skipto(['VARIABLES', 'Variables', 'variables'])
+#     eqpos = line.find('=')
+#     sep = ',' if ',' in line else None
+#     rawcols = line[eqpos+1:].strip().split(sep)
+#     cols = []
+#     for col in rawcols:
+#         colstrip = col.strip()
+#         if colstrip:
+#             if col.startswith('"') and col.endswith('"'):
+#                 cols.append(col[1:-1].strip())
+#             else:
+#                 cols.append(colstrip)
+#     dictionary[file]=cols
+
+
+
+# final={}
+# for i in range(len(param6)):
+#     for j in range(len(filecheck)):
+#         if param6[i] in dictionary[filecheck[j]]:
+#             if filecheck[j] in final.keys():
+#                 final[filecheck[j]].append(param6[i])
+#             else:
+#                 final[filecheck[j]] = [param6[i]]
+# for file in files:
+#     i=0
+#     if param6[i] in cols:
+#         dictionary[file]=param6[i]
+#     i=i+1
