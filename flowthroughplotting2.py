@@ -97,15 +97,33 @@ loca71 = r"C:\Users\AJ\OneDrive - Louisiana State University\GOM Shale Cement fl
 
 loca72 =r"C:\Users\AJ\OneDrive - Louisiana State University\Increased depth\Crack investigation\Gulf of Mexico Sandstone Cement Flow - NaCl brine"
 
+
+loca73=r"C:\Users\AJ\OneDrive - Louisiana State University\Increased depth\Diffusivity sensitivity\Gulf of Mexico Cement Flow - Ca injected sand equil brine Offshore - longest"
+loca74=r"C:\Users\AJ\OneDrive - Louisiana State University\Increased depth\Diffusivity sensitivity\Gulf of Mexico Cement Flow - Ca injected sand equil brine Offshore - longest - larger"
+loca75=r"C:\Users\AJ\OneDrive - Louisiana State University\Increased depth\Diffusivity sensitivity\Gulf of Mexico Cement Flow - Ca injected sand equil brine Offshore - longest - muchlar"
+loca76=r"C:\Users\AJ\OneDrive - Louisiana State University\Increased depth\Diffusivity sensitivity\Gulf of Mexico Cement Flow - Ca injected sand equil brine Offshore - longest - smaller"
+
+loca77=r"C:\Users\AJ\OneDrive - Louisiana State University\Increased depth\Diffusivity sensitivity\Gulf of Mexico Cement Flow - Ca injected sand equil brine Onshore - longer time"
+loca78=r"C:\Users\AJ\OneDrive - Louisiana State University\Increased depth\Diffusivity sensitivity\Gulf of Mexico Cement Flow - Ca injected sand equil brine Onshore - longer time - larger"
+loca79=r"C:\Users\AJ\OneDrive - Louisiana State University\Increased depth\Diffusivity sensitivity\Gulf of Mexico Cement Flow - Ca injected sand equil brine Onshore - longer time - muchlar"
+loca80=r"C:\Users\AJ\OneDrive - Louisiana State University\Increased depth\Diffusivity sensitivity\Gulf of Mexico Cement Flow - Ca injected sand equil brine Onshore - longer time - smaller"
+
+loca81=r"C:\Users\AJ\OneDrive - Louisiana State University\Increased depth\Diffusivity sensitivity\Gulf of Mexico Cement Flow - Na acetate sand equil injected Onshore - longer time"
+loca82=r"C:\Users\AJ\OneDrive - Louisiana State University\Increased depth\Diffusivity sensitivity\Gulf of Mexico Cement Flow - Na acetate sand equil injected Onshore - longer time - larger"
+loca83=r"C:\Users\AJ\OneDrive - Louisiana State University\Increased depth\Diffusivity sensitivity\Gulf of Mexico Cement Flow - Na acetate sand equil injected Onshore - longer time - muchlar"
+loca84=r"C:\Users\AJ\OneDrive - Louisiana State University\Increased depth\Diffusivity sensitivity\Gulf of Mexico Cement Flow - Na acetate sand equil injected Onshore - longer time - smaller"
 #location = [loca17,loca18,loca19,loca20]
 # location = [loca64,loca65,loca66,loca67]
-# location = [loca68,loca69,loca70,loca71]
-location =[loca27,loca25,loca26,loca26b]
+location = [loca68,loca69,loca70,loca71]
+# location =[loca27,loca25,loca26,loca26b]
+# location = [loca73,loca74,loca75,loca76]
+# location = [loca77,loca78,loca79,loca80]
+# location = [loca81,loca82,loca83,loca84]
 # location =[loca28,loca29,loca30,loca31]
 #location = [loca38,loca28]
-dest = loca28
+dest = loca64
 # labels =['Ca Offshore (Case 4)','Ca onshore (Case 3)','Na acetate (Case 2)','NaCl (Case 1)','NaCl Same','More Ca','More HCO3']
-labels =['$1.65E-11 m^{2}/s$','$1.65E-10 m^{2}/s$','$1.65E-9 m^{2}/s$','$1.65E-5 m^{2}/s$']
+labels =['$1.65E-11 m^{2}/s$','$1.65E-10 m^{2}/s$ (base case)','$1.65E-9 m^{2}/s$','$1.65E-5 m^{2}/s$']
 
 file_name = "kdd_conc.tec"
 file_name2 = "MESH"
@@ -132,7 +150,8 @@ param5 = ['portlandite','calcite','monosulfoalu']
 param6 = ['gypsum','ettringite','friedel_salt']
 paramone = ['Porosity','monosulfoalu','calcite']
 #minerals = ['gypsum','ettringite','friedel_salt','calcite','tobermorite(','jennite','portlandite','katoiteSi1','Porosity']
-minerals = ['gypsum','ettringite','friedel_salt','Porosity']
+# minerals = ['gypsum','ettringite','friedel_salt','Porosity']
+minerals = ['gypsum','ettringite','calcite','Porosity']
 mineralone = ['Porosity']
 #species = ['pH','t_cl-','t_mg+2','t_na+','t_so4-2','aH2O','t_hco3-','t_h4sio4','t_al+3']
 species = ['pH','t_cl-','t_mg+2','aH2O']
@@ -150,13 +169,13 @@ fordomain =['Porosity']
 #trem.write_vtk(geo, filenamevtk)
 
 
-face = 'X'
-plotX = 'Z'
+face = 'Z'
+plotX = 'X'
 Zlayer = 1 
 Ylayer = 1
 Xlayer = 24
 years = 1*365*24*60*60
-time = 1000 * years
+time = 150 * years
 initialtime =0
 
 
@@ -164,7 +183,7 @@ plotmins = flowreactionplotroutine(myList[2],br3,minerals,dest)
 # dama = plotmins.plotdistance(face,plotX,Xlayer,Ylayer,Zlayer,3,time)
 # dama2 = plotmins.plotdistancemultiple(face,plotX,Xlayer,Ylayer,Zlayer,time)
 # plotmins.plot2D_withgrid(minerals[0],0)
-# dama2 = plotmins.plotdistancemultiplefiles(face,plotX,Xlayer,Ylayer,Zlayer,location,labels,time)
+dama2 = plotmins.plotdistancemultiplefiles(face,plotX,Xlayer,Ylayer,Zlayer,location,labels,time)
 
 # os.chdir(loc)
 # plotconcdist = flowreactionplotroutine(myList[0],br3,species,dest)
@@ -177,7 +196,7 @@ plotmins = flowreactionplotroutine(myList[2],br3,minerals,dest)
 plotconc = flowreactionplotroutine(myList[0],br3,paramconc,dest)
 plotmins1 = flowreactionplotroutine(myList[2],br3,mineralone,dest)
 # plotconc.plot2D(10,5,br3,'XZ',time)
-plotconc.plot2D_withgrid(paramconc[0],0)
+# plotconc.plot2D_withgrid(paramconc[0],0)
 # plotmins1.plot2D(10,5,br3,'XZ',time)
 # data,X,Y = plotmins1.direction(10,5,br3,'XZ',time,color="r")
 # #

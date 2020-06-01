@@ -586,6 +586,12 @@ class flowreactionplotroutine(object):
                     plt.xticks(fontsize=12)
                     plt.yticks(fontsize=12)
                     plt.xlabel('Distance(m)',fontsize=12)
+                    # Get the y limits
+                    ymin, ymax = min(df[self.parameters[i]]), max(df[self.parameters[i]])
+                    
+                    # Set the y limits making the maximum 5% greater
+                    # plt.ylim(ymin, 1.05 * ymax)
+                    plt.ylim(0.2, 0.45)
                     plt.ylabel(self.parameters[i],fontsize=12)
                     # axs2.legend(loc='best',prop=fontP)
                     axs2.spines['left'].set_linewidth(1.5)
@@ -620,7 +626,7 @@ class flowreactionplotroutine(object):
         handles2, labels2 = axs2.get_legend_handles_labels()
         handles.append(handles2[0])
         labels.append(labels2[0])
-        print(type(labels),handles)
+        # print(type(labels),handles)
         # fig.legend(handles, labels, loc='upper center', bbox_to_anchor=(1.5, 1.05),ncol=2)
         # box = axs.get_position()
         # print(box.x0,box.y0,box.height,box.width)
