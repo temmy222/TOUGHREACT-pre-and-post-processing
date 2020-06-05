@@ -216,6 +216,11 @@ loca111=r"C:\Users\AJ\OneDrive - Louisiana State University\Increased depth\Crac
 # loca = [loca105,loca106,loca107,loca108]
 loca = [loca109,loca28,loca110]
 
+years = 1*365*24*60*60
+time = 500 * years
+
+
+
 dest = r"C:\Users\AJ\Desktop\My Desktop\LSU\LSU-Corona\PyTOUGH-master"
 files2 = ["kdd_concdiff.tec", "kdd_gasdiff.tec", "kdd_mindiff.tec", "kdd_timdiff.tec", "MESH"]
 files1 = ["kdd_concvtk.tec", "kdd_gasvtk.tec", "kdd_minvtk.tec", "kdd_timvtk.tec", "MESH"]
@@ -269,7 +274,7 @@ rep = 'Porosity'
 # labels =['RSA-1','RSA-2 (base case)']
 # labels = ['Fixed kinetic parameters','Different kinetic parameters']
 # labels =['$1.65E-7 m^{2}/s$','$1.65E-8 m^{2}/s$','$1.65E-12 m^{2}/s$','$1.65E-13 m^{2}/s$']
-labels =['RSA-1 (higher)','RSA (base case)','RSA-2 (lower)']
+labels =['RSA-1 (higher order of magnitude)','RSA (base case)','RSA-2 (lower order of magnitude)']
 
 masa2 = multiplotroutine(loca,dest,files3,0,2,param2)
 masa3 = multiplotroutine(loca,dest,files3,0,2,param3)
@@ -296,8 +301,9 @@ masaconc1 = multiplotroutine(loca,dest,files3,0,0,parameters)
 
 
 
-masa2.plotmultimulti(labels,purpose='presentation',style='multiple')
-masa3.plotmultimulti(labels,purpose='presentation',style='multiple')
+masa2.plotmultimulti(labels,time,purpose='presentation',style='multiple')
+masa3.plotmultimulti(labels,time,purpose='presentation',style='multiple')
+dictionary, lst, value1 = masa2.retrievedatamulti(loca,dest,files3,0,2,param2,time)
 # masa4.plotmultimulti(labels,purpose='presentation',style='multiple')
 # masa5.plotmultimulti(labels,purpose='presentation',style='multiple')
 # masa6.plotmultimulti(labels,purpose='presentation',style='multiple')
@@ -318,7 +324,7 @@ masa3.plotmultimulti(labels,purpose='presentation',style='multiple')
 #
 #
 #
-masaconc1.plotmultimulti(labels,purpose='presentation',style='multiple')
+masaconc1.plotmultimulti(labels,time,purpose='presentation',style='multiple')
 # masaconc2.plotmultimulti(labels,purpose='presentation',style='multiple')
 # masaconc3.plotmultimulti(labels,purpose='presentation',style='multiple')
 # masaconc4.plotmultimulti(labels,purpose='presentation')

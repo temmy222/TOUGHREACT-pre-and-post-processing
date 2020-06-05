@@ -46,7 +46,7 @@ class multiplotroutine(object):
         self.indexa = indexa
         self.prop = prop
         
-    def retrievedatamulti (self,locations,dest,files,gridblocknumber,indexa,prop):
+    def retrievedatamulti (self,locations,dest,files,gridblocknumber,indexa,prop,timer):
         dictionary = {}
         lst = []
         lookup = 'CONNE'
@@ -60,7 +60,6 @@ class multiplotroutine(object):
             with open('test.txt') as f:
                 br3 = f.read().splitlines()
             tre=toughreact_tecplot(files[indexa],br3)
-            tre.last()
             for j in range(0,len(self.prop)):
                 if (timer1 or data1) not in lst:
                     timer1 = 'first' + str(random.randint(1,101))
@@ -78,7 +77,10 @@ class multiplotroutine(object):
                     mason = prop[j].strip('t_')
                     mf = tre.history([(br3[gridblocknumber],mason)])
                 timerr = mf[0]
-                data= mf[1]             
+                data= mf[1] 
+                idx = next(x[0] for x in enumerate(timerr) if x[1] > timer)
+                timerr = timerr[0:idx]
+                data = data[0:idx]
                 for index,character in enumerate(lst): 
                     if character not in dictionary.keys():
                         dictionary[character] = [] # because same character might be repeated in different positions
@@ -115,7 +117,7 @@ class multiplotroutine(object):
                 if value0 <= value1:
                     value1 = value0
                     
-        return dictionary, lst, value1
+        return dictionary, lst, timerr
     
 #    def retrievedatadistance(self,locations,dest,files,gridblocknumber,indexa,prop):
     def retrievedatadistance(self,locations,direction,blocknumber):
@@ -249,8 +251,8 @@ class multiplotroutine(object):
                 colorcode.append(m)
         return colorcode           
     
-    def plotmultimulti (self,labels,width=12,height=8,linestyle='dashed',purpose='presentation',style='horizontal'):
-        dictionary,lst,value1 = self.retrievedatamulti(self.locations,self.dest,self.files,self.gridblocknumber,self.indexa,self.prop)
+    def plotmultimulti (self,labels,timer,width=12,height=8,linestyle='dashed',purpose='presentation',style='horizontal'):
+        dictionary,lst,value1 = self.retrievedatamulti(self.locations,self.dest,self.files,self.gridblocknumber,self.indexa,self.prop,timer)
         fig = plt.figure(figsize=(width,height))
         font = {'family' : 'normal','size'   : 18}
         matplotlib.rc('font', **font)
