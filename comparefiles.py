@@ -165,6 +165,16 @@ loca102=r"C:\Users\AJ\OneDrive - Louisiana State University\Increased depth\incr
 loca103 = r"C:\Users\AJ\OneDrive - Louisiana State University\Increased depth\GOM NaCl flux with Ca Offshore"
 loca104=r"C:\Users\AJ\OneDrive - Louisiana State University\Increased depth\GOM NaCl flux with Na acetate"
 
+loca105=r"C:\Users\AJ\OneDrive - Louisiana State University\Increased depth\Diffusivity sensitivity\Gulf of Mexico Cement Flow - Ca injected sand equil brine Offshore - longest -E-7"
+loca106=r"C:\Users\AJ\OneDrive - Louisiana State University\Increased depth\Diffusivity sensitivity\Gulf of Mexico Cement Flow - Ca injected sand equil brine Offshore - longest -E-8"
+loca107=r"C:\Users\AJ\OneDrive - Louisiana State University\Increased depth\Diffusivity sensitivity\Gulf of Mexico Cement Flow - Ca injected sand equil brine Offshore - longest -E-12"
+loca108=r"C:\Users\AJ\OneDrive - Louisiana State University\Increased depth\Diffusivity sensitivity\Gulf of Mexico Cement Flow - Ca injected sand equil brine Offshore - longest -E-13"
+
+loca109=r"C:\Users\AJ\OneDrive - Louisiana State University\Increased depth\same RSA\Gulf of Mexico Cement Flow - Ca injected sand equil brine Offshore - order higher"
+loca110=r"C:\Users\AJ\OneDrive - Louisiana State University\Increased depth\same RSA\Gulf of Mexico Cement Flow - Ca injected sand equil brine Offshore - order lower"
+
+loca111=r"C:\Users\AJ\OneDrive - Louisiana State University\Increased depth\Crack investigation\Gulf of Mexico Sandstone Cement Flow - NaCl brine - Closed"
+
 # loca =[loca21,loca22,loca23,loca24]
 # loca =[loca27,loca25,loca26,loca26b]
 # loca =[loca28,loca29,loca30,loca31]
@@ -191,7 +201,7 @@ loca104=r"C:\Users\AJ\OneDrive - Louisiana State University\Increased depth\GOM 
 # loca = [loca69,loca97,loca98]
 # loca = [loca99,loca28,loca100]
 # loca = [loca101,loca31,loca102]
-loca = [loca31,loca103,loca104]
+# loca = [loca31,loca103,loca104]
 
 # loca = [loca60,loca31]
 # loca = [loca50,loca28]
@@ -203,6 +213,8 @@ loca = [loca31,loca103,loca104]
 # loca = [loca77,loca78,loca79,loca80]
 # loca = [loca81,loca82,loca83,loca84]
 # loca = [loca85,loca86,loca87,loca88]
+# loca = [loca105,loca106,loca107,loca108]
+loca = [loca109,loca28,loca110]
 
 dest = r"C:\Users\AJ\Desktop\My Desktop\LSU\LSU-Corona\PyTOUGH-master"
 files2 = ["kdd_concdiff.tec", "kdd_gasdiff.tec", "kdd_mindiff.tec", "kdd_timdiff.tec", "MESH"]
@@ -245,17 +257,19 @@ rep = 'Porosity'
 # labels =['Ca Offshore (Case 4)','Ca onshore (Case 3)','Na acetate (Case 2)','NaCl (Case 1)','NaCl Same','More Ca','More HCO3']
 # labels =['$1.65E-11 m^{2}/s$','$1.65E-10 m^{2}/s$ (base case)','$1.65E-9 m^{2}/s$','$1.65E-5 m^{2}/s$']
 # labels =['$1.65E-11 m^{2}/s$','$1.65E-10 m^{2}/s$ (base case)','$1.65E-5 m^{2}/s$']
-# labels =['Closed boundary','Open boundary']
+# labels =['Closed boundary','Open boundary (base case)']
 # labels =['Cracked Cement','Uncracked Cement']
 # labels=['Zeolites added from start','Zeolites only allowed to precipitate','No zeolites at all']
 # labels = ["Increased Calcium Conc","Base Case Calcium Conc"]
 # labels = ["0.01 Mole fraction CO2","1.00 Mole fraction CO2"]
 # labels =['Fastest rate','Faster rate','Fast rate']
 # labels =['1.53E-7 m$^3$/day','1.53E-5 m$^3$/day (base case)','1.53E-3 m$^3$/day']
-labels =['Sea Water Flux (base case)','Ca Offshore brine flux','Na acetate brine flux']
+# labels =['Sea Water Flux (base case)','Ca Offshore brine flux','Na acetate brine flux']
 # labels =['Fixed reactive area','Varying reactive area']
-# labels =['RSA-1','RSA-2']
+# labels =['RSA-1','RSA-2 (base case)']
 # labels = ['Fixed kinetic parameters','Different kinetic parameters']
+# labels =['$1.65E-7 m^{2}/s$','$1.65E-8 m^{2}/s$','$1.65E-12 m^{2}/s$','$1.65E-13 m^{2}/s$']
+labels =['RSA-1 (higher)','RSA (base case)','RSA-2 (lower)']
 
 masa2 = multiplotroutine(loca,dest,files3,0,2,param2)
 masa3 = multiplotroutine(loca,dest,files3,0,2,param3)
