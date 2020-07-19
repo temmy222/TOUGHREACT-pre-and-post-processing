@@ -67,7 +67,7 @@ class toughtotoughreact(object):
                     f.write("\n")
         f.close()
         
-    def find(namer):
+    def find(self,namer):
         for root, dirs, files in os.walk(self.destination):
             if namer in files:
                 return os.path.join(root, namer)

@@ -363,7 +363,7 @@ class flowreactionplotroutine(object):
             plt.tight_layout()
             print(presenttime)
             os.chdir(self.saveloc) 
-            fig.savefig('Grid' +'.png',bbox_inches='tight',dpi=(600))
+            fig.savefig('Grid' +str(timer)+param+'.png',bbox_inches='tight',dpi=(600))
     
     def retrievedatadistance(self,direction,blocknumber):
         lst = self.parameters.copy()

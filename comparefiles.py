@@ -174,6 +174,14 @@ loca109=r"C:\Users\AJ\OneDrive - Louisiana State University\Increased depth\same
 loca110=r"C:\Users\AJ\OneDrive - Louisiana State University\Increased depth\same RSA\Gulf of Mexico Cement Flow - Ca injected sand equil brine Offshore - order lower"
 
 loca111=r"C:\Users\AJ\OneDrive - Louisiana State University\Increased depth\Crack investigation\Gulf of Mexico Sandstone Cement Flow - NaCl brine - Closed"
+loca112 = r"C:\Users\AJ\OneDrive - Louisiana State University\Second numerical paper\flow through brine only"
+loca113=r"C:\Users\AJ\OneDrive - Louisiana State University\Second numerical paper\flow through with co2"
+loca114=r"C:\Users\AJ\OneDrive - Louisiana State University\Second numerical paper\flow through with h2s"
+
+loca115 = r"C:\Users\AJ\OneDrive - Louisiana State University\Second numerical paper\gas filter set to 1\flow through brine only"
+loca116=r"C:\Users\AJ\OneDrive - Louisiana State University\Second numerical paper\gas filter set to 1\flow through with co2"
+loca117=r"C:\Users\AJ\OneDrive - Louisiana State University\Second numerical paper\gas filter set to 1\flow through with h2s"
+
 
 # loca =[loca21,loca22,loca23,loca24]
 # loca =[loca27,loca25,loca26,loca26b]
@@ -214,10 +222,12 @@ loca111=r"C:\Users\AJ\OneDrive - Louisiana State University\Increased depth\Crac
 # loca = [loca81,loca82,loca83,loca84]
 # loca = [loca85,loca86,loca87,loca88]
 # loca = [loca105,loca106,loca107,loca108]
-loca = [loca109,loca28,loca110]
+# loca = [loca109,loca28,loca110]
+loca = [loca112,loca113,loca114]
+# loca = [loca115,loca116,loca117]
 
 years = 1*365*24*60*60
-time = 500 * years
+time = 999 * years
 
 
 
@@ -241,7 +251,7 @@ parameters8 = ['aH2O','t_h2o']
 # param2 = ['gypsum','Porosity','friedel_salt','ettringite']
 param2 = ['calcite','Porosity','portlandite','ettringite']
 # param3 = ['portlandite','calcite','jennite','monosulfoalu']
-param3 = ['friedel_salt','gypsum','jennite','monosulfoalu']
+param3 = ['csh(1.6)','gypsum','katoitesi1','hydrotalcite']
 #param3 = ['portlandite','ettringite']
 # param4 = ['friedel_salt']
 #param4  = ['katoitesi1','c3fh6']
@@ -274,7 +284,8 @@ rep = 'Porosity'
 # labels =['RSA-1','RSA-2 (base case)']
 # labels = ['Fixed kinetic parameters','Different kinetic parameters']
 # labels =['$1.65E-7 m^{2}/s$','$1.65E-8 m^{2}/s$','$1.65E-12 m^{2}/s$','$1.65E-13 m^{2}/s$']
-labels =['RSA-1 (higher order of magnitude)','RSA (base case)','RSA-2 (lower order of magnitude)']
+# labels =['RSA-1 (higher order of magnitude)','RSA (base case)','RSA-2 (lower order of magnitude)']
+labels =['flow through brine only','flow through co2','flow through h2s']
 
 masa2 = multiplotroutine(loca,dest,files3,0,2,param2)
 masa3 = multiplotroutine(loca,dest,files3,0,2,param3)
@@ -303,7 +314,7 @@ masaconc1 = multiplotroutine(loca,dest,files3,0,0,parameters)
 
 masa2.plotmultimulti(labels,time,purpose='presentation',style='multiple')
 masa3.plotmultimulti(labels,time,purpose='presentation',style='multiple')
-dictionary, lst, value1 = masa2.retrievedatamulti(loca,dest,files3,0,2,param2,time)
+# dictionary, lst, value1 = masa2.retrievedatamulti(loca,dest,files3,0,2,param2,time)
 # masa4.plotmultimulti(labels,purpose='presentation',style='multiple')
 # masa5.plotmultimulti(labels,purpose='presentation',style='multiple')
 # masa6.plotmultimulti(labels,purpose='presentation',style='multiple')

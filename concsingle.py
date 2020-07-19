@@ -21,10 +21,10 @@ from batchreactionplotroutine import *
 read data
 """
 
-path = r"C:\Users\tajayi3\Desktop\Research\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\Gulf of Mexico Batch Reactions - Onshore Brine - Test"
+path = r"C:\Users\AJ\OneDrive - Louisiana State University\Second numerical paper\carbonate 2"
 path2 = r"C:\Users\tajayi3\Desktop\Research\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\Pitzer\Cement Flow through 2 - pitzer compare"
-path3 = r"C:\Users\tajayi3\Desktop\Research\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\Pitzer\Gulf of Mexico Batch Reactions Offshore Brine"
-dest = r"C:\Users\tajayi3\Desktop\Research\Software\PyTOUGH-master"
+path3 = r"C:\Users\AJ\OneDrive - Louisiana State University\Second numerical paper\Gulf of Mexico Batch Reactions - Offshore Brine" #for pitzer
+dest = r"C:\Users\AJ\Desktop\My Desktop\LSU\LSU-Corona\PyTOUGH-master"
 file_name = "kdd_conc.tec"
 file_name2 = "MESH"
 lookup = 'CONNE'
@@ -54,7 +54,19 @@ parampitzlong = ['calcite','Porosity','portlandite','exp(phi)','Perm(m^2)','T(C)
 parameterspitzlong = ['pH','ca+2','mg+2','hco3-','h2o','T(C)']
 parameterlong = ['t_cl-','t_so4-2','t_hco3-','pH','t_h2o','t_fe+2']
 paramsandstone = ['ettringite','portlandite','csh(1.6)']
-paramsandstonelong = ['ettringite','portlandite','csh(1.6)','calcite','c3fh6','hydrotalcite']
+#paramsandstonelong = ['ettringite','portlandite','csh(1.6)','calcite','c3fh6','hydrotalcite']
+#paramsandstonelong = ['quartz(alpha','microcline','albite(low)','muscovite(or','chlorite(cca','dolomite']
+#paramsandstonelong = ['quartz(alpha','microcline','albite(low)','muscovite(or','chlorite(cca','calcite']
+#paramsandstonelong = ['quartz(alpha','microcline','albite(low)','halite','kaolinite','illite(mg)']
+#paramsandstonelong = ['calcite','dolomite','albite(low)','muscovite(or','kaolinite','chalcedony']
+paramsandstonelong = ['calcite','gypsum','anhydrite','dolomite','magnesite(na','sylvite']
+
+
+#paramsandstonelong2 = ['katoitesi1','friedel_salt','brucite','dolomite','chalcedony','thaumasite']
+#paramsandstonelong2 = ['calcite','kaolinite','montmorillon','siderite','illite(mg)','pyrite']
+paramsandstonelong2 = ['illite(mg)','montmorillon','muscovite(or','chlorite(cca','dolomite','hematite']
+#paramsandstonelong3 = ['gypsum','sepiolite','monosulfoalu']
+#paramsandstonelong3 = ['dolomite','calcite','pyrite']
 paramlong2 = ['calcite','tobermorite(','hydrotalcite','ettringite','katoitesi1','c3fh6']
 
 
@@ -69,13 +81,17 @@ if tre1.location == path2:
 #    plotminlong.sixinone(width,height,gridblock)
 elif tre1.location == path:
 #    plotconc = batchreactionplotroutine(myList[0],br3,parameterspitz)
-    plotconclong = batchreactionplotroutine(myList[0],br3,parameterlong,path)
-    plotminsandstone = batchreactionplotroutine(myList[2],br3,paramsandstone,path)
+ #   plotconclong = batchreactionplotroutine(myList[0],br3,parameterlong,path)
+   # plotminsandstone = batchreactionplotroutine(myList[2],br3,paramsandstone,path)
     plotminsandstonelong = batchreactionplotroutine(myList[2],br3,paramsandstonelong,path)
+ #   plotminsandstonelong2 = batchreactionplotroutine(myList[2],br3,paramsandstonelong2,path)
+   # plotminsandstone3 = batchreactionplotroutine(myList[2],br3,paramsandstonelong3,path)
 #    plotconc.threeinone(width,height,gridblock)
-    plotminsandstone.threeinone(width,height,gridblock)
-    plotconclong.sixinone(width,height,gridblock)
+  #  plotminsandstone.threeinone(width,height,gridblock)
+#    plotconclong.sixinone(width,height,gridblock)
     plotminsandstonelong.sixinone(width,height,gridblock)
+ #   plotminsandstonelong2.sixinone(width,height,gridblock)
+    #plotminsandstone3.threeinone(width,height,gridblock)
 elif tre1.location == path3:
     plotconc = batchreactionplotroutine(myList[0],br3,parameterspitz)
     plotconclong = batchreactionplotroutine(myList[0],br3,parameterspitzlong)

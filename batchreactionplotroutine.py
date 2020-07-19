@@ -43,6 +43,12 @@ class batchreactionplotroutine(object):
             param[item] = i
             i = i+1
         return param
+    
+    def converttoyear(self,values):
+        output = []
+        for value in values:
+            output.append(value*3.17098e-8)
+        return output
 
     def threeinone(self,width,height,grid,color='r--'):
         """
@@ -63,11 +69,12 @@ class batchreactionplotroutine(object):
         for item, number in params.items():
             mf = tre.history([(grid,item)])
             time = mf[0]
+            time= self.converttoyear(time)
             data= mf[1]
             axs[number].plot(time,data,color, marker='x')
             axs[number].grid()
             axs[number].set_ylabel(item,fontsize=16)
-            axs[number].set_xlabel('Time (secs)',fontsize=16)
+            axs[number].set_xlabel('Date (years)',fontsize=16)
             plt.tight_layout()
         os.chdir(self.saveloc)   
         fig.savefig(item +'.jpg',bbox_inches='tight',dpi=(600)) 
@@ -91,11 +98,12 @@ class batchreactionplotroutine(object):
         for item, number in params.items():
             mf = tre.history([(grid,item)])
             time = mf[0]
+            time= self.converttoyear(time)
             data= mf[1]
             axs[number].plot(time,data,color, marker='x')
             axs[number].grid()
             axs[number].set_ylabel(item,fontsize=16)
-            axs[number].set_xlabel('Time (years)',fontsize=16)
+            axs[number].set_xlabel('Date (years)',fontsize=16)
             plt.tight_layout()
         os.chdir(self.saveloc)
         fig.savefig(item +'.jpg',bbox_inches='tight',dpi=(600))
@@ -119,11 +127,12 @@ class batchreactionplotroutine(object):
         for item, number in params.items():
             mf = tre.history([(grid,item)])
             time = mf[0]
+            time= self.converttoyear(time)
             data= mf[1]
             axs[number].plot(time,data,color, marker='x')
             axs[number].grid()
             axs[number].set_ylabel(item,fontsize=16)
-            axs[number].set_xlabel('Time (secs)',fontsize=16)
+            axs[number].set_xlabel('Date (years)',fontsize=16)
             plt.tight_layout()
         os.chdir(self.saveloc)
         fig.savefig(item +'.jpg',bbox_inches='tight',dpi=(600))
@@ -147,11 +156,12 @@ class batchreactionplotroutine(object):
         for item, number in params.items():
             mf = tre.history([(grid,item)])
             time = mf[0]
+            time= self.converttoyear(time)
             data= mf[1]
             axs[number].plot(time,data,color, marker='x')
             axs[number].grid()
             axs[number].set_ylabel(item)
-            axs[number].set_xlabel('Time (years)')
+            axs[number].set_xlabel('Date (years)')
             plt.tight_layout()
         os.chdir(self.saveloc)
         fig.savefig(item +'.jpg',bbox_inches='tight',dpi=(600))

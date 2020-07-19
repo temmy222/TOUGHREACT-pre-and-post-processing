@@ -28,9 +28,9 @@ from prepfortoughreact import *
 from flowreactionplotroutine import *
 from batchreactionplotroutine import *
 
-dest = r"C:\Users\tajayi3\Desktop\Research\my TOUGHREACT$TOUGH Simulations\Moving Forward\Paper Flow\For paper\GOM Cement flow with batch\Increased depth\Gulf of Mexico Cement Flow - Ca injected sand equil brine Offshore"
+dest = r"C:\Users\AJ\Desktop\flow through"
 
-loc = r"C:\Users\tajayi3\Desktop\Research\Software\PyTOUGH-master"
+loc = r"C:\Users\AJ\Desktop\My Desktop\LSU\LSU-Corona\PyTOUGH-master"
 
 try:
     # Change the current working Directory    
@@ -45,7 +45,7 @@ flow input files with mulgrid as a template to facilitate writing to pvd for vie
 
 xblock = 25
 yblock = 1
-zblock = 5
+zblock = 4
 
 second = 1
 minute = 60 * second
@@ -59,7 +59,7 @@ zgridspacing = 2
 dx = [xgridspacing]*xblock
 dy = [ygridspacing]*yblock
 dz = [zgridspacing] *zblock
-simtime = 100 * year
+simtime = 1000 * year
 
 
     
@@ -82,7 +82,7 @@ elif rock.lower() == 'cement':
 initP = pressgrad*depth* 6894.76
 
 incond = [initP, Temp]
-geo = mulgrid().rectangular(dx, dy, dz,origin=[0., 0., depthm])
+geo = mulgrid().rectangular(dx, dy, dz,origin=[0., 0., -depthm])
 geo.write('geom2.dat')
 
 # Testing Mulgrid for toughreact
@@ -94,7 +94,7 @@ dat.parameter.update(
      'tstop': simtime,
      'const_timestep': 1,
      'print_interval': 2000,
-     'gravity': -9.81,
+     'gravity':  9.81,
      'max_timestep': 8640,
      'relative_error': 0.000001,
      'print_block': '  a 1',
@@ -113,14 +113,24 @@ dat.grid.rocktype['dfalt'].porosity = 0.27
 if rocknext.lower() == 'sands':
     k1 = k2 = k3 = 6.51E-15
 
+k_shale= 6.51E-17
+k_carbonate = 6.51E-16
+
 conductivity = 1.5
 specific_heat = 900
-#r2 = rocktype('sands',0,2600, 0.27,[k1, k2, k3],conductivity,specific_heat)  # how to add another rocktype
-#dat.grid.add_rocktype(r2)
+r2 = rocktype('sands',0,2600, 0.27,[k1, k2, k3],conductivity,specific_heat)  # how to add another rocktype
+r3 = rocktype('shale',0,2600, 0.27,[k_shale, k_shale, k_shale],conductivity,specific_heat) 
+r4 = rocktype('carbo',0,2600, 0.27,[k_carbonate, k_carbonate, k_carbonate],conductivity,specific_heat) 
+dat.grid.add_rocktype(r2)
+dat.grid.add_rocktype(r3)
+dat.grid.add_rocktype(r4)
 # how to add the rocktype to specific gridblocks in the model
 
-#for blk in dat.grid.blocklist[0:]:
-#    if blk.centre[0] >= 2.500e-01: blk.rocktype = r2  
+for blk in dat.grid.blocklist[0:]:
+    if blk.centre[0] > 2.500e-01 and blk.centre[2] <= -5091 and blk.centre[2] >= -5093 : blk.rocktype = r3  
+    if blk.centre[0] > 2.500e-01 and blk.centre[2] <= -5093 and blk.centre[2] >= -5095 : blk.rocktype = r2 
+    if blk.centre[0] > 2.500e-01 and blk.centre[2] <= -5095 and blk.centre[2] >= -5097 : blk.rocktype = r3 
+    if blk.centre[0] > 2.500e-01 and blk.centre[2] <= -5097 and blk.centre[2] >= -5097 : blk.rocktype = r4
 
 
 
@@ -160,7 +170,7 @@ testtime = [0, shutintime,shutintime2,simtime]
 testtime2 = np.linspace(0,simtime,totalratetime)
 testrate = [0.00920081019,0.001, 0 ,0]
 testrate2 = [-0.00920081019,-0.001, 0 ,0]
-well = 'wel '
+well = 'wl '
 compo = 'WATE'
 compo2 = 'MASS'
 direction = 'x'
@@ -168,18 +178,26 @@ injectionrate =[]
 productionrate =[]
 energyrate = []
 
+
+# intermittent injection
+# for i in range(0,totalratetime):
+#     if i%2 ==0:
+#         injectionrate.append(rate)
+#         productionrate.append(rate)
+#         energyrate.append(5)
+#     else:
+#         injectionrate.append(0)
+#         productionrate.append(rate2)
+#         energyrate.append(5)
+
+# constant injection
 for i in range(0,totalratetime):
-    if i%2 ==0:
-        injectionrate.append(rate)
-        productionrate.append(rate)
-        energyrate.append(5)
-    else:
-        injectionrate.append(0)
-        productionrate.append(rate2)
-        energyrate.append(5)
+    injectionrate.append(rate)
+    productionrate.append(rate)
+    energyrate.append(5)
 
 if direction == 'x':
-    for i in range(0,xblock):
+    for i in range(75,99):
 #        if i%5 == 0:
             gen = t2generator(name = well + str(i), block = dat.grid.blocklist[i].name, type = compo, ltab=totalratetime,itab = 3,time = testtime2, rate = injectionrate, enthalpy = energyrate)
             dat.add_generator(gen)
@@ -223,9 +241,13 @@ converting TOUGH file to TOUGHREACT using the TOUGHTOREACT class and moving from
 with chemical.inp and solute.inp files
 """
 
-dest = r"C:\Users\tajayi3\Desktop\Research\my TOUGHREACT$TOUGH Simulations\Moving Forward\VTK testing"
+dest = r"C:\Users\AJ\Desktop\vtk testing"
 
-loc = r"C:\Users\tajayi3\Desktop\Research\Software\PyTOUGH-master"
+loc = r"C:\Users\AJ\Desktop\My Desktop\LSU\LSU-Corona\PyTOUGH-master"
+
+#dest = r"C:\Users\tajayi3\Desktop\Research\my TOUGHREACT$TOUGH Simulations\Moving Forward\VTK testing"
+
+#loc = r"C:\Users\tajayi3\Desktop\Research\Software\PyTOUGH-master"
 
 filename = "flow.inp"
 
