@@ -182,6 +182,11 @@ loca115 = r"C:\Users\AJ\OneDrive - Louisiana State University\Second numerical p
 loca116=r"C:\Users\AJ\OneDrive - Louisiana State University\Second numerical paper\gas filter set to 1\flow through with co2"
 loca117=r"C:\Users\AJ\OneDrive - Louisiana State University\Second numerical paper\gas filter set to 1\flow through with h2s"
 
+loca118=r"C:\Users\AJ\OneDrive - Louisiana State University\Second numerical paper\fixed gas composition\flow through brine only"
+loca119=r"C:\Users\AJ\OneDrive - Louisiana State University\Second numerical paper\fixed gas composition\flow through with co2"
+loca120=r"C:\Users\AJ\OneDrive - Louisiana State University\Second numerical paper\fixed gas composition\flow through with h2s"
+
+
 
 # loca =[loca21,loca22,loca23,loca24]
 # loca =[loca27,loca25,loca26,loca26b]
@@ -223,11 +228,12 @@ loca117=r"C:\Users\AJ\OneDrive - Louisiana State University\Second numerical pap
 # loca = [loca85,loca86,loca87,loca88]
 # loca = [loca105,loca106,loca107,loca108]
 # loca = [loca109,loca28,loca110]
-loca = [loca112,loca113,loca114]
+# loca = [loca112,loca113,loca114]
 # loca = [loca115,loca116,loca117]
+loca = [loca118,loca119,loca120]
 
 years = 1*365*24*60*60
-time = 999 * years
+time = 0.01 * years
 
 
 
