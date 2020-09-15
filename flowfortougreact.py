@@ -43,9 +43,9 @@ except OSError:
 flow input files with mulgrid as a template to facilitate writing to pvd for viewing with paraview
 """
 
-xblock = 25
+xblock = 20
 yblock = 1
-zblock = 4
+zblock = 8
 
 second = 1
 minute = 60 * second
@@ -53,23 +53,26 @@ hour = 60 * minute
 day = 24 * hour
 year = 365. * day
 year = float(year)
-xgridspacing = 0.1
+xgridspacing = 0.001
 ygridspacing = 0.1
-zgridspacing = 2
+zgridspacing = 0.001
 dx = [xgridspacing]*xblock
 dy = [ygridspacing]*yblock
 dz = [zgridspacing] *zblock
-simtime = 1000 * year
+simtime = 200 * day
 
 
     
 rock = 'cement'
 rocknext = 'sands'
 depth = 10032.81 #feet
+depth = 0
 depthm = depth * 0.3048
 depthm = 5090
+depthm = 0
 depth = depthm * 3.281
 Temp = 170 #Centigrade
+Temp = 50
 pressgrad = 0.7 #psi/ft
 
 if rock.lower() == 'sandstone':
@@ -80,6 +83,7 @@ elif rock.lower() == 'cement':
     k1 = k2 = k3 = 6.51E-19
 
 initP = pressgrad*depth* 6894.76
+initP = 10000000
 
 incond = [initP, Temp]
 geo = mulgrid().rectangular(dx, dy, dz,origin=[0., 0., -depthm])

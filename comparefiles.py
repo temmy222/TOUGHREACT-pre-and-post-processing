@@ -186,6 +186,9 @@ loca118=r"C:\Users\AJ\OneDrive - Louisiana State University\Second numerical pap
 loca119=r"C:\Users\AJ\OneDrive - Louisiana State University\Second numerical paper\fixed gas composition\flow through with co2"
 loca120=r"C:\Users\AJ\OneDrive - Louisiana State University\Second numerical paper\fixed gas composition\flow through with h2s"
 
+loca121=r"C:\Users\AJ\OneDrive - Louisiana State University\Second numerical paper\flow through with increased co2"
+loca122=r"C:\Users\AJ\OneDrive - Louisiana State University\Second numerical paper\flow through with increased h2s"
+
 
 
 # loca =[loca21,loca22,loca23,loca24]
@@ -230,10 +233,11 @@ loca120=r"C:\Users\AJ\OneDrive - Louisiana State University\Second numerical pap
 # loca = [loca109,loca28,loca110]
 # loca = [loca112,loca113,loca114]
 # loca = [loca115,loca116,loca117]
-loca = [loca118,loca119,loca120]
+# loca = [loca118,loca119,loca120]
+loca = [loca113,loca121]
 
 years = 1*365*24*60*60
-time = 0.01 * years
+time = 999* years
 
 
 
@@ -319,7 +323,7 @@ masaconc1 = multiplotroutine(loca,dest,files3,0,0,parameters)
 
 
 masa2.plotmultimulti(labels,time,purpose='presentation',style='multiple')
-masa3.plotmultimulti(labels,time,purpose='presentation',style='multiple')
+# masa3.plotmultimulti(labels,time,purpose='presentation',style='multiple')
 # dictionary, lst, value1 = masa2.retrievedatamulti(loca,dest,files3,0,2,param2,time)
 # masa4.plotmultimulti(labels,purpose='presentation',style='multiple')
 # masa5.plotmultimulti(labels,purpose='presentation',style='multiple')

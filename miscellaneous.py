@@ -107,10 +107,12 @@ class miscellaneous(object):
     
     def plotGasK(self,compname):
         gases,aqueouss,minerals = self.getComponents()
+        print(gases)
         pos = self.searchComp(compname,gases)
         temp = [0,25,60,100,150,200,250,300]
         fig = plt.figure(figsize=(10,5))
         values = gases[pos[1]][1:9]
+        print(values)
         for i in range(0,len(values)):
             values[i] = float(values[i])
         plt.plot(temp,values)

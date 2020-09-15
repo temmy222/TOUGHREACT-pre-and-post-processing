@@ -78,6 +78,7 @@ class multiplotroutine(object):
                     mf = tre.history([(br3[gridblocknumber],mason)])
                 timerr = mf[0]
                 data= mf[1] 
+                print(timerr)
                 idx = next(x[0] for x in enumerate(timerr) if x[1] > timer)
                 timerr = timerr[0:idx]
                 data = data[0:idx]
